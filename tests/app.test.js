@@ -10,8 +10,6 @@ import App from './../src/components/app/app';
 import ImageRotate from './../src/components/editor-actions/image-rotate';
 import ToolBar from './../src/components/tool-bar/tool-bar';
 import MainPage from '../src/components/pages/main-page/main-page';
-import RegisterModal from '../src/components/modal/register-modal/register-modal';
-import LoginModal from '../src/components/modal/login-modal/login-modal';
 import UploadContainer from '../src/components/upload-container/upload-container';
 import Crop from '../src/components/tools/crop-tool/crop-tools';
 import Tunes from '../src/components/tools/tune-tool/tunes-tools';
@@ -405,19 +403,5 @@ describe('ImageCrop Component', () => {
       expect(canvas.width).toBe(200);
       expect(canvas.height).toBe(200);
     });
-  });
-});
-
-describe('LoginModal', () => {
-  const mockOnSignUpClick = jest.fn();
-  const mockOnSubmitted = jest.fn();
-
-  beforeEach(() => {
-    render(
-      <LoginModal
-        onSignUpClick={mockOnSignUpClick}
-        onSubmited={mockOnSubmitted}
-      />
-    );
   });
 });
