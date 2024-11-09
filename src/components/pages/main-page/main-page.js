@@ -40,6 +40,30 @@ const MainPage = ({ initialImageSrc = null }) => {
   const openRegisterModal = () => setModalType('register');
   const closeModal = () => setModalType(null);
 
+  const renderActiveTool = () => {
+    switch (activeTool) {
+      case 1:
+        return (
+          <ImageCrop key="imageCrop" imageSrc={imageSrc} {...crop} />
+        );
+      case 2:
+        return (
+          <ImageRotate
+            key="imageRotate"
+            imageSrc={imageSrc}
+            rotation={rotation}
+          />
+        );
+      default:
+        return (
+          <UploadContainer
+            key="uploadContainer"
+            onImageUpload={handleImageUpload}
+          />
+        );
+    }
+  };
+
   return (
     <div className={styles.mainContainer} data-testid="main-page">
       <Header onAccountClick={openLoginModal} />
@@ -53,13 +77,7 @@ const MainPage = ({ initialImageSrc = null }) => {
         />
         <div className={styles.imageContainer}>
           {imageSrc ? (
-            activeTool === 2 ? (
-              <ImageRotate imageSrc={imageSrc} rotation={rotation} />
-            ) : activeTool === 1 ? (
-              <ImageCrop imageSrc={imageSrc} {...crop} />
-            ) : (
-              <UploadContainer onImageUpload={handleImageUpload} />
-            )
+            renderActiveTool()
           ) : (
             <UploadContainer onImageUpload={handleImageUpload} />
           )}
