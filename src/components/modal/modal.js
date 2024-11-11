@@ -7,7 +7,7 @@ const modalRoot = document.getElementById('modal-root');
 const Modal = ({ children, onClose }) => {
   useEffect(() => {
     const handleClose = (event) => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' && open) {
         onClose();
       }
     };

@@ -4,6 +4,9 @@ import Header from '../../header/header';
 import ToolBar from '../../tool-bar/tool-bar';
 import Tools from '../../tools/tools';
 import ImageRotate from '../../editor-actions/image-rotate';
+import Modal from '../../modal/modal';
+import LoginModal from '../../modal/login-modal/login-modal';
+import RegisterModal from '../../modal/register-modal/register-modal';
 import ImageCrop from '../../editor-actions/image-crop';
 import UploadContainer from '../../upload-container/upload-container';
 import PropTypes from 'prop-types';
@@ -11,6 +14,7 @@ import PropTypes from 'prop-types';
 const MainPage = ({ initialImageSrc = null }) => {
   const [imageSrc, setImageSrc] = useState(initialImageSrc);
   const [rotation, setRotation] = useState(0);
+  const [modalType, setModalType] = useState(null);
   const [activeTool, setActiveTool] = useState(2);
   const [crop, setCrop] = useState({
     cropX: 0,
@@ -32,33 +36,13 @@ const MainPage = ({ initialImageSrc = null }) => {
     setCrop(newCrop);
   };
 
-  const renderActiveTool = () => {
-    switch (activeTool) {
-      case 1:
-        return (
-          <ImageCrop key="imageCrop" imageSrc={imageSrc} {...crop} />
-        );
-      case 2:
-        return (
-          <ImageRotate
-            key="imageRotate"
-            imageSrc={imageSrc}
-            rotation={rotation}
-          />
-        );
-      default:
-        return (
-          <UploadContainer
-            key="uploadContainer"
-            onImageUpload={handleImageUpload}
-          />
-        );
-    }
-  };
+  const openLoginModal = () => setModalType('login');
+  const openRegisterModal = () => setModalType('register');
+  const closeModal = () => setModalType(null);
 
   return (
     <div className={styles.mainContainer} data-testid="main-page">
-      <Header />
+      <Header onAccountClick={openLoginModal} />
       <div className={styles.toolContainer}>
         <ToolBar setActiveTool={setActiveTool} />
         <Tools
@@ -69,12 +53,34 @@ const MainPage = ({ initialImageSrc = null }) => {
         />
         <div className={styles.imageContainer}>
           {imageSrc ? (
-            renderActiveTool()
+            activeTool === 2 ? (
+              <ImageRotate imageSrc={imageSrc} rotation={rotation} />
+            ) : activeTool === 1 ? (
+              <ImageCrop imageSrc={imageSrc} {...crop} />
+            ) : (
+              <UploadContainer onImageUpload={handleImageUpload} />
+            )
           ) : (
             <UploadContainer onImageUpload={handleImageUpload} />
           )}
         </div>
       </div>
+      {modalType == 'login' && (
+        <Modal onClose={closeModal}>
+          <LoginModal
+            onSignUpClick={openRegisterModal}
+            onSubmited={closeModal}
+          />
+        </Modal>
+      )}
+      {modalType == 'register' && (
+        <Modal onClose={closeModal}>
+          <RegisterModal
+            onSignInClick={openLoginModal}
+            onSubmited={closeModal}
+          />
+        </Modal>
+      )}
     </div>
   );
 };
