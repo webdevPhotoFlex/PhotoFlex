@@ -203,7 +203,12 @@
     gap: 15px;
   }
 
-  .icon.edit {
-    font-size: 50px;
+  .icon.exit {
+    margin-top: 10px;
+    margin-left: 70%;
+    margin-right: 5px;
+    font-size: 70px;
+    color: #884f9f;
+    cursor: pointer;
   }
 }

@@ -20,12 +20,18 @@ export const setUsername = (username) => ({
   type: 'SET_USERNAME',
   payload: username,
 });
+export const exitUser = () => {
+  localStorage.removeItem('authToken');
+  return {
+    type: 'EXIT_USER',
+  };
+};
 
 export const registerUser = (login, username, password) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        'https://photoflex.site:49383/register',
+        'http://localhost:4000/register',
         {
           login,
           username,
@@ -57,7 +63,7 @@ export const loginUser = (login, password) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        'https://photoflex.site:49383/login',
+        'http://localhost:4000/login',
         {
           login,
           password,

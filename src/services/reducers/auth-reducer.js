@@ -25,6 +25,12 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         loginRegister: action.payload,
       };
+    case 'EXIT_USER':
+      return {
+        ...initialState,
+        token: null,
+        isAuthenticated: false,
+      };
     case 'SET_PASSWORD_REGISTER':
       return {
         ...state,
