@@ -9,6 +9,7 @@ import RemoveBgTool from './remove-bg-tool/remove-bg-tool';
 import TextTool from './text-tool/text-tools';
 import Crop from './crop-tool/crop-tools';
 import ReplaceBgTool from './replace-bg-tool/replace-bg-tool';
+import GoogleRemoveBgTool from './google-media-pipe/google-media-pipe-tool';
 
 const Tools = ({ canvasRef }) => {
   const activeTool = useSelector((state) => state.image.activeTool);
@@ -37,6 +38,9 @@ const Tools = ({ canvasRef }) => {
         />
       )}
       {activeTool === 7 && <TextTool data-testid="text-component" />}
+      {activeTool === 8 && (
+        <GoogleRemoveBgTool canvasRef={canvasRef} />
+      )}
     </div>
   );
 };

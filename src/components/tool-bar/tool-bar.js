@@ -24,6 +24,7 @@ const ToolBar = () => {
     { component: TextureIcon, className: styles.texture },
     { component: WallpaperIcon, className: styles.wallpaper },
     { component: TitleIcon, className: styles.title },
+    { component: TextureIcon, className: styles.texture },
   ];
 
   return (
