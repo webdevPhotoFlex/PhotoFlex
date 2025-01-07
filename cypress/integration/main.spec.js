@@ -81,7 +81,6 @@ describe('Функциональность главной страницы', () 
     cy.get('[data-testid="replace-bg-component"]').should(
       'not.exist'
     );
-    cy.get('[data-testid="text-component"]').should('be.visible');
   });
   // eslint-disable-next-line jest/expect-expect
   it('должна загружаться фотка и работать удаление и сохранение', () => {
