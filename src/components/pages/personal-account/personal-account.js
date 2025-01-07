@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import LogoutIcon from '@mui/icons-material/Logout';
 import photo1 from '../../../images/1.jpeg';
 import photo2 from '../../../images/2.jpeg';
 import photo3 from '../../../images/3.jpeg';
@@ -26,8 +27,11 @@ import photo18 from '../../../images/18.jpeg';
 import photo19 from '../../../images/19.jpeg';
 import photo20 from '../../../images/20.jpeg';
 import photo21 from '../../../images/21.jpeg';
+import { useDispatch } from 'react-redux';
+import { exitUser } from '../../../services/actions/auth-actions';
 
 const PersonalAccount = () => {
+  const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userData, setUserData] = useState({
     phone: '+7 999 999 99 99',
@@ -125,7 +129,9 @@ const PersonalAccount = () => {
     }
     setUserData((prevData) => ({ ...prevData, [name]: value }));
   };
-
+  const handleExit = () => {
+    dispatch(exitUser());
+  };
   return (
     <div className={styles.mainContainer}>
       <div className={styles.accHeader}>
@@ -136,6 +142,11 @@ const PersonalAccount = () => {
             alt={'Logo'}
           />
         </NavLink>
+        <LogoutIcon
+          data-testid="logout-icon"
+          onClick={handleExit}
+          className={`${styles.icon} ${styles.exit}`}
+        />
         <EditIcon
           data-testid="edit-icon"
           className={`${styles.icon} ${styles.edit}`}

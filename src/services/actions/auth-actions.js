@@ -20,6 +20,12 @@ export const setUsername = (username) => ({
   type: 'SET_USERNAME',
   payload: username,
 });
+export const exitUser = () => {
+  localStorage.removeItem('authToken');
+  return {
+    type: 'EXIT_USER',
+  };
+};
 
 export const registerUser = (login, username, password) => {
   return async (dispatch) => {
