@@ -31,7 +31,7 @@ export const registerUser = (login, username, password) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        'http://localhost:4000/register',
+        'https://photoflex.site:49383/register',
         {
           login,
           username,
@@ -63,7 +63,7 @@ export const loginUser = (login, password) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        'http://localhost:4000/login',
+        'https://photoflex.site:49383/login',
         {
           login,
           password,
