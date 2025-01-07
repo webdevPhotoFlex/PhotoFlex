@@ -223,7 +223,6 @@ describe('imageReducer', () => {
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
 
-
   it('should handle SET_IMAGE action', () => {
     const action = {
       type: 'SET_IMAGE',
