@@ -1,20 +1,18 @@
 import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { SelfieSegmentation } from '@mediapipe/selfie_segmentation';
-import styles from './remove-bg-tool.module.css';
+import styles from './google-media-pipe-tool.module.css';
 import {
   setImage,
   setImageBeforeRemoveGoogle,
   setMask,
 } from '../../../services/actions/image-actions';
-import AuthRequired from '../auth-required/auth-required';
 
 const GoogleRemoveBgTool = ({ canvasRef }) => {
   const dispatch = useDispatch();
   const { image, imageBeforeRemoveGoogle } = useSelector(
     (state) => state.image
   );
-  const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const [loading, setLoading] = useState(false);
   const segmentation = useRef(null);
 
@@ -100,10 +98,6 @@ const GoogleRemoveBgTool = ({ canvasRef }) => {
       dispatch(setMask([]));
     }
   };
-
-  if (!isAuth) {
-    return <AuthRequired />;
-  }
 
   return (
     <div

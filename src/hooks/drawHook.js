@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { applyMaskTransformation } from '../utils/image-utils';
+
 const useImageDrawer = ({
   canvasRef,
   image,
@@ -11,6 +12,7 @@ const useImageDrawer = ({
   rotationAngle,
   mask,
   appliedMask,
+  tuneSettings,
 }) => {
   const applyFilters = (ctx, filter) => {
     const filters = {
@@ -24,12 +26,50 @@ const useImageDrawer = ({
     };
     ctx.filter = filters[filter] || 'none';
   };
+  const applyTuneSettings = (ctx, tuneSettings, canvas) => {
+    if (!canvas || !canvas.width || !canvas.height) {
+      console.error('Canvas dimensions are not properly defined.');
+      return;
+    }
+
+    const { brightness, contrast, saturation, sharpness } =
+      tuneSettings;
+
+    const brightnessFactor = brightness / 50; // Нормализация (50 = стандарт)
+    const contrastFactor = contrast / 50; // Нормализация
+    const saturationFactor = saturation / 50; // Нормализация
+    const blurFactor = (100 - sharpness) / 50; // Инверсия резкости в размытие
+
+    // Применяем фильтры яркости, контраста и насыщенности
+    ctx.filter = `
+      brightness(${brightnessFactor}) 
+      contrast(${contrastFactor}) 
+      saturate(${saturationFactor}) 
+      blur(${blurFactor}px)
+    `;
+
+    // Отрисовываем изображение с наложенными фильтрами
+    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+  };
 
   const drawImage = useCallback(() => {
-    if (!image || !canvasRef.current) return;
+    if (
+      !image ||
+      !canvasRef.current ||
+      !resizeDimensions?.width ||
+      !resizeDimensions?.height
+    ) {
+      console.error('Invalid image, canvas, or resize dimensions.');
+      return;
+    }
+
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const { width } = resizeDimensions;
+    const { width, height } = resizeDimensions;
+
+    // Устанавливаем размеры холста
+    canvas.width = width;
+    canvas.height = height;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -46,16 +86,14 @@ const useImageDrawer = ({
     } else {
       const cropX = cropArea?.x || 0;
       const cropY = cropArea?.y || 0;
-      const finalWidth = resizeDimensions.width - cropX;
-      const finalHeight = resizeDimensions.height - cropY;
-
-      canvas.width = finalWidth;
-      canvas.height = finalHeight;
+      const finalWidth = width - cropX;
+      const finalHeight = height - cropY;
 
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
 
       applyFilters(ctx, filter);
+      applyTuneSettings(ctx, tuneSettings, canvas);
 
       ctx.save();
       ctx.translate(centerX, centerY);
@@ -97,6 +135,7 @@ const useImageDrawer = ({
     rotationAngle,
     mask,
     appliedMask,
+    tuneSettings,
   ]);
 
   useEffect(() => {

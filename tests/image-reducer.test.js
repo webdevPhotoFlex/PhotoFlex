@@ -19,6 +19,7 @@ describe('imageReducer', () => {
     appliedMask: [],
     brushSize: 10,
     imageBeforeRemove: null,
+    imageBeforeRemoveGoogle: null,
     drawing: false,
     filter: 'none',
     showOriginal: false,
@@ -221,6 +222,7 @@ describe('imageReducer', () => {
     };
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
+
 
   it('should handle SET_IMAGE action', () => {
     const action = {
@@ -459,6 +461,21 @@ describe('imageReducer', () => {
     const expectedState = {
       ...initialState,
       imageBeforeRemove: testImage,
+      past: [getPresentState(initialState)],
+      future: [],
+    };
+    expect(imageReducer(initialState, action)).toEqual(expectedState);
+  });
+
+  it('should handle SET_IMAGE_BEFORE_REMOVE_GOOGLE action', () => {
+    const testImage = { src: 'before-remove-image' };
+    const action = {
+      type: 'SET_IMAGE_BEFORE_REMOVE_GOOGLE',
+      payload: testImage,
+    };
+    const expectedState = {
+      ...initialState,
+      imageBeforeRemoveGoogle: testImage,
       past: [getPresentState(initialState)],
       future: [],
     };
