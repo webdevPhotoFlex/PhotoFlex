@@ -25,6 +25,7 @@ const initialState = {
   originalImage: null,
   image: null,
   imageBeforeRemove: null,
+  imageBeforeRemoveGoogle: null,
   past: [],
   future: [],
   hasInitializedResize: false,
@@ -269,6 +270,17 @@ export const imageReducer = (state = initialState, action) => {
       return {
         ...state,
         imageBeforeRemove: action.payload,
+        ...(shouldAddToHistory
+          ? {
+              past: [...state.past, getPresentState(state)],
+              future: [],
+            }
+          : {}),
+      };
+    case 'SET_IMAGE_BEFORE_REMOVE_GOOGLE':
+      return {
+        ...state,
+        imageBeforeRemoveGoogle: action.payload,
         ...(shouldAddToHistory
           ? {
               past: [...state.past, getPresentState(state)],

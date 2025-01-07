@@ -76,3 +76,8 @@ export const setTunes = (tuneSettings) => ({
   type: 'SET_TUNES',
   payload: tuneSettings,
 });
+
+export const setImageBeforeRemoveGoogle = (image) => ({
+  type: 'SET_IMAGE_BEFORE_REMOVE_GOOGLE',
+  payload: image,
+});
