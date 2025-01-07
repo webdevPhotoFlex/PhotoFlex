@@ -37,10 +37,13 @@ const Tools = ({ canvasRef }) => {
           data-testid="replace-bg-component"
         />
       )}
-      {activeTool === 7 && <TextTool data-testid="text-component" />}
-      {activeTool === 8 && (
-        <GoogleRemoveBgTool canvasRef={canvasRef} />
+      {activeTool === 7 && (
+        <GoogleRemoveBgTool
+          canvasRef={canvasRef}
+          data-testid="media-pipe-component"
+        />
       )}
+      {activeTool === 8 && <TextTool data-testid="text-component" />}
     </div>
   );
 };
