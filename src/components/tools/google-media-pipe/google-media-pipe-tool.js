@@ -4,13 +4,14 @@ import { SelfieSegmentation } from '@mediapipe/selfie_segmentation';
 import styles from './remove-bg-tool.module.css';
 import {
   setImage,
+  setImageBeforeRemoveGoogle,
   setMask,
 } from '../../../services/actions/image-actions';
 import AuthRequired from '../auth-required/auth-required';
 
 const GoogleRemoveBgTool = ({ canvasRef }) => {
   const dispatch = useDispatch();
-  const { image, imageBeforeRemove } = useSelector(
+  const { image, imageBeforeRemoveGoogle } = useSelector(
     (state) => state.image
   );
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
@@ -29,6 +30,9 @@ const GoogleRemoveBgTool = ({ canvasRef }) => {
 
   const handleRemoveBackground = async () => {
     if (!canvasRef.current || !image) return;
+    if (!imageBeforeRemoveGoogle) {
+      dispatch(setImageBeforeRemoveGoogle(image));
+    }
 
     setLoading(true);
     initSegmentation();
@@ -57,12 +61,11 @@ const GoogleRemoveBgTool = ({ canvasRef }) => {
             height
           );
 
-          // Применение маски сегментации к изображению
           const maskData = ctx.getImageData(0, 0, width, height).data;
           const outputImageData = ctx.createImageData(width, height);
 
           for (let i = 0; i < maskData.length; i += 4) {
-            const alpha = maskData[i] / 255; // Маска из MediaPipe
+            const alpha = maskData[i] / 255;
             const index = i;
             outputImageData.data[index] =
               inputImageData.data[index] * alpha;
@@ -71,7 +74,7 @@ const GoogleRemoveBgTool = ({ canvasRef }) => {
             outputImageData.data[index + 2] =
               inputImageData.data[index + 2] * alpha;
             outputImageData.data[index + 3] =
-              inputImageData.data[index + 3];
+              inputImageData.data[index + 3] * alpha;
           }
 
           ctx.putImageData(outputImageData, 0, 0);
@@ -89,8 +92,8 @@ const GoogleRemoveBgTool = ({ canvasRef }) => {
   };
 
   const handleReset = () => {
-    if (imageBeforeRemove) {
-      dispatch(setImage(imageBeforeRemove));
+    if (imageBeforeRemoveGoogle) {
+      dispatch(setImage(imageBeforeRemoveGoogle));
       dispatch(setMask([]));
     } else {
       dispatch(setImage(null));
