@@ -64,7 +64,7 @@ describe('Authentication Flow E2E Tests', () => {
       win.localStorage.setItem('authToken', 'validToken');
     });
     cy.reload();
-    cy.get('[data-testid="PersonAddIcon"]').click();
+    cy.get('[data-testid="account-icon"]').click();
     cy.location('pathname').should(
       'eq',
       '/PhotoFlex/personal-account'
