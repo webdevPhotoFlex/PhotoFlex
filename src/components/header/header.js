@@ -11,6 +11,8 @@ import { saveAs } from 'file-saver';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../hooks/use-modal';
 import AuthModal from '../modal/auth-modal';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import {
   redo,
   setShowOriginal,
@@ -131,11 +133,19 @@ const Header = ({ canvasRef }) => {
           data-testid="save-icon"
         />
       </div>
-      <PersonAddIcon
-        onClick={handleProfileClick}
-        data-testid="PersonAddIcon"
-        className={`${styles.icon} ${styles.personAdd}`}
-      />
+      {isAuth ? (
+        <AccountCircleIcon
+          onClick={handleProfileClick}
+          data-testid="account-icon"
+          className={`${styles.icon} ${styles.acc}`}
+        />
+      ) : (
+        <PersonAddIcon
+          onClick={handleProfileClick}
+          data-testid="PersonAddIcon"
+          className={`${styles.icon} ${styles.personAdd}`}
+        />
+      )}
       <AuthModal
         data-testid="auth-modal"
         isModalOpen={isModalOpen}

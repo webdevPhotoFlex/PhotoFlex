@@ -251,7 +251,7 @@ describe('Header Component', () => {
         </Router>
       </Provider>
     );
-    const profileIcon = screen.getByTestId('PersonAddIcon');
+    const profileIcon = screen.getByTestId('account-icon');
     fireEvent.click(profileIcon);
     expect(window.location.pathname).toBe('/personal-account');
   });
