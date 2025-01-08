@@ -1,2 +1,2 @@
 (()=>{"use strict";self.onmessage=e=>{if(!e.data)return;const{type:a,payload:s}=e.data;let t;switch(a){case"validateLogin":r=s.login,t=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r)||/^\+?[1-9]\d{1,14}$/.test(r)&&r.length>0;break;case"validatePassword":t=s.password.length>=8;break;case"validateUsername":l=s.username,t=/^[a-zA-Z0-9_]{5,20}$/.test(l);break;default:t=null}var l,r;self.postMessage(t)}})();
-//# sourceMappingURL=797.752a131e.chunk.js.map
+//# sourceMappingURL=178.83c2ec33.chunk.js.map
