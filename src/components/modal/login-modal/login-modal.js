@@ -26,6 +26,7 @@ import {
   validateLogin,
   validatePassword,
 } from '../../../utils/auth-utils';
+import TelegramWidget from '../../telegram-widget/telegram-widget';
 
 const LoginModal = ({ onSignUpClick, onSubmited }) => {
   const dispatch = useDispatch();
@@ -65,30 +66,6 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
       setShowAlert(true);
     }
   };
-
-  useEffect(() => {
-    // Callback для Telegram-виджета
-    window.onTelegramAuth = (user) => {
-      console.log('Telegram authentication started');
-      console.log('User details:', user);
-
-      if (user && user.auth_date && user.hash) {
-        const authToken = user.hash;
-        console.log('Auth token received:', authToken);
-
-        // Пример сохранения токена
-        localStorage.setItem('authToken', authToken);
-        console.log('Auth token saved to localStorage');
-      } else {
-        console.error(
-          'Telegram authentication failed. Invalid user data:',
-          user
-        );
-      }
-    };
-
-    console.log('Telegram widget script loading...');
-  }, []);
 
   return (
     <div style={styles.mainContainer} data-testid="login-modal">
@@ -178,16 +155,8 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
               <GoogleIcon />
             </Button>
           </Stack>
-          <div>
-            <script
-              async
-              src="https://telegram.org/js/telegram-widget.js?22"
-              data-telegram-login="photoflex_bot"
-              data-size="medium"
-              data-onauth="onTelegramAuth(user)"
-              data-request-access="write"
-            ></script>
-          </div>
+          <TelegramWidget />
+
           <Stack sx={styles.footerStack} direction="row" spacing={1}>
             <span style={styles.footerText}>
               don&apos;t have an account?
