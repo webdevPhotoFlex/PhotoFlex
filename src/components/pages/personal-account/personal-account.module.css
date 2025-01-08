@@ -16,6 +16,7 @@
   height: 100vh;
   width: 100vw;
 }
+
 .icon.exit {
   margin-top: 10px;
   margin-left: 70%;
@@ -24,6 +25,7 @@
   color: #884f9f;
   cursor: pointer;
 }
+
 .logoContainer {
   margin-left: 80px;
   margin-top: 20px;
