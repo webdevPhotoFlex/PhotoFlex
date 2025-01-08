@@ -22,7 +22,7 @@ describe('Tunes Component', () => {
         },
       },
     });
-    store.dispatch = jest.fn(); // Mocking the dispatch function
+    store.dispatch = jest.fn();
   });
 
   it('renders all sliders correctly', () => {
@@ -77,7 +77,7 @@ describe('Tunes Component', () => {
         brightness: 50,
         contrast: 50,
         saturation: 50,
-        sharpness: 80, // Corrected to a number value
+        sharpness: 80,
       })
     );
   });
