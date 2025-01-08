@@ -155,7 +155,7 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
               <GoogleIcon />
             </Button>
           </Stack>
-          {/*<TelegramWidget />*/}
+          <TelegramWidget />
 
           <Stack sx={styles.footerStack} direction="row" spacing={1}>
             <span style={styles.footerText}>
