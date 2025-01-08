@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { styles } from './login-modal-styles';
+import React, { useState, useEffect } from 'react';
 import {
   DialogTitle,
   Stack,
@@ -24,6 +24,8 @@ import {
 import {
   handleMouseDownPassword,
   handleMouseUpPassword,
+  validateLogin,
+  validatePassword,
 } from '../../../utils/auth-utils';
 
 const LoginModal = ({ onSignUpClick, onSubmited }) => {
@@ -33,67 +35,29 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
   const [alert, setAlert] = useState('');
   const [showAlert, setShowAlert] = useState(false);
 
-  const workerRef = useRef(null);
-
-  useEffect(() => {
-    const w = new Worker(
-      new URL('../../../workers/worker.js', import.meta.url)
-    );
-    workerRef.current = w;
-
-    return () => {
-      w.terminate();
-    };
-  }, []);
-
   const handleClickShowPassword = () =>
     setShowPassword((show) => !show);
-
-  const validateWithWorker = (type, payload) => {
-    return new Promise((resolve) => {
-      if (!workerRef.current) {
-        resolve(null);
-        return;
-      }
-
-      const handleMessage = (e) => {
-        workerRef.current.removeEventListener(
-          'message',
-          handleMessage
-        );
-        resolve(e.data);
-      };
-
-      workerRef.current.addEventListener('message', handleMessage);
-      workerRef.current.postMessage({ type, payload });
-    });
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setShowAlert(false);
     setAlert('');
 
-    const isLoginValid = await validateWithWorker('validateLogin', {
-      login,
-    });
-    if (!isLoginValid) {
+    if (!validateLogin(login)) {
       setAlert('Please enter a valid email or phone number');
       setShowAlert(true);
+      console.log('Login validation failed');
       return;
     }
-
-    const isPasswordValid = await validateWithWorker(
-      'validatePassword',
-      { password }
-    );
-    if (!isPasswordValid) {
+    if (!validatePassword(password)) {
       setAlert('Password must be at least 8 characters long');
       setShowAlert(true);
+      console.log('Password validation failed');
       return;
     }
 
     try {
+      console.log('Attempting login with', { login, password });
       await dispatch(loginUser(login, password));
       onSubmited();
       setAlert('Login successful!');
@@ -101,10 +65,24 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
       dispatch(setLogin(''));
       dispatch(setPassword(''));
     } catch (error) {
+      console.error('Login error:', error);
       setAlert(error.message || 'An error occurred during login');
       setShowAlert(true);
     }
   };
+
+  const handleTelegramAuth = (user) => {
+    console.log('Telegram Auth Data:', user);
+    localStorage.setItem('authToken', user.hash); // Сохраняем хэш в localStorage
+    alert(`Welcome, ${user.first_name}!`);
+    onSubmited();
+  };
+
+  useEffect(() => {
+    // Указываем глобальный обработчик колбэка
+    window.onTelegramAuth = handleTelegramAuth;
+    console.log('Global onTelegramAuth handler set up');
+  }, []);
 
   return (
     <div style={styles.mainContainer} data-testid="login-modal">
@@ -163,7 +141,6 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
           </FormControl>
           {showAlert && (
             <Alert
-              data-testid="alert-login"
               severity="warning"
               onClose={() => {
                 console.log('Alert closed');
@@ -195,15 +172,31 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
               <GoogleIcon />
             </Button>
             <Button
-              data-testid="social-btn-telegram"
               variant="outlined"
               sx={styles.socialBtn}
+              data-testid="social-btn-telegram"
               onClick={() => {
-                window.TelegramLoginWidget.showFrame({
-                  bot_id: '<YOUR_BOT_ID>',
-                  size: 'large',
-                  corner_radius: 10,
-                });
+                console.log('Telegram button clicked');
+                const existingWidget =
+                  document.getElementById('telegram-widget');
+                if (existingWidget) {
+                  console.log(
+                    'Existing Telegram widget found. Removing it.'
+                  );
+                  existingWidget.remove();
+                }
+
+                const widget = document.createElement('div');
+                widget.id = 'telegram-widget';
+                widget.innerHTML = `
+                  <script async src="https://telegram.org/js/telegram-widget.js?22"
+                  data-telegram-login="photoflex_bot"
+                  data-size="medium"
+                  data-onauth="onTelegramAuth(user)"
+                  data-request-access="write"></script>
+                `;
+                document.body.appendChild(widget);
+                console.log('Telegram widget added to the DOM');
               }}
             >
               <TelegramIcon />
