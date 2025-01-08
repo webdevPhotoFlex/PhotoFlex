@@ -31,7 +31,7 @@ const TelegramWidget = () => {
       if (user && user.auth_date && user.hash) {
         const authToken = user.hash;
         console.log('Auth token received:', authToken);
-        dispatch(loginTelegram());
+        dispatch(loginTelegram(authToken));
         console.log('Auth token saved to localStorage');
       } else {
         console.error(
