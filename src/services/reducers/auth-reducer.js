@@ -49,6 +49,13 @@ export const authReducer = (state = initialState, action) => {
         token: action.payload.token,
         isAuthenticated: true,
       };
+    case 'LOGIN_TELEGRAM_SUCCESS':
+      localStorage.setItem('authToken', action.payload.token);
+      return {
+        ...state,
+        token: action.payload.token,
+        isAuthenticated: true,
+      };
 
     case 'REGISTER_SUCCESS':
       localStorage.setItem('authToken', action.payload.token);

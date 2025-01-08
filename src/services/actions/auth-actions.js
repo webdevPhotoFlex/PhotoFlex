@@ -89,3 +89,10 @@ export const loginUser = (login, password) => {
     }
   };
 };
+export const loginTelegram = (token) => {
+  localStorage.setItem('authToken', token);
+  return {
+    type: 'LOGIN_TELEGRAM_SUCCESS',
+    payload: token,
+  };
+};
