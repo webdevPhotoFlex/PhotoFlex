@@ -14,7 +14,6 @@ import FormControl from '@mui/joy/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import GoogleIcon from '@mui/icons-material/Google';
-import TelegramIcon from '@mui/icons-material/Telegram';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   loginUser,
@@ -27,7 +26,6 @@ import {
   validateLogin,
   validatePassword,
 } from '../../../utils/auth-utils';
-import axios from 'axios';
 
 const LoginModal = ({ onSignUpClick, onSubmited }) => {
   const dispatch = useDispatch();
@@ -82,7 +80,10 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
         localStorage.setItem('authToken', authToken);
         console.log('Auth token saved to localStorage');
       } else {
-        console.error('Telegram authentication failed. Invalid user data:', user);
+        console.error(
+          'Telegram authentication failed. Invalid user data:',
+          user
+        );
       }
     };
 
