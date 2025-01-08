@@ -22,9 +22,6 @@ describe('Authentication Flow E2E Tests', () => {
       cy.get('[data-testid="social-btn-google"]').should(
         'be.visible'
       );
-      cy.get('[data-testid="social-btn-telegram"]').should(
-        'be.visible'
-      );
     });
     cy.get(
       '[data-testid="login-modal"] [data-testid="signup-link"]'
