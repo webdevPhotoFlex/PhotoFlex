@@ -14,7 +14,6 @@ import FormControl from '@mui/joy/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import GoogleIcon from '@mui/icons-material/Google';
-import TelegramIcon from '@mui/icons-material/Telegram';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   loginUser,
@@ -74,6 +73,7 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
   const handleTelegramAuth = (user) => {
     console.log('Telegram Auth Data:', user);
     localStorage.setItem('authToken', user.hash); // Сохраняем хэш в localStorage
+    console.log(`token: ${localStorage.getItem('authToken')}`);
     alert(`Welcome, ${user.first_name}!`);
     onSubmited();
   };
@@ -171,36 +171,19 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
             >
               <GoogleIcon />
             </Button>
-            <Button
-              variant="outlined"
-              sx={styles.socialBtn}
-              data-testid="social-btn-telegram"
-              onClick={() => {
-                console.log('Telegram button clicked');
-                const existingWidget =
-                  document.getElementById('telegram-widget');
-                if (existingWidget) {
-                  console.log(
-                    'Existing Telegram widget found. Removing it.'
-                  );
-                  existingWidget.remove();
-                }
-
-                const widget = document.createElement('div');
-                widget.id = 'telegram-widget';
-                widget.innerHTML = `
-                  <script async src="https://telegram.org/js/telegram-widget.js?22"
-                  data-telegram-login="photoflex_bot"
-                  data-size="medium"
-                  data-onauth="onTelegramAuth(user)"
-                  data-request-access="write"></script>
-                `;
-                document.body.appendChild(widget);
-                console.log('Telegram widget added to the DOM');
-              }}
-            >
-              <TelegramIcon />
-            </Button>
+            {/* Telegram Login Widget */}
+            <div>
+              <script
+                async
+                src="https://telegram.org/js/telegram-widget.js?22"
+                data-telegram-login="photoflex_bot"
+                data-size="medium"
+                data-radius="10"
+                data-userpic="true"
+                data-onauth="onTelegramAuth(user)"
+                data-request-access="write"
+              ></script>
+            </div>
           </Stack>
           <Stack sx={styles.footerStack} direction="row" spacing={1}>
             <span style={styles.footerText}>
