@@ -14,6 +14,7 @@ import FormControl from '@mui/joy/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import GoogleIcon from '@mui/icons-material/Google';
+import TelegramIcon from '@mui/icons-material/Telegram';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   loginUser,
@@ -26,6 +27,7 @@ import {
   validateLogin,
   validatePassword,
 } from '../../../utils/auth-utils';
+import axios from 'axios';
 
 const LoginModal = ({ onSignUpClick, onSubmited }) => {
   const dispatch = useDispatch();
@@ -45,18 +47,15 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
     if (!validateLogin(login)) {
       setAlert('Please enter a valid email or phone number');
       setShowAlert(true);
-      console.log('Login validation failed');
       return;
     }
     if (!validatePassword(password)) {
       setAlert('Password must be at least 8 characters long');
       setShowAlert(true);
-      console.log('Password validation failed');
       return;
     }
 
     try {
-      console.log('Attempting login with', { login, password });
       await dispatch(loginUser(login, password));
       onSubmited();
       setAlert('Login successful!');
@@ -64,24 +63,30 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
       dispatch(setLogin(''));
       dispatch(setPassword(''));
     } catch (error) {
-      console.error('Login error:', error);
       setAlert(error.message || 'An error occurred during login');
       setShowAlert(true);
     }
   };
 
-  const handleTelegramAuth = (user) => {
-    console.log('Telegram Auth Data:', user);
-    localStorage.setItem('authToken', user.hash); // Сохраняем хэш в localStorage
-    console.log(`token: ${localStorage.getItem('authToken')}`);
-    alert(`Welcome, ${user.first_name}!`);
-    onSubmited();
-  };
-
   useEffect(() => {
-    // Указываем глобальный обработчик колбэка
-    window.onTelegramAuth = handleTelegramAuth;
-    console.log('Global onTelegramAuth handler set up');
+    // Callback для Telegram-виджета
+    window.onTelegramAuth = (user) => {
+      console.log('Telegram authentication started');
+      console.log('User details:', user);
+
+      if (user && user.auth_date && user.hash) {
+        const authToken = user.hash;
+        console.log('Auth token received:', authToken);
+
+        // Пример сохранения токена
+        localStorage.setItem('authToken', authToken);
+        console.log('Auth token saved to localStorage');
+      } else {
+        console.error('Telegram authentication failed. Invalid user data:', user);
+      }
+    };
+
+    console.log('Telegram widget script loading...');
   }, []);
 
   return (
@@ -171,20 +176,17 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
             >
               <GoogleIcon />
             </Button>
-            {/* Telegram Login Widget */}
-            <div>
-              <script
-                async
-                src="https://telegram.org/js/telegram-widget.js?22"
-                data-telegram-login="photoflex_bot"
-                data-size="medium"
-                data-radius="10"
-                data-userpic="true"
-                data-onauth="onTelegramAuth(user)"
-                data-request-access="write"
-              ></script>
-            </div>
           </Stack>
+          <div>
+            <script
+              async
+              src="https://telegram.org/js/telegram-widget.js?22"
+              data-telegram-login="photoflex_bot"
+              data-size="medium"
+              data-onauth="onTelegramAuth(user)"
+              data-request-access="write"
+            ></script>
+          </div>
           <Stack sx={styles.footerStack} direction="row" spacing={1}>
             <span style={styles.footerText}>
               don&apos;t have an account?
