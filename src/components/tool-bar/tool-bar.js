@@ -8,6 +8,8 @@ import PhotoFilterIcon from '@mui/icons-material/PhotoFilter';
 import TextureIcon from '@mui/icons-material/Texture';
 import WallpaperIcon from '@mui/icons-material/Wallpaper';
 import TitleIcon from '@mui/icons-material/Title';
+import BlurOffIcon from '@mui/icons-material/BlurOff';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveTool } from '../../services/actions/image-actions';
 
@@ -23,6 +25,7 @@ const ToolBar = () => {
     { component: PhotoFilterIcon, className: styles.photoFilter },
     { component: TextureIcon, className: styles.texture },
     { component: WallpaperIcon, className: styles.wallpaper },
+    { component: BlurOffIcon, className: styles.texture },
     { component: TitleIcon, className: styles.title },
   ];
 

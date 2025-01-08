@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mediapipe/selfie_segmentation": "^0.1.1675465747",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
