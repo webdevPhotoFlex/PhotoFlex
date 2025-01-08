@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { loginTelegram } from '../../services/actions/auth-actions';
 import { useDispatch } from 'react-redux';
 
-const TelegramWidget = () => {
+const TelegramWidget = ({ onSubmited }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     console.log('Attempting to load Telegram widget...');
@@ -32,6 +32,7 @@ const TelegramWidget = () => {
         const authToken = user.hash;
         console.log('Auth token received:', authToken);
         dispatch(loginTelegram(authToken));
+        onSubmited();
         console.log('Auth token saved to localStorage');
       } else {
         console.error(
