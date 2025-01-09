@@ -81,3 +81,17 @@ export const setImageBeforeRemoveGoogle = (image) => ({
   type: 'SET_IMAGE_BEFORE_REMOVE_GOOGLE',
   payload: image,
 });
+export const addText = (text) => ({
+  type: 'ADD_TEXT',
+  payload: { id: Date.now(), ...text },
+});
+
+export const updateText = (id, updates) => ({
+  type: 'UPDATE_TEXT',
+  payload: { id, updates },
+});
+
+export const removeText = (id) => ({
+  type: 'REMOVE_TEXT',
+  payload: id,
+});
