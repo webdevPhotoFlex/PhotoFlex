@@ -519,4 +519,64 @@ describe('imageReducer', () => {
     };
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
+  it('should handle ADD_TEXT action', () => {
+    const newText = { id: 1, content: 'New Text' };
+    const action = {
+      type: 'ADD_TEXT',
+      payload: newText,
+    };
+    const expectedState = {
+      ...initialState,
+      texts: [...initialState.texts, newText],
+      past: [getPresentState(initialState)],
+      future: [],
+    };
+    expect(imageReducer(initialState, action)).toEqual(expectedState);
+  });
+
+  it('should handle UPDATE_TEXT action', () => {
+    const existingText = { id: 1, content: 'Existing Text' };
+    const updatedText = {
+      id: 1,
+      updates: { content: 'Updated Text' },
+    };
+    const initialStateWithText = {
+      ...initialState,
+      texts: [existingText],
+    };
+    const action = {
+      type: 'UPDATE_TEXT',
+      payload: updatedText,
+    };
+    const expectedState = {
+      ...initialStateWithText,
+      texts: [{ id: 1, content: 'Updated Text' }],
+      past: [getPresentState(initialStateWithText)],
+      future: [],
+    };
+    expect(imageReducer(initialStateWithText, action)).toEqual(
+      expectedState
+    );
+  });
+
+  it('should handle REMOVE_TEXT action', () => {
+    const existingText = { id: 1, content: 'Existing Text' };
+    const initialStateWithText = {
+      ...initialState,
+      texts: [existingText],
+    };
+    const action = {
+      type: 'REMOVE_TEXT',
+      payload: 1,
+    };
+    const expectedState = {
+      ...initialStateWithText,
+      texts: [],
+      past: [getPresentState(initialStateWithText)],
+      future: [],
+    };
+    expect(imageReducer(initialStateWithText, action)).toEqual(
+      expectedState
+    );
+  });
 });
