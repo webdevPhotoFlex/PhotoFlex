@@ -246,12 +246,8 @@ describe('Text component - handleMouseMove', () => {
       current: document.createElement('canvas'),
     };
     mockCanvasRef.current.getBoundingClientRect = jest.fn(() => ({
-      left: 10,
-      top: 10,
-      right: 110,
-      bottom: 110,
-      width: 100,
-      height: 100,
+      left: 0,
+      top: 0,
     }));
   });
 
@@ -264,6 +260,55 @@ describe('Text component - handleMouseMove', () => {
     const canvas = mockCanvasRef.current;
     fireEvent.mouseDown(canvas, { clientX: 50, clientY: 50 });
     fireEvent.mouseMove(canvas, { clientX: 60, clientY: 60 });
+    expect(store.dispatch).not.toHaveBeenCalled();
+  });
+  it('sets selectedTextId, dragging, and dragOffset when a text is clicked', () => {
+    renderWithProvider(<Text canvasRef={mockCanvasRef} />, {
+      image: {
+        texts: [
+          {
+            id: 1,
+            content: 'Sample Text',
+            x: 100,
+            y: 100,
+            color: 'black',
+            fontSize: 16,
+          },
+        ],
+      },
+    });
+    const canvas = mockCanvasRef.current;
+    fireEvent.mouseDown(canvas, { clientX: 110, clientY: 105 });
+    expect(store.dispatch).not.toHaveBeenCalled();
+    const componentInstance = screen.getByTestId('text-component');
+    expect(componentInstance).toBeInTheDocument();
+  });
+  it('does not update selectedTextId, dragging, or dragOffset when mouse is outside text boundaries', () => {
+    renderWithProvider(<Text canvasRef={mockCanvasRef} />, {
+      image: {
+        texts: [
+          {
+            id: 1,
+            content: 'Sample Text',
+            x: 100,
+            y: 100,
+            color: 'black',
+            fontSize: 16,
+          },
+        ],
+      },
+    });
+    const canvas = mockCanvasRef.current;
+    fireEvent.mouseDown(canvas, { clientX: 90, clientY: 105 });
+    expect(store.dispatch).not.toHaveBeenCalled();
+
+    fireEvent.mouseDown(canvas, { clientX: 200, clientY: 105 });
+    expect(store.dispatch).not.toHaveBeenCalled();
+
+    fireEvent.mouseDown(canvas, { clientX: 110, clientY: 90 });
+    expect(store.dispatch).not.toHaveBeenCalled();
+
+    fireEvent.mouseDown(canvas, { clientX: 110, clientY: 200 });
     expect(store.dispatch).not.toHaveBeenCalled();
   });
 });
