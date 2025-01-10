@@ -8,7 +8,6 @@ import '@testing-library/jest-dom';
 const mockStore = configureStore([]);
 const mockDispatch = jest.fn();
 let store;
-
 const renderWithProvider = (component, initialState) => {
   const store = mockStore(initialState);
   store.dispatch = mockDispatch;
@@ -220,6 +219,51 @@ describe('Text component', () => {
       image: { texts },
     });
     fireEvent.mouseDown(document, { clientX: 150, clientY: 150 });
+    expect(store.dispatch).not.toHaveBeenCalled();
+  });
+});
+describe('Text component - handleMouseMove', () => {
+  let store;
+  let mockCanvasRef;
+
+  beforeEach(() => {
+    store = mockStore({
+      image: {
+        texts: [
+          {
+            id: 1,
+            content: 'Sample Text',
+            x: 100,
+            y: 100,
+            color: 'black',
+            fontSize: 16,
+          },
+        ],
+      },
+    });
+    store.dispatch = jest.fn();
+    mockCanvasRef = {
+      current: document.createElement('canvas'),
+    };
+    mockCanvasRef.current.getBoundingClientRect = jest.fn(() => ({
+      left: 10,
+      top: 10,
+      right: 110,
+      bottom: 110,
+      width: 100,
+      height: 100,
+    }));
+  });
+
+  it('does nothing if dragging is false or selectedTextId is null', () => {
+    render(
+      <Provider store={store}>
+        <Text canvasRef={mockCanvasRef} />
+      </Provider>
+    );
+    const canvas = mockCanvasRef.current;
+    fireEvent.mouseDown(canvas, { clientX: 50, clientY: 50 });
+    fireEvent.mouseMove(canvas, { clientX: 60, clientY: 60 });
     expect(store.dispatch).not.toHaveBeenCalled();
   });
 });
