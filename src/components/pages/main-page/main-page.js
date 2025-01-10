@@ -37,6 +37,8 @@ const MainPage = () => {
   const dispatch = useDispatch();
   const canvasRef = useRef(null);
 
+  const isToolsDisabled = mask.length > 0;
+
   useEffect(() => {
     if (imageSrc) {
       const img = new Image();
@@ -94,7 +96,10 @@ const MainPage = () => {
     <div className={styles.mainContainer}>
       <Header canvasRef={canvasRef} />
       <div className={styles.toolContainer}>
-        <ToolBar data-testid="toolbar" />
+        <ToolBar
+          isToolsDisabled={isToolsDisabled}
+          data-testid="toolbar"
+        />
         <Tools
           canvasRef={canvasRef}
           activeTool={activeTool}

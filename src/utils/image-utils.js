@@ -20,41 +20,157 @@ export const resizeImageToCanvas = (img, maxWidth, maxHeight) => {
     height: Math.round(height),
   };
 };
-
 export const applyMaskTransformation = (
   ctx,
   mask,
+  imageWidth,
+  imageHeight,
+  canvasWidth,
+  canvasHeight,
+  rotationAngle,
   scale,
-  fillStyle,
-  compositeOperation
+  fillStyle = 'red'
 ) => {
-  if (!mask || mask.length === 0) return;
+  if (!ctx || !mask || mask.length === 0) return;
+
   ctx.save();
-  ctx.globalCompositeOperation = compositeOperation;
   ctx.fillStyle = fillStyle;
+
+  const centerX = canvasWidth / 2;
+  const centerY = canvasHeight / 2;
+  const radianAngle = (-rotationAngle * Math.PI) / 180;
+
   mask.forEach(({ x, y, brushSize }) => {
+    if (
+      typeof x !== 'number' ||
+      typeof y !== 'number' ||
+      typeof brushSize !== 'number'
+    ) {
+      console.warn('Invalid mask point:', { x, y, brushSize });
+      return;
+    }
+    const translatedX = x - centerX;
+    const translatedY = y - centerY;
+
+    const imageX =
+      translatedX * Math.cos(radianAngle) -
+      translatedY * Math.sin(radianAngle) +
+      centerX;
+    const imageY =
+      translatedX * Math.sin(radianAngle) +
+      translatedY * Math.cos(radianAngle) +
+      centerY;
+
+    const scaledX = imageX * (imageWidth / canvasWidth);
+    const scaledY = imageY * (imageHeight / canvasHeight);
+
     ctx.beginPath();
-    ctx.arc(x, y, (brushSize / 2) * scale, 0, Math.PI * 2);
+    ctx.arc(
+      scaledX,
+      scaledY,
+      (brushSize / 2) * scale,
+      0,
+      Math.PI * 2
+    );
     ctx.fill();
   });
+
+  ctx.restore();
+};
+export const applyMaskWithoutTransformations = (
+  ctx,
+  mask,
+  fillStyle = 'red'
+) => {
+  if (!ctx || !Array.isArray(mask) || mask.length === 0) return;
+
+  ctx.save();
+  ctx.fillStyle = fillStyle;
+
+  mask.forEach(({ x, y, brushSize }) => {
+    if (
+      typeof x !== 'number' ||
+      typeof y !== 'number' ||
+      typeof brushSize !== 'number'
+    ) {
+      console.warn('Invalid mask point:', { x, y, brushSize });
+      return;
+    }
+
+    ctx.beginPath();
+    ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
   ctx.restore();
 };
 
-export const applyMaskToImageData = (imageData, mask) => {
-  const data = imageData.data;
-  const { width } = imageData;
+export const applyMaskToImageData = (
+  imageData,
+  mask,
+  canvasWidth,
+  canvasHeight,
+  rotationAngle,
+  scale,
+  cropArea = { x: 0, y: 0 }
+) => {
+  if (!mask || mask.length === 0) {
+    return imageData;
+  }
 
-  if (!mask || mask.length === 0) return;
+  const data = imageData.data;
+  const { width, height } = imageData;
+
+  const centerX = canvasWidth / 2;
+  const centerY = canvasHeight / 2;
+  const radianAngle = (-rotationAngle * Math.PI) / 180;
 
   mask.forEach(({ x, y, brushSize }) => {
-    const radiusSquared = (brushSize / 2) ** 2;
-    for (let i = 0; i < data.length; i += 4) {
-      const pixelX = (i / 4) % width;
-      const pixelY = Math.floor(i / 4 / width);
-      const distSquared = (pixelX - x) ** 2 + (pixelY - y) ** 2;
-      if (distSquared <= radiusSquared) {
-        data[i + 3] = 0;
+    if (
+      typeof x !== 'number' ||
+      typeof y !== 'number' ||
+      typeof brushSize !== 'number'
+    ) {
+      console.warn('Invalid mask point:', { x, y, brushSize });
+      return;
+    }
+    const adjustedX = x + cropArea.x;
+    const adjustedY = y + cropArea.y;
+
+    const translatedX = adjustedX - centerX;
+    const translatedY = adjustedY - centerY;
+
+    const originalX =
+      translatedX * Math.cos(radianAngle) -
+      translatedY * Math.sin(radianAngle) +
+      centerX;
+    const originalY =
+      translatedX * Math.sin(radianAngle) +
+      translatedY * Math.cos(radianAngle) +
+      centerY;
+
+    const radius = (brushSize / 2) * scale;
+    const radiusSquared = radius ** 2;
+
+    for (
+      let pixelY = Math.max(0, Math.floor(originalY - radius));
+      pixelY < Math.min(height, Math.ceil(originalY + radius));
+      pixelY++
+    ) {
+      for (
+        let pixelX = Math.max(0, Math.floor(originalX - radius));
+        pixelX < Math.min(width, Math.ceil(originalX + radius));
+        pixelX++
+      ) {
+        const distSquared =
+          (pixelX - originalX) ** 2 + (pixelY - originalY) ** 2;
+        if (distSquared <= radiusSquared) {
+          const index = (pixelY * width + pixelX) * 4;
+          data[index + 3] = 0;
+        }
       }
     }
   });
+
+  return imageData;
 };

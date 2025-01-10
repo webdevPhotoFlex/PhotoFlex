@@ -117,6 +117,10 @@
     font-size: 50px;
   }
 }
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 @media (min-width: 2000px) {
   .mainContainer {

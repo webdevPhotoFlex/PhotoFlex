@@ -13,7 +13,7 @@ import BlurOffIcon from '@mui/icons-material/BlurOff';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveTool } from '../../services/actions/image-actions';
 
-const ToolBar = () => {
+const ToolBar = ({ isToolsDisabled }) => {
   const dispatch = useDispatch();
   const activeTool = useSelector((state) => state.image.activeTool);
 
@@ -37,10 +37,13 @@ const ToolBar = () => {
           key={index}
           className={`${styles.icon} ${
             activeTool === index ? styles.clicked : styles.notClicked
-          } ${className}`}
+          } ${className} ${isToolsDisabled ? styles.disabled : ''}`}
           onClick={() => {
-            dispatch(setActiveTool(index));
+            if (!isToolsDisabled) {
+              dispatch(setActiveTool(index));
+            }
           }}
+          style={{ pointerEvents: isToolsDisabled ? 'none' : 'auto' }}
         />
       ))}
     </div>

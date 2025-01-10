@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './replace-bg-tool.module.css';
 import {
   setBrushSize,
   setImage,
+  setImageBeforeRemove,
   setMask,
 } from '../../../services/actions/image-actions';
 import { applyMaskToImageData } from '../../../utils/image-utils';
@@ -11,11 +12,21 @@ import AuthRequired from '../auth-required/auth-required';
 
 const ReplaceBgTool = ({ canvasRef }) => {
   const dispatch = useDispatch();
-  const { imageBeforeRemove, image, brushSize, mask } = useSelector(
-    (state) => state.image
-  );
+  const {
+    imageBeforeRemove,
+    image,
+    brushSize,
+    mask,
+    rotationAngle,
+    cropArea,
+  } = useSelector((state) => state.image);
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const [newImage, setNewImage] = useState(null);
+  useEffect(() => {
+    if (!imageBeforeRemove && image) {
+      dispatch(setImageBeforeRemove(image));
+    }
+  }, [image, imageBeforeRemove, dispatch]);
 
   const handleReplaceBackground = () => {
     if (!canvasRef.current || !image) return;
@@ -23,15 +34,26 @@ const ReplaceBgTool = ({ canvasRef }) => {
     const ctx = canvas.getContext('2d');
     const width = canvas.width;
     const height = canvas.height;
+    const scale = width / image.width;
     ctx.clearRect(0, 0, width, height);
     ctx.filter = 'none';
     ctx.drawImage(image, 0, 0, width, height);
-    const imageData = ctx.getImageData(0, 0, width, height);
-    const data = imageData.data;
-    applyMaskToImageData(imageData, mask);
-    ctx.putImageData(imageData, 0, 0);
-
+    if (mask.length > 0) {
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const updatedImageData = applyMaskToImageData(
+        imageData,
+        mask,
+        canvas.width,
+        canvas.height,
+        rotationAngle,
+        scale,
+        cropArea
+      );
+      ctx.putImageData(updatedImageData, 0, 0);
+    }
     if (newImage) {
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const data = imageData.data;
       const img = new Image();
       img.src = URL.createObjectURL(newImage);
       img.onload = () => {
@@ -39,7 +61,6 @@ const ReplaceBgTool = ({ canvasRef }) => {
         ctx.drawImage(img, 0, 0, width, height);
         const finalImage = ctx.getImageData(0, 0, width, height);
         const finalData = finalImage.data;
-
         for (let i = 0; i < data.length; i += 4) {
           if (data[i + 3] > 0) {
             finalData[i] = data[i];
@@ -67,7 +88,6 @@ const ReplaceBgTool = ({ canvasRef }) => {
 
     dispatch(setMask([]));
   };
-
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith('image/')) {
@@ -76,17 +96,18 @@ const ReplaceBgTool = ({ canvasRef }) => {
       setNewImage(null);
     }
   };
-
   const handleReset = () => {
     if (imageBeforeRemove) {
       dispatch(setImage(imageBeforeRemove));
       dispatch(setMask([]));
+      setNewImage(null);
     } else {
+      console.warn('Оригинальное изображение отсутствует.');
       dispatch(setImage(null));
       dispatch(setMask([]));
+      setNewImage(null);
     }
   };
-
   const imageUrl = newImage ? URL.createObjectURL(newImage) : null;
   if (!isAuth) {
     return <AuthRequired />;
@@ -97,7 +118,8 @@ const ReplaceBgTool = ({ canvasRef }) => {
       data-testid="replace-bg-component"
     >
       <label className={styles.brushSizeLabel} htmlFor="brushSize">
-        Размер кисти: {brushSize}
+        <span className={styles.labelText}>Размер кисти:</span>
+        <span className={styles.labelValue}>{brushSize}</span>
       </label>
       <input
         type="range"
@@ -127,14 +149,13 @@ const ReplaceBgTool = ({ canvasRef }) => {
           data-testid="fileUploadInput1"
         />
         <button
-          className={styles.button}
+          className={`${styles.button} ${!newImage && styles.disabled}`}
           onClick={handleReplaceBackground}
           data-testid="replaceButton"
-          disabled={!newImage && !image}
+          disabled={!newImage}
         >
           Заменить фон
         </button>
-
         {imageUrl && (
           <div
             className={styles.previewContainer}
@@ -149,9 +170,10 @@ const ReplaceBgTool = ({ canvasRef }) => {
           </div>
         )}
         <button
-          className={styles.button}
+          className={`${styles.button} ${!imageBeforeRemove && styles.disabled}`}
           onClick={handleReset}
           data-testid="reset1"
+          disabled={!imageBeforeRemove}
         >
           Сброс
         </button>

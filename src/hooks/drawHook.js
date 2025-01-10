@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react';
-import { applyMaskTransformation } from '../utils/image-utils';
+import { applyMaskWithoutTransformations } from '../utils/image-utils';
 
 const useImageDrawer = ({
   canvasRef,
@@ -14,7 +14,7 @@ const useImageDrawer = ({
   appliedMask,
   tuneSettings,
   texts = [],
-  // texts,
+  brushSize,
 }) => {
   const applyFilters = (ctx, filter) => {
     const filters = {
@@ -37,20 +37,16 @@ const useImageDrawer = ({
     const { brightness, contrast, saturation, sharpness } =
       tuneSettings;
 
-    const brightnessFactor = brightness / 50; // Нормализация (50 = стандарт)
-    const contrastFactor = contrast / 50; // Нормализация
-    const saturationFactor = saturation / 50; // Нормализация
-    const blurFactor = (100 - sharpness) / 50; // Инверсия резкости в размытие
-
-    // Применяем фильтры яркости, контраста и насыщенности
+    const brightnessFactor = brightness / 50;
+    const contrastFactor = contrast / 50;
+    const saturationFactor = saturation / 50;
+    const blurFactor = (100 - sharpness) / 50;
     ctx.filter = `
-      brightness(${brightnessFactor}) 
-      contrast(${contrastFactor}) 
-      saturate(${saturationFactor}) 
+      brightness(${brightnessFactor})
+      contrast(${contrastFactor})
+      saturate(${saturationFactor})
       blur(${blurFactor}px)
     `;
-
-    // Отрисовываем изображение с наложенными фильтрами
     ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
   };
   const drawText = (ctx, text) => {
@@ -72,8 +68,6 @@ const useImageDrawer = ({
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const { width, height } = resizeDimensions;
-
-    // Устанавливаем размеры холста
     canvas.width = width;
     canvas.height = height;
 
@@ -120,15 +114,9 @@ const useImageDrawer = ({
       ctx.restore();
 
       if (mask.length > 0) {
-        const scale = width / image.width;
-        applyMaskTransformation(
-          ctx,
-          mask,
-          scale,
-          'red',
-          'source-over'
-        );
+        applyMaskWithoutTransformations(ctx, mask);
       }
+
       texts.forEach((text) => drawText(ctx, text));
     }
   }, [
@@ -144,6 +132,7 @@ const useImageDrawer = ({
     appliedMask,
     tuneSettings,
     texts,
+    brushSize,
   ]);
 
   useEffect(() => {
