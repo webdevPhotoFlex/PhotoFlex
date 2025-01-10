@@ -13,6 +13,8 @@ const useImageDrawer = ({
   mask,
   appliedMask,
   tuneSettings,
+  texts = [],
+  // texts,
 }) => {
   const applyFilters = (ctx, filter) => {
     const filters = {
@@ -51,7 +53,11 @@ const useImageDrawer = ({
     // Отрисовываем изображение с наложенными фильтрами
     ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
   };
-
+  const drawText = (ctx, text) => {
+    ctx.font = `${text.fontSize}px ${text.fontFamily}`;
+    ctx.fillStyle = text.color;
+    ctx.fillText(text.content, text.x, text.y);
+  };
   const drawImage = useCallback(() => {
     if (
       !image ||
@@ -123,6 +129,7 @@ const useImageDrawer = ({
           'source-over'
         );
       }
+      texts.forEach((text) => drawText(ctx, text));
     }
   }, [
     canvasRef,
@@ -136,6 +143,7 @@ const useImageDrawer = ({
     mask,
     appliedMask,
     tuneSettings,
+    texts,
   ]);
 
   useEffect(() => {

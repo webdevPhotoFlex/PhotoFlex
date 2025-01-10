@@ -31,6 +31,7 @@ const MainPage = () => {
     image,
     resizeDimensions,
     tune,
+    texts,
   } = useSelector((state) => state.image);
 
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ const MainPage = () => {
     appliedMask,
     brushSize,
     tuneSettings: tune,
+    texts,
   });
 
   const handleMouseDown = (e) => {
