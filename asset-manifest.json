@@ -1,8 +1,13 @@
 {
   "files": {
-    "main.css": "/PhotoFlex/static/css/main.b4c281e0.css",
-    "main.js": "/PhotoFlex/static/js/main.f8e48ff1.js",
+    "main.css": "/PhotoFlex/static/css/main.e561ad58.css",
+    "main.js": "/PhotoFlex/static/js/main.a9146a3f.js",
     "static/js/178.83c2ec33.chunk.js": "/PhotoFlex/static/js/178.83c2ec33.chunk.js",
+    "static/media/22.png": "/PhotoFlex/static/media/22.33c01542304e979394ac.png",
+    "static/media/28.png": "/PhotoFlex/static/media/28.b30e5e5cc28e757e4d56.png",
+    "static/media/24.png": "/PhotoFlex/static/media/24.4abec15de7259de3eb4d.png",
+    "static/media/25.png": "/PhotoFlex/static/media/25.c6ac69b9901b2808e1e9.png",
+    "static/media/23.png": "/PhotoFlex/static/media/23.cceb978de674fb212bac.png",
     "static/media/18.jpeg": "/PhotoFlex/static/media/18.8bfd98571bb4405f0689.jpeg",
     "static/media/12.jpeg": "/PhotoFlex/static/media/12.e2f0406731d78226e58b.jpeg",
     "static/media/10.jpeg": "/PhotoFlex/static/media/10.0611b0fbf9eef1bfd16c.jpeg",
@@ -25,12 +30,12 @@
     "static/media/4.jpeg": "/PhotoFlex/static/media/4.2be03a41afe3cf8b9288.jpeg",
     "static/media/3.jpeg": "/PhotoFlex/static/media/3.f048893af83d1fee0403.jpeg",
     "index.html": "/PhotoFlex/index.html",
-    "main.b4c281e0.css.map": "/PhotoFlex/static/css/main.b4c281e0.css.map",
-    "main.f8e48ff1.js.map": "/PhotoFlex/static/js/main.f8e48ff1.js.map",
+    "main.e561ad58.css.map": "/PhotoFlex/static/css/main.e561ad58.css.map",
+    "main.a9146a3f.js.map": "/PhotoFlex/static/js/main.a9146a3f.js.map",
     "178.83c2ec33.chunk.js.map": "/PhotoFlex/static/js/178.83c2ec33.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b4c281e0.css",
-    "static/js/main.f8e48ff1.js"
+    "static/css/main.e561ad58.css",
+    "static/js/main.a9146a3f.js"
   ]
 }
