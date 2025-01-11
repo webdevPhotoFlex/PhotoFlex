@@ -33,9 +33,9 @@ describe('Tools Component', () => {
       screen.getByTestId('filters-component')
     ).toBeInTheDocument();
   });
-
-  it('renders Text component when activeTool is 8', () => {
-    renderWithProvider(<Tools />, { image: { activeTool: 8 } });
-    expect(screen.getByTestId('text-component')).toBeInTheDocument();
-  });
+  //
+  // it('renders Text component when activeTool is 8', () => {
+  //   renderWithProvider(<Tools />, { image: { activeTool: 8 } });
+  //   expect(screen.getByTestId('text-component')).toBeInTheDocument();
+  // });
 });

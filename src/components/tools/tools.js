@@ -43,7 +43,12 @@ const Tools = ({ canvasRef }) => {
           data-testid="media-pipe-component"
         />
       )}
-      {activeTool === 8 && <TextTool data-testid="text-component" />}
+      {activeTool === 8 && (
+        <TextTool
+          canvasRef={canvasRef}
+          data-testid="text-component"
+        />
+      )}
     </div>
   );
 };

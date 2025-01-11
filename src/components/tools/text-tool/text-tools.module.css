@@ -69,3 +69,21 @@
 .purple {
   color: purple;
 }
+
+.textPreview {
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.textPreview:hover {
+  border: 1px solid #ccc;
+}
+
+.selectedText {
+  border: 2px solid rgba(185, 0, 255, 0.8);
+  background-color: rgba(185, 0, 255, 0.09);
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
