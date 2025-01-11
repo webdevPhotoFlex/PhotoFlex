@@ -34,6 +34,7 @@ const TelegramWidget = ({ onSubmited }) => {
         dispatch(loginTelegram(authToken));
         onSubmited();
         console.log('Auth token saved to localStorage');
+        onSubmited();
       } else {
         console.error(
           'Telegram authentication failed. Invalid user data:',
