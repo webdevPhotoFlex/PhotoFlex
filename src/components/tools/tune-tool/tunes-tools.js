@@ -17,7 +17,7 @@ const Tunes = () => {
     brightness: 50,
     contrast: 50,
     saturation: 50,
-    sharpness: 100,
+    sharpness: 50,
   });
 
   // const handleSlider = (optionName) => (event, newValue) => {
