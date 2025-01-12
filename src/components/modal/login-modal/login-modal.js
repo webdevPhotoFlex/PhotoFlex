@@ -13,9 +13,10 @@ import {
 import FormControl from '@mui/joy/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import GoogleIcon from '@mui/icons-material/Google';
+import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  loginGoogle,
   loginUser,
   setLogin,
   setPassword,
@@ -65,6 +66,18 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
       setAlert(error.message || 'An error occurred during login');
       setShowAlert(true);
     }
+  };
+
+  const handleGoogleSuccess = (response) => {
+    const token = response.credential;
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    dispatch(loginGoogle(decodedToken));
+    onSubmited();
+  };
+
+  const handleGoogleError = () => {
+    setAlert('Failed to log in with Google');
+    setShowAlert(true);
   };
 
   return (
@@ -147,13 +160,10 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
             sx={styles.footerStack}
             marginBottom="5px"
           >
-            <Button
-              variant="outlined"
-              sx={styles.socialBtn}
-              data-testid="social-btn-google"
-            >
-              <GoogleIcon />
-            </Button>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+            />
           </Stack>
           <TelegramWidget onSubmited={onSubmited} />
 
