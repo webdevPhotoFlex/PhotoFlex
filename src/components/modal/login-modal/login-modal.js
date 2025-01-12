@@ -176,7 +176,7 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
             />
           </Stack>
           <Button onClick={handleYandexLogin} sx={styles.btn}>
-            <img src={yandexImage} style={{ width: '25px' }} />
+            <img src={yandexImage} style={{ width: '25px' }}/>
             Login with Yandex
           </Button>
           <TelegramWidget onSubmited={onSubmited} />
