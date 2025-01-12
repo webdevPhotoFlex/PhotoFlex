@@ -41,4 +41,60 @@ describe('GoogleRemoveBgTool Component', () => {
       payload: { src: 'test-image' },
     });
   });
+  it('dispatches setImage and setMask with imageBeforeRemoveGoogle', () => {
+    const initialState = {
+      image: {
+        image: { src: 'test-image' },
+        imageBeforeRemoveGoogle: { src: 'image-before-remove' },
+      },
+    };
+
+    const { store } = renderWithProvider(
+      <GoogleRemoveBgTool
+        canvasRef={{ current: document.createElement('canvas') }}
+      />,
+      initialState
+    );
+
+    const resetButton = screen.getByText('Сброс');
+    fireEvent.click(resetButton);
+
+    const actions = store.getActions();
+    expect(actions).toContainEqual({
+      type: 'SET_IMAGE',
+      payload: { src: 'image-before-remove' },
+    });
+    expect(actions).toContainEqual({
+      type: 'SET_MASK',
+      payload: [],
+    });
+  });
+  it('dispatches setImage(null) and setMask when imageBeforeRemoveGoogle is null', () => {
+    const initialState = {
+      image: {
+        image: { src: 'test-image' },
+        imageBeforeRemoveGoogle: null,
+      },
+    };
+
+    const { store } = renderWithProvider(
+      <GoogleRemoveBgTool
+        canvasRef={{ current: document.createElement('canvas') }}
+      />,
+      initialState
+    );
+
+    const resetButton = screen.getByText('Сброс');
+    fireEvent.click(resetButton);
+
+    const actions = store.getActions();
+    expect(actions).toContainEqual({
+      type: 'SET_IMAGE',
+      payload: null,
+    });
+    expect(actions).toContainEqual({
+      type: 'SET_MASK',
+      payload: [],
+    });
+  });
 });
