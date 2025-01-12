@@ -103,3 +103,10 @@ export const loginGoogle = (token) => {
     payload: token,
   };
 };
+export const loginYandex = (token) => {
+  localStorage.setItem('authToken', token);
+  return {
+    type: 'LOGIN_YANDEX_SUCCESS',
+    payload: token,
+  };
+};
