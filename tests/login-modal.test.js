@@ -11,6 +11,7 @@ import {
   validatePassword,
 } from '../src/utils/auth-utils';
 import LoginModal from '../src/components/modal/login-modal/login-modal';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 jest.mock('../src/utils/auth-utils');
 jest.mock('../src/services/actions/auth-actions', () => ({
@@ -27,7 +28,7 @@ jest.mock('../src/services/actions/auth-actions', () => ({
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
-
+const TEST_CLIENT_ID = 'test-client-id';
 describe('LoginModal', () => {
   let store;
 
@@ -50,14 +51,16 @@ describe('LoginModal', () => {
 
   it('renders the LoginModal component', () => {
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <LoginModal
-            onSignUpClick={() => {}}
-            onSubmited={() => {}}
-          />
-        </MemoryRouter>
-      </Provider>
+      <GoogleOAuthProvider clientId={TEST_CLIENT_ID}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <LoginModal
+              onSignUpClick={() => {}}
+              onSubmited={() => {}}
+            />
+          </MemoryRouter>
+        </Provider>
+      </GoogleOAuthProvider>
     );
 
     expect(screen.getByText('sign in')).toBeInTheDocument();
@@ -77,14 +80,16 @@ describe('LoginModal', () => {
 
   it('handles password visibility toggle', () => {
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <LoginModal
-            onSignUpClick={() => {}}
-            onSubmited={() => {}}
-          />
-        </MemoryRouter>
-      </Provider>
+      <GoogleOAuthProvider clientId={TEST_CLIENT_ID}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <LoginModal
+              onSignUpClick={() => {}}
+              onSubmited={() => {}}
+            />
+          </MemoryRouter>
+        </Provider>
+      </GoogleOAuthProvider>
     );
 
     const passwordInput = screen.getByLabelText(
@@ -104,14 +109,16 @@ describe('LoginModal', () => {
   });
   it('dispatches setLogin and setPassword actions on input change', () => {
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <LoginModal
-            onSignUpClick={() => {}}
-            onSubmited={() => {}}
-          />
-        </MemoryRouter>
-      </Provider>
+      <GoogleOAuthProvider clientId={TEST_CLIENT_ID}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <LoginModal
+              onSignUpClick={() => {}}
+              onSubmited={() => {}}
+            />
+          </MemoryRouter>
+        </Provider>
+      </GoogleOAuthProvider>
     );
 
     const loginInput = screen.getByLabelText(
@@ -142,14 +149,16 @@ describe('LoginModal', () => {
     const onSignUpClick = jest.fn();
 
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <LoginModal
-            onSignUpClick={onSignUpClick}
-            onSubmited={() => {}}
-          />
-        </MemoryRouter>
-      </Provider>
+      <GoogleOAuthProvider clientId={TEST_CLIENT_ID}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <LoginModal
+              onSignUpClick={onSignUpClick}
+              onSubmited={() => {}}
+            />
+          </MemoryRouter>
+        </Provider>
+      </GoogleOAuthProvider>
     );
 
     const signUpLink = screen.getByTestId('signup-link');
@@ -162,14 +171,16 @@ describe('LoginModal', () => {
     validateLogin.mockReturnValue(false);
 
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <LoginModal
-            onSignUpClick={() => {}}
-            onSubmited={() => {}}
-          />
-        </MemoryRouter>
-      </Provider>
+      <GoogleOAuthProvider clientId={TEST_CLIENT_ID}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <LoginModal
+              onSignUpClick={() => {}}
+              onSubmited={() => {}}
+            />
+          </MemoryRouter>
+        </Provider>
+      </GoogleOAuthProvider>
     );
 
     const loginInput = screen.getByLabelText(
@@ -188,5 +199,114 @@ describe('LoginModal', () => {
     fireEvent.click(submitButton);
     const signUpLink = screen.getByTestId('signup-link');
     expect(signUpLink).toBeInTheDocument();
+  });
+  it('shows an alert when login validation fails', () => {
+    validateLogin.mockReturnValue(false);
+
+    render(
+      <GoogleOAuthProvider clientId={TEST_CLIENT_ID}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <LoginModal
+              onSignUpClick={() => {}}
+              onSubmited={() => {}}
+            />
+          </MemoryRouter>
+        </Provider>
+      </GoogleOAuthProvider>
+    );
+
+    const loginInput = screen.getByLabelText(
+      'Enter your phone number/email/login'
+    );
+    const passwordInput = screen.getByLabelText(
+      'Enter your password'
+    );
+    const submitButton = screen.getByText('submit');
+
+    fireEvent.change(loginInput, {
+      target: { value: 'invalid-login' },
+    });
+    fireEvent.change(passwordInput, {
+      target: { value: 'password123' },
+    });
+    fireEvent.click(submitButton);
+
+    expect(
+      screen.getByText('Please enter a valid email or phone number')
+    ).toBeInTheDocument();
+  });
+  it('shows an alert when password validation fails', () => {
+    validatePassword.mockReturnValue(false);
+
+    render(
+      <GoogleOAuthProvider clientId={TEST_CLIENT_ID}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <LoginModal
+              onSignUpClick={() => {}}
+              onSubmited={() => {}}
+            />
+          </MemoryRouter>
+        </Provider>
+      </GoogleOAuthProvider>
+    );
+
+    const loginInput = screen.getByLabelText(
+      'Enter your phone number/email/login'
+    );
+    const passwordInput = screen.getByLabelText(
+      'Enter your password'
+    );
+    const submitButton = screen.getByText('submit');
+
+    fireEvent.change(loginInput, {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.change(passwordInput, { target: { value: '' } });
+    fireEvent.click(submitButton);
+
+    expect(
+      screen.getByText('Password must be at least 8 characters long')
+    ).toBeInTheDocument();
+  });
+  it('closes alert when close button is clicked', () => {
+    render(
+      <GoogleOAuthProvider clientId={TEST_CLIENT_ID}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <LoginModal
+              onSignUpClick={() => {}}
+              onSubmited={() => {}}
+            />
+          </MemoryRouter>
+        </Provider>
+      </GoogleOAuthProvider>
+    );
+
+    const loginInput = screen.getByLabelText(
+      'Enter your phone number/email/login'
+    );
+    const passwordInput = screen.getByLabelText(
+      'Enter your password'
+    );
+    const submitButton = screen.getByText('submit');
+
+    fireEvent.change(loginInput, {
+      target: { value: 'invalid-login' },
+    });
+    fireEvent.change(passwordInput, {
+      target: { value: 'password123' },
+    });
+    fireEvent.click(submitButton);
+
+    const alertCloseButton = screen.getByRole('button', {
+      name: /close/i,
+    });
+    fireEvent.click(alertCloseButton);
+
+    expect(
+      screen.queryByText('Please enter a valid email or phone number')
+    ).not.toBeInTheDocument();
   });
 });
