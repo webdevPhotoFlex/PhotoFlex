@@ -11,10 +11,28 @@
   gap: 8px;
   margin-top: 20px;
   align-items: center;
-  height: 980px;
+  height: 1200px;
   overflow-y: scroll;
 }
+.sharedContainer::-webkit-scrollbar {
+  width: 10px;
+}
 
+.sharedContainer::-webkit-scrollbar-track {
+  background: #2c2c2c;
+  border-radius: 5px;
+}
+
+.sharedContainer::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #884f9f, #d1c0e8);
+  border-radius: 5px;
+  border: 2px solid #2c2c2c;
+}
+
+.sharedContainer::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #aa6fbc, #884f9f);
+  box-shadow: 0 0 5px rgba(185, 0, 255, 0.6);
+}
 .filterItem {
   display: flex;
   flex-direction: column;
@@ -55,4 +73,16 @@
 
 .filterItem:hover {
   opacity: 0.9;
+}
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+}
+@media (min-width: 1281px) and (max-width: 1440px) {
+
+}
+@media (min-width: 1441px) and (max-width: 1920px) {
+
+}
+@media (min-width: 1921px) {
+
 }

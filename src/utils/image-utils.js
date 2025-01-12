@@ -1,10 +1,16 @@
-export const resizeImageToCanvas = (img, maxWidth, maxHeight) => {
+export const resizeImageToCanvas = (
+  img,
+  maxWidth = 1600,
+  maxHeight = 1200,
+  minWidth = 800,
+  minHeight = 600
+) => {
   const imgWidth = img.width;
   const imgHeight = img.height;
+
   let width = imgWidth;
   let height = imgHeight;
   const aspectRatio = imgWidth / imgHeight;
-
   if (imgWidth > maxWidth || imgHeight > maxHeight) {
     if (aspectRatio > 1) {
       width = maxWidth;
@@ -14,12 +20,23 @@ export const resizeImageToCanvas = (img, maxWidth, maxHeight) => {
       width = maxHeight * aspectRatio;
     }
   }
+  if (width < minWidth || height < minHeight) {
+    if (aspectRatio > 1) {
+      width = minWidth;
+      height = minWidth / aspectRatio;
+    } else {
+      height = minHeight;
+      width = minHeight * aspectRatio;
+    }
+  }
 
   return {
     width: Math.round(width),
     height: Math.round(height),
+    aspectRatio,
   };
 };
+
 export const applyMaskTransformation = (
   ctx,
   mask,

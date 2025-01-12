@@ -274,3 +274,15 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   border: 2px solid #884f9f;
 }
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+}
+@media (min-width: 1281px) and (max-width: 1440px) {
+
+}
+@media (min-width: 1441px) and (max-width: 1920px) {
+
+}
+@media (min-width: 1921px) {
+
+}

@@ -15,9 +15,9 @@ function App() {
           <Route
             path="/personal-account"
             element={
-              // <ProtectedRouteElement>
-              <PersonalAccount />
-              // </ProtectedRouteElement>
+              <ProtectedRouteElement>
+                <PersonalAccount />
+              </ProtectedRouteElement>
             }
           />
         </Routes>
