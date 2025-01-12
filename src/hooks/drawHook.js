@@ -16,9 +16,9 @@ const useImageDrawer = ({
   texts = [],
   brushSize,
 }) => {
-  const applyFilters = (ctx, filter) => {
+  const applyCombinedFilters = (ctx, filter, tuneSettings) => {
     const filters = {
-      none: 'none',
+      none: '',
       grayscale: 'grayscale(100%)',
       sepia: 'sepia(100%)',
       invert: 'invert(100%)',
@@ -26,28 +26,20 @@ const useImageDrawer = ({
       refulgence: 'contrast(150%) brightness(120%)',
       pink: 'hue-rotate(300deg)',
     };
-    ctx.filter = filters[filter] || 'none';
-  };
-  const applyTuneSettings = (ctx, tuneSettings, canvas) => {
-    if (!canvas || !canvas.width || !canvas.height) {
-      console.error('Canvas dimensions are not properly defined.');
-      return;
-    }
-
+    const selectedFilter = filters[filter] || '';
     const { brightness, contrast, saturation, sharpness } =
       tuneSettings;
-
     const brightnessFactor = brightness / 50;
     const contrastFactor = contrast / 50;
     const saturationFactor = saturation / 50;
     const blurFactor = (100 - sharpness) / 50;
     ctx.filter = `
-      brightness(${brightnessFactor})
-      contrast(${contrastFactor})
-      saturate(${saturationFactor})
-      blur(${blurFactor}px)
-    `;
-    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+    ${selectedFilter}
+    brightness(${brightnessFactor})
+    contrast(${contrastFactor})
+    saturate(${saturationFactor})
+    blur(${blurFactor}px)
+  `;
   };
   const drawText = (ctx, text) => {
     ctx.font = `${text.fontSize}px ${text.fontFamily}`;
@@ -61,10 +53,8 @@ const useImageDrawer = ({
       !resizeDimensions?.width ||
       !resizeDimensions?.height
     ) {
-      console.error('Invalid image, canvas, or resize dimensions.');
       return;
     }
-
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const { width, height } = resizeDimensions;
@@ -88,18 +78,13 @@ const useImageDrawer = ({
       const cropY = cropArea?.y || 0;
       const finalWidth = width - cropX;
       const finalHeight = height - cropY;
-
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-
-      applyFilters(ctx, filter);
-      applyTuneSettings(ctx, tuneSettings, canvas);
-
       ctx.save();
       ctx.translate(centerX, centerY);
       ctx.rotate((rotationAngle * Math.PI) / 180);
       ctx.translate(-centerX, -centerY);
-
+      applyCombinedFilters(ctx, filter, tuneSettings);
       ctx.drawImage(
         image,
         cropX,
@@ -112,11 +97,10 @@ const useImageDrawer = ({
         finalHeight
       );
       ctx.restore();
-
+      ctx.restore();
       if (mask.length > 0) {
         applyMaskWithoutTransformations(ctx, mask);
       }
-
       texts.forEach((text) => drawText(ctx, text));
     }
   }, [
@@ -134,7 +118,6 @@ const useImageDrawer = ({
     texts,
     brushSize,
   ]);
-
   useEffect(() => {
     drawImage();
   }, [drawImage]);
