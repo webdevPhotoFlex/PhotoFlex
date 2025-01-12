@@ -8,10 +8,12 @@ import PhotoFilterIcon from '@mui/icons-material/PhotoFilter';
 import TextureIcon from '@mui/icons-material/Texture';
 import WallpaperIcon from '@mui/icons-material/Wallpaper';
 import TitleIcon from '@mui/icons-material/Title';
+import BlurOffIcon from '@mui/icons-material/BlurOff';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveTool } from '../../services/actions/image-actions';
 
-const ToolBar = () => {
+const ToolBar = ({ isToolsDisabled }) => {
   const dispatch = useDispatch();
   const activeTool = useSelector((state) => state.image.activeTool);
 
@@ -23,6 +25,7 @@ const ToolBar = () => {
     { component: PhotoFilterIcon, className: styles.photoFilter },
     { component: TextureIcon, className: styles.texture },
     { component: WallpaperIcon, className: styles.wallpaper },
+    { component: BlurOffIcon, className: styles.texture },
     { component: TitleIcon, className: styles.title },
   ];
 
@@ -34,10 +37,13 @@ const ToolBar = () => {
           key={index}
           className={`${styles.icon} ${
             activeTool === index ? styles.clicked : styles.notClicked
-          } ${className}`}
+          } ${className} ${isToolsDisabled ? styles.disabled : ''}`}
           onClick={() => {
-            dispatch(setActiveTool(index));
+            if (!isToolsDisabled) {
+              dispatch(setActiveTool(index));
+            }
           }}
+          style={{ pointerEvents: isToolsDisabled ? 'none' : 'auto' }}
         />
       ))}
     </div>

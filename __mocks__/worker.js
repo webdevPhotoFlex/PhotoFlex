@@ -21,14 +21,12 @@ class WorkerMock {
   }
 
   postMessage(message) {
-    // При вызове postMessage имитируем событие 'message'
     if (this.eventListeners.message) {
       this.eventListeners.message.forEach((listener) =>
         listener({ data: message })
       );
     }
 
-    // Если вам также нужно поддержать onmessage напрямую:
     if (this.onmessage) {
       this.onmessage({ data: message });
     }

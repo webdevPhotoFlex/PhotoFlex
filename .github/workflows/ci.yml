@@ -45,13 +45,5 @@ jobs:
       - name: Build React app
         run: npm run build
 
-      #      - name: Start React app for Cypress
-      #        run: |
-      #          npx serve -s build -l 3000 &
-      #          npx wait-on http://localhost:3000
-      #          sleep 5
-      #        env:
-      #          CI: true
-
       - name: Run Cypress tests
         run: npx cypress run

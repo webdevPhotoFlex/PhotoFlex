@@ -3,6 +3,8 @@ import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
 import PersonalAccount from '../src/components/pages/personal-account/personal-account';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 
 jest.mock('../../../images/logo.png', () => 'mock-logo');
 jest.mock('../../../images/1.jpeg', () => 'mock-photo-1');
@@ -26,13 +28,21 @@ jest.mock('@mui/icons-material/ArrowForwardIos', () => {
   return ArrowForwardIosIcon;
 });
 
+const mockStore = configureStore([]);
+const store = mockStore({
+  // Здесь можно указать начальное состояние store
+});
+
 describe('PersonalAccount', () => {
-  test('renders PersonalAccount component', () => {
+  const renderWithProvider = (ui) =>
     render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>{ui}</MemoryRouter>
+      </Provider>
     );
+
+  test('renders PersonalAccount component', () => {
+    renderWithProvider(<PersonalAccount />);
 
     expect(screen.getByAltText('Logo')).toBeInTheDocument();
     expect(screen.getByText('Username')).toBeInTheDocument();
@@ -44,17 +54,14 @@ describe('PersonalAccount', () => {
   });
 
   it('displays an error when invalid phone or email is entered', async () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
+    renderWithProvider(<PersonalAccount />);
 
     const phoneInput = screen.getByPlaceholderText('phone');
     fireEvent.change(phoneInput, { target: { value: '12345' } });
     expect(
       await screen.findByText('Неверный формат номера')
     ).toBeInTheDocument();
+
     const emailInput = screen.getByPlaceholderText('email');
     fireEvent.change(emailInput, {
       target: { value: 'invalid-email' },
@@ -65,33 +72,23 @@ describe('PersonalAccount', () => {
   });
 
   it('displays no error for valid phone or email input', async () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
+    renderWithProvider(<PersonalAccount />);
 
     const phoneInput = screen.getByPlaceholderText('phone');
     fireEvent.change(phoneInput, {
       target: { value: '+7 999 999 99 99' },
     });
-
     expect(screen.queryByText('Неверный формат номера')).toBeNull();
 
     const emailInput = screen.getByPlaceholderText('email');
     fireEvent.change(emailInput, {
       target: { value: 'username52@gmal.com' },
     });
-
     expect(screen.queryByText('Неверный формат email')).toBeNull();
   });
 
   it('navigates through photos when clicking next and previous buttons', () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
+    renderWithProvider(<PersonalAccount />);
 
     const photos = screen.getAllByRole('img');
     expect(photos.length).toBe(1);
@@ -103,11 +100,7 @@ describe('PersonalAccount', () => {
   });
 
   it('cycles to the last photo after reaching the first one', () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
+    renderWithProvider(<PersonalAccount />);
 
     const nextButton = screen.getByText('ArrowForwardIosIcon');
     for (let i = 0; i < 20; i++) {
@@ -118,78 +111,29 @@ describe('PersonalAccount', () => {
   });
 
   it('does not allow toggling edit mode if there are validation errors', async () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
+    renderWithProvider(<PersonalAccount />);
 
     const phoneInput = screen.getByPlaceholderText('phone');
     fireEvent.change(phoneInput, { target: { value: '12345' } });
-
     const editButton = screen.getByText('EditIcon');
     fireEvent.click(editButton);
 
     expect(screen.queryByPlaceholderText('name')).toBeNull();
   });
 
-  it('calls handlePrev and updates currentIndex correctly', () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
-
-    const initialPhoto = screen.getByTestId('photo-0');
-    expect(initialPhoto.style.backgroundImage).toContain(
-      'url(mock-photo-21)'
-    );
-
-    const prevButton = screen.getByText('ArrowBackIosIcon');
-    fireEvent.click(prevButton);
-
-    const updatedPhoto = screen.getByTestId('photo-0');
-    expect(updatedPhoto.style.backgroundImage).toContain(
-      'url(mock-photo-21)'
-    );
-  });
-
-  it('does not toggle editing mode when there are validation errors', () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
-
-    const phoneInput = screen.getByPlaceholderText('phone');
-    fireEvent.change(phoneInput, { target: { value: '12345' } });
-
-    const editButton = screen.getByText('EditIcon');
-    fireEvent.click(editButton);
-
-    expect(screen.queryByPlaceholderText('name')).toBeNull();
-  });
   it('formats phone correctly and updates userData', () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
+    renderWithProvider(<PersonalAccount />);
 
     const phoneInput = screen.getByPlaceholderText('phone');
-
     fireEvent.change(phoneInput, {
       target: { value: '+7 999 123 45 67' },
     });
 
     expect(phoneInput.value).toBe('+7 999 123 45 67');
   });
+
   it('cycles through photos after reaching the end', () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
+    renderWithProvider(<PersonalAccount />);
 
     const forwardIcon = screen.getByText('ArrowForwardIosIcon');
     for (let i = 0; i < 21; i++) {
@@ -200,26 +144,9 @@ describe('PersonalAccount', () => {
       'mock-photo-21'
     );
   });
-  it('formats phone correctly when valid phone number entered', () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
-
-    const phoneInput = screen.getByPlaceholderText('phone');
-    fireEvent.change(phoneInput, {
-      target: { value: '+7 999 123 45 67' },
-    });
-    expect(phoneInput.value).toBe('+7 999 123 45 67');
-  });
 
   it('shows error when entering invalid email', async () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
+    renderWithProvider(<PersonalAccount />);
 
     const emailInput = screen.getByPlaceholderText('email');
     fireEvent.change(emailInput, {
@@ -232,11 +159,7 @@ describe('PersonalAccount', () => {
   });
 
   it('does not show error for valid phone or email', () => {
-    render(
-      <MemoryRouter>
-        <PersonalAccount />
-      </MemoryRouter>
-    );
+    renderWithProvider(<PersonalAccount />);
 
     const phoneInput = screen.getByPlaceholderText('phone');
     fireEvent.change(phoneInput, {

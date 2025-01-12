@@ -5,33 +5,30 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import LogoutIcon from '@mui/icons-material/Logout';
 import photo1 from '../../../images/1.jpeg';
 import photo2 from '../../../images/2.jpeg';
-import photo3 from '../../../images/3.jpeg';
-import photo4 from '../../../images/4.jpeg';
 import photo5 from '../../../images/5.jpeg';
 import photo6 from '../../../images/6.jpeg';
 import photo7 from '../../../images/7.jpeg';
-import photo8 from '../../../images/8.jpeg';
-import photo9 from '../../../images/9.jpeg';
 import photo10 from '../../../images/10.jpeg';
 import photo11 from '../../../images/11.jpeg';
 import photo12 from '../../../images/12.jpeg';
 import photo13 from '../../../images/13.jpeg';
-import photo14 from '../../../images/14.jpeg';
 import photo15 from '../../../images/15.jpeg';
 import photo16 from '../../../images/16.jpeg';
 import photo17 from '../../../images/17.jpeg';
 import photo18 from '../../../images/18.jpeg';
-import photo19 from '../../../images/19.jpeg';
 import photo20 from '../../../images/20.jpeg';
-import photo21 from '../../../images/21.jpeg';
+import { useDispatch } from 'react-redux';
+import { exitUser } from '../../../services/actions/auth-actions';
 
 const PersonalAccount = () => {
+  const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userData, setUserData] = useState({
     phone: '+7 999 999 99 99',
-    email: 'username52@gmal.com',
+    email: 'username52@gmail.com',
     telegram: '@username666',
     userName: 'Username',
   });
@@ -43,25 +40,18 @@ const PersonalAccount = () => {
   const photos = [
     photo1,
     photo2,
-    photo3,
-    photo4,
     photo5,
     photo6,
     photo7,
-    photo8,
-    photo9,
     photo10,
     photo11,
     photo12,
     photo13,
-    photo14,
     photo15,
     photo16,
     photo17,
     photo18,
-    photo19,
     photo20,
-    photo21,
   ];
 
   const handleNext = () => {
@@ -125,7 +115,9 @@ const PersonalAccount = () => {
     }
     setUserData((prevData) => ({ ...prevData, [name]: value }));
   };
-
+  const handleExit = () => {
+    dispatch(exitUser());
+  };
   return (
     <div className={styles.mainContainer}>
       <div className={styles.accHeader}>
@@ -134,14 +126,25 @@ const PersonalAccount = () => {
             src={logoImg || null}
             className={styles.logoContainer}
             alt={'Logo'}
+            title="Go to Home"
           />
         </NavLink>
-        <EditIcon
-          data-testid="edit-icon"
-          className={`${styles.icon} ${styles.edit}`}
-          onClick={handleEditClick}
-        />
+        <div className={styles.headerIcons}>
+          <EditIcon
+            data-testid="edit-icon"
+            className={`${styles.icon} ${styles.editIcon}`}
+            onClick={handleEditClick}
+            title="Edit Profile"
+          />
+          <LogoutIcon
+            data-testid="logout-icon"
+            onClick={handleExit}
+            className={`${styles.icon} ${styles.exitIcon}`}
+            title="Logout"
+          />
+        </div>
       </div>
+
       <div
         className={styles.userContainer}
         data-testid="username-container"
@@ -202,7 +205,7 @@ const PersonalAccount = () => {
       >
         <ArrowBackIosIcon
           data-testid="arrow-back"
-          style={{ fontSize: '50px', color: 'white' }}
+          className={`${styles.icon} ${styles.backIcon}`}
           onClick={handlePrev}
         />
         {visiblePhotos.map((photo, index) => (
@@ -215,7 +218,7 @@ const PersonalAccount = () => {
         ))}
         <ArrowForwardIosIcon
           data-testid="arrow-forward"
-          style={{ fontSize: '50px', color: 'white' }}
+          className={`${styles.icon} ${styles.nextIcon}`}
           onClick={handleNext}
         />
       </section>

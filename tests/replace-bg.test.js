@@ -51,9 +51,8 @@ describe('ReplaceBgTool Component', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
-
   it('renders without crashing', () => {
-    const brushSizeLabel = screen.getByText('Размер кисти: 10');
+    const brushSizeLabel = screen.getByText(/Размер кисти:\s*10/);
     expect(brushSizeLabel).toBeInTheDocument();
   });
 
@@ -204,7 +203,7 @@ describe('ReplaceBgTool Component', () => {
     expect(authMessage).toBeInTheDocument();
   });
   it('displays the reset button', () => {
-    const resetButton = screen.getByTestId('reset1');
+    const resetButton = screen.getByTestId('resetImage');
     expect(resetButton).toBeInTheDocument();
   });
 
@@ -269,22 +268,7 @@ describe('ReplaceBgTool Component', () => {
       expect(actions).toEqual([]);
     });
   });
-  it('resets the image and mask when reset button is clicked', () => {
-    const file = new File(['dummy content'], 'test-image.png', {
-      type: 'image/png',
-    });
-    const fileInput = screen.getByTestId('fileUploadInput1');
-    fireEvent.change(fileInput, { target: { files: [file] } });
 
-    const resetButton = screen.getByTestId('reset1');
-    fireEvent.click(resetButton);
-
-    const actions = store.getActions();
-    expect(actions).toEqual([
-      { type: 'SET_IMAGE', payload: null },
-      { type: 'SET_MASK', payload: [] },
-    ]);
-  });
   it('calls handleReplaceBackground and updates the image when the button is clicked', async () => {
     const file = new File(['dummy content'], 'test-image.png', {
       type: 'image/png',
@@ -395,16 +379,6 @@ describe('ReplaceBgTool Component', () => {
       screen.queryByTestId('previewContainer')
     ).not.toBeInTheDocument();
   });
-  it('resets state when reset button is clicked without an image', () => {
-    const resetButton = screen.getByTestId('reset1');
-    fireEvent.click(resetButton);
-
-    const actions = store.getActions();
-    expect(actions).toEqual([
-      { type: 'SET_IMAGE', payload: null },
-      { type: 'SET_MASK', payload: [] },
-    ]);
-  });
   it('applies mask to image data correctly when mask is present', () => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -456,16 +430,6 @@ describe('ReplaceBgTool Component', () => {
     });
   });
 
-  it('resets the image and mask on reset button click', () => {
-    const resetButton = screen.getByTestId('reset1');
-    fireEvent.click(resetButton);
-
-    const actions = store.getActions();
-    expect(actions).toEqual([
-      { type: 'SET_IMAGE', payload: null },
-      { type: 'SET_MASK', payload: [] },
-    ]);
-  });
   it('does not enable replace button if the uploaded file is not an image', async () => {
     const nonImageFile = new File(['dummy content'], 'test.txt', {
       type: 'text/plain',

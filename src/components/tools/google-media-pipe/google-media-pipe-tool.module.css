@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brushSizeLabel {
+  margin-top: 20px;
+  font-size: 20px;
+  padding: 2px;
+  color: #fff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 40px;
+  cursor: pointer;
+  align-items: center;
+}
+
+.button {
+  padding: 15px 30px;
+  font-size: 16px;
+  color: #fff;
+  background: linear-gradient(90deg, #884f9f, #d1c0e8);
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  width: 200px;
+  text-align: center;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover {
+  background: linear-gradient(90deg, #6f3f7f, #b59edb);
+  transform: translateY(-3px);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #c9c9c9;
+}
+
+.rangeInput {
+  -webkit-appearance: none;
+  width: 80%;
+  height: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+  background-color: #6f3f7f;
+  outline: none;
+  transition: background 0.3s ease;
+}
+
+.rangeInput::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 15px;
+  background: #6f3f7f;
+  border-radius: 10px;
+}

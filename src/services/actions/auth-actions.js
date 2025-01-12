@@ -20,6 +20,12 @@ export const setUsername = (username) => ({
   type: 'SET_USERNAME',
   payload: username,
 });
+export const exitUser = () => {
+  localStorage.removeItem('authToken');
+  return {
+    type: 'EXIT_USER',
+  };
+};
 
 export const registerUser = (login, username, password) => {
   return async (dispatch) => {
@@ -81,5 +87,26 @@ export const loginUser = (login, password) => {
         payload: error.response?.data || 'Ошибка соединения',
       });
     }
+  };
+};
+export const loginTelegram = (token) => {
+  localStorage.setItem('authToken', token);
+  return {
+    type: 'LOGIN_TELEGRAM_SUCCESS',
+    payload: token,
+  };
+};
+export const loginGoogle = (token) => {
+  localStorage.setItem('authToken', token);
+  return {
+    type: 'LOGIN_GOOGLE_SUCCESS',
+    payload: token,
+  };
+};
+export const loginYandex = (token) => {
+  localStorage.setItem('authToken', token);
+  return {
+    type: 'LOGIN_YANDEX_SUCCESS',
+    payload: token,
   };
 };

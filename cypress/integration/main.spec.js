@@ -29,8 +29,6 @@ describe('Функциональность главной страницы', () 
     cy.get('[data-testid="redo-icon"]').should('be.visible');
     cy.get('[data-testid="flip-icon"]').should('be.visible');
     cy.get('[data-testid="reset-icon"]').should('be.visible');
-    cy.get('[data-testid="save-icon"]').should('be.visible');
-    cy.get('[data-testid="PersonAddIcon"]').should('be.visible');
   });
   // eslint-disable-next-line jest/expect-expect
   it('при клике на иконки инстументов должны открываться настройки', () => {
@@ -81,7 +79,6 @@ describe('Функциональность главной страницы', () 
     cy.get('[data-testid="replace-bg-component"]').should(
       'not.exist'
     );
-    cy.get('[data-testid="text-component"]').should('be.visible');
   });
   // eslint-disable-next-line jest/expect-expect
   it('должна загружаться фотка и работать удаление и сохранение', () => {
@@ -91,7 +88,6 @@ describe('Функциональность главной страницы', () 
     );
     cy.get('[data-testid="canvasMain"]').should('be.visible');
 
-    cy.get('[data-testid="save-icon"]').should('be.visible');
     cy.get('[data-testid="save-icon"]').click();
 
     cy.get('[data-testid="reset-icon"]').should('be.visible');

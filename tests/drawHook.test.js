@@ -17,6 +17,7 @@ global.HTMLCanvasElement.prototype.getContext = jest
     rotate: jest.fn(),
     globalCompositeOperation: '',
     filter: '',
+    fillText: jest.fn(),
   });
 
 describe('useImageDrawer', () => {
@@ -187,5 +188,43 @@ describe('useImageDrawer', () => {
 
     const ctx = canvasRef.current.getContext('2d');
     expect(ctx.rotate).toHaveBeenCalledWith((90 * Math.PI) / 180);
+  });
+  it('should call drawText when text is provided', () => {
+    const texts = [
+      {
+        content: 'Test text',
+        fontSize: 20,
+        fontFamily: 'Arial',
+        color: 'black',
+        x: 100,
+        y: 100,
+      },
+    ];
+    const Component = () => {
+      useImageDrawer({
+        canvasRef,
+        image,
+        originalImage,
+        showOriginal: false,
+        filter: 'none',
+        resizeDimensions: { width: 500, height: 500 },
+        rotationAngle: 45,
+        mask: [],
+        appliedMask: [],
+        tuneSettings: {
+          brightness: 50,
+          contrast: 50,
+          saturation: 50,
+          sharpness: 100,
+        },
+        texts,
+      });
+      return <canvas ref={canvasRef}></canvas>;
+    };
+
+    render(<Component />);
+
+    const ctx = canvasRef.current.getContext('2d');
+    expect(ctx.fillText).toHaveBeenCalledWith('Test text', 100, 100);
   });
 });

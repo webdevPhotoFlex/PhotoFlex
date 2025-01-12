@@ -25,6 +25,7 @@ const initialState = {
   originalImage: null,
   image: null,
   imageBeforeRemove: null,
+  imageBeforeRemoveGoogle: null,
   past: [],
   future: [],
   hasInitializedResize: false,
@@ -34,6 +35,7 @@ const initialState = {
     saturation: 50,
     sharpness: 50,
   },
+  texts: [],
 };
 
 const getPresentState = (state) => {
@@ -276,6 +278,17 @@ export const imageReducer = (state = initialState, action) => {
             }
           : {}),
       };
+    case 'SET_IMAGE_BEFORE_REMOVE_GOOGLE':
+      return {
+        ...state,
+        imageBeforeRemoveGoogle: action.payload,
+        ...(shouldAddToHistory
+          ? {
+              past: [...state.past, getPresentState(state)],
+              future: [],
+            }
+          : {}),
+      };
     case 'RESET_STATE': {
       return {
         ...initialState,
@@ -297,6 +310,47 @@ export const imageReducer = (state = initialState, action) => {
           ...state.tune,
           ...action.payload,
         },
+        ...(shouldAddToHistory
+          ? {
+              past: [...state.past, getPresentState(state)],
+              future: [],
+            }
+          : {}),
+      };
+    }
+    case 'ADD_TEXT': {
+      return {
+        ...state,
+        texts: [...state.texts, action.payload],
+        ...(shouldAddToHistory
+          ? {
+              past: [...state.past, getPresentState(state)],
+              future: [],
+            }
+          : {}),
+      };
+    }
+    case 'UPDATE_TEXT': {
+      return {
+        ...state,
+        texts: state.texts.map((text) =>
+          text.id === action.payload.id
+            ? { ...text, ...action.payload.updates }
+            : text
+        ),
+        ...(shouldAddToHistory
+          ? {
+              past: [...state.past, getPresentState(state)],
+              future: [],
+            }
+          : {}),
+      };
+    }
+    case 'REMOVE_TEXT': {
+      const id = action.payload;
+      return {
+        ...state,
+        texts: state.texts.filter((text) => text.id !== id),
         ...(shouldAddToHistory
           ? {
               past: [...state.past, getPresentState(state)],

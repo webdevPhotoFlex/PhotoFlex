@@ -32,6 +32,8 @@ module.exports = {
       '<rootDir>/node_modules/@mui/icons-material/$1',
     '^axios$': '<rootDir>/__mocks__/axiosMock.js',
     '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/__mocks__/fileMock.js',
+    '^@mediapipe/selfie_segmentation$':
+      '<rootDir>/__mocks__/selfie_segmentation.js',
   },
   transformIgnorePatterns: ['/node_modules/(?!axios)/'],
 };
