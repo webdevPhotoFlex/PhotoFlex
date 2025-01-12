@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 .rangeInput {
   -webkit-appearance: none;
   width: 100%;
@@ -29,7 +30,7 @@
   width: 24px;
   height: 24px;
   background: #884f9f;
-  border: 3px solid #ffffff;
+  border: 3px solid #fff;
   border-radius: 50%;
   cursor: pointer;
   transition:
@@ -78,14 +79,17 @@
 .customFileLabel:active {
   transform: translateY(1px);
 }
+
 .disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 .button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 .brushSizeLabel {
   display: flex;
   justify-content: center;
@@ -157,7 +161,7 @@
   width: 24px;
   height: 24px;
   background: #884f9f;
-  border: 3px solid #ffffff;
+  border: 3px solid #fff;
   border-radius: 50%;
   cursor: pointer;
   transition:
@@ -175,7 +179,7 @@
   width: 24px;
   height: 24px;
   background: #884f9f;
-  border: 3px solid #ffffff;
+  border: 3px solid #fff;
   border-radius: 50%;
   cursor: pointer;
   transition:
@@ -274,11 +278,15 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   border: 2px solid #884f9f;
 }
+
 @media (min-width: 1025px) and (max-width: 1280px) {
 }
+
 @media (min-width: 1281px) and (max-width: 1440px) {
 }
+
 @media (min-width: 1441px) and (max-width: 1920px) {
 }
+
 @media (min-width: 1921px) {
 }

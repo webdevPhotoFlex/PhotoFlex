@@ -37,63 +37,6 @@ export const resizeImageToCanvas = (
   };
 };
 
-export const applyMaskTransformation = (
-  ctx,
-  mask,
-  imageWidth,
-  imageHeight,
-  canvasWidth,
-  canvasHeight,
-  rotationAngle,
-  scale,
-  fillStyle = 'red'
-) => {
-  if (!ctx || !mask || mask.length === 0) return;
-
-  ctx.save();
-  ctx.fillStyle = fillStyle;
-
-  const centerX = canvasWidth / 2;
-  const centerY = canvasHeight / 2;
-  const radianAngle = (-rotationAngle * Math.PI) / 180;
-
-  mask.forEach(({ x, y, brushSize }) => {
-    if (
-      typeof x !== 'number' ||
-      typeof y !== 'number' ||
-      typeof brushSize !== 'number'
-    ) {
-      console.warn('Invalid mask point:', { x, y, brushSize });
-      return;
-    }
-    const translatedX = x - centerX;
-    const translatedY = y - centerY;
-
-    const imageX =
-      translatedX * Math.cos(radianAngle) -
-      translatedY * Math.sin(radianAngle) +
-      centerX;
-    const imageY =
-      translatedX * Math.sin(radianAngle) +
-      translatedY * Math.cos(radianAngle) +
-      centerY;
-
-    const scaledX = imageX * (imageWidth / canvasWidth);
-    const scaledY = imageY * (imageHeight / canvasHeight);
-
-    ctx.beginPath();
-    ctx.arc(
-      scaledX,
-      scaledY,
-      (brushSize / 2) * scale,
-      0,
-      Math.PI * 2
-    );
-    ctx.fill();
-  });
-
-  ctx.restore();
-};
 export const applyMaskWithoutTransformations = (
   ctx,
   mask,

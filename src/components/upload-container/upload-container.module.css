@@ -39,6 +39,7 @@
     width: 500px;
     height: 300px;
   }
+
   .uploadIcon {
     font-size: 50px !important;
     color: #884f9f;
@@ -50,18 +51,21 @@
     font-size: 20px;
   }
 }
+
 @media (min-width: 1281px) and (max-width: 1440px) {
   .mainContainer {
     width: 600px;
     height: 400px;
   }
 }
+
 @media (min-width: 1441px) and (max-width: 1920px) {
   .mainContainer {
     width: 700px;
     height: 500px;
   }
 }
+
 @media (min-width: 1921px) {
   .mainContainer {
     width: 900px;

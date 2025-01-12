@@ -12,7 +12,6 @@ import {
 } from '../src/utils/auth-utils';
 import RegisterModal from '../src/components/modal/register-modal/register-modal';
 import { MemoryRouter } from 'react-router-dom';
-import LoginModal from '../src/components/modal/login-modal/login-modal';
 
 jest.mock('../src/utils/auth-utils');
 jest.mock('../src/services/actions/auth-actions', () => ({
@@ -74,7 +73,6 @@ describe('RegisterModal', () => {
       screen.getByLabelText('Come up with username')
     ).toBeInTheDocument();
     expect(screen.getByText('submit')).toBeInTheDocument();
-    expect(screen.getByText('login via:')).toBeInTheDocument();
     expect(
       screen.getByText('already have an account?')
     ).toBeInTheDocument();

@@ -30,7 +30,7 @@ const RemoveBgTool = ({ canvasRef }) => {
   }, [image, imageBeforeRemove, dispatch]);
 
   const handleRemoveBackground = () => {
-    if (!image || !canvasRef.current) return;
+    if (!image || !canvasRef.current || !resizeDimensions) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const { width, height } = resizeDimensions;

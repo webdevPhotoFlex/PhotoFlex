@@ -1,6 +1,6 @@
 .label {
   margin-top: 10px;
-  color: #ffffff;
+  color: #fff;
   font-size: 24px;
   text-align: center;
   font-weight: bold;
@@ -154,7 +154,7 @@ input[type='number']:focus {
   width: 250px;
   padding: 10px;
   font-size: 18px;
-  color: #ffffff;
+  color: #fff;
   background: linear-gradient(135deg, #292929, #1e1e1e);
   border: 1px solid #884f9f;
   border-radius: 10px;
@@ -178,12 +178,14 @@ input[type='number']:focus {
     margin-top: 5px;
     font-size: 15px;
   }
+
   .sharedContainer {
     gap: 10px;
     margin-top: 20px;
     height: 90%;
     padding: 5px;
   }
+
   .textItem {
     gap: 5px;
   }
@@ -220,6 +222,7 @@ input[type='number']:focus {
     margin-top: 10px;
     font-size: 22px;
   }
+
   .sharedContainer {
     display: flex;
     gap: 20px;
@@ -227,6 +230,7 @@ input[type='number']:focus {
     height: 90%;
     padding: 10px;
   }
+
   .textItem {
     gap: 5px;
   }

@@ -102,7 +102,6 @@ const ReplaceBgTool = ({ canvasRef }) => {
       dispatch(setMask([]));
       setNewImage(null);
     } else {
-      console.warn('Оригинальное изображение отсутствует.');
       dispatch(setImage(null));
       dispatch(setMask([]));
       setNewImage(null);
@@ -118,9 +117,9 @@ const ReplaceBgTool = ({ canvasRef }) => {
       data-testid="replace-bg-component"
     >
       <label className={styles.brushSizeLabel} htmlFor="brushSize">
-        <span className={styles.labelText}>Размер кисти:</span>
-        <span className={styles.labelValue}>{brushSize}</span>
+        Размер кисти: {brushSize}
       </label>
+
       <input
         type="range"
         id="brushSize"
@@ -172,10 +171,10 @@ const ReplaceBgTool = ({ canvasRef }) => {
         <button
           className={`${styles.button} ${!imageBeforeRemove && styles.disabled}`}
           onClick={handleReset}
-          data-testid="reset1"
+          data-testid="resetImage"
           disabled={!imageBeforeRemove}
         >
-          Сброс
+          Сброс изображения
         </button>
       </div>
     </div>

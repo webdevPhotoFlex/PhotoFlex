@@ -6,7 +6,6 @@
   background-color: #272727;
   width: 94px;
   height: 91vh;
-
   border: solid black 1px;
   margin-right: 2px;
   flex: 1;
@@ -119,6 +118,7 @@
     font-size: 45px;
   }
 }
+
 @media (min-width: 1281px) and (max-width: 1440px) {
   .mainContainer {
     width: 94px;
@@ -157,6 +157,7 @@
     font-size: 50px;
   }
 }
+
 @media (min-width: 1441px) and (max-width: 1920px) {
   .mainContainer {
     width: 94px;
@@ -195,6 +196,7 @@
     font-size: 55px;
   }
 }
+
 @media (min-width: 1921px) {
   .mainContainer {
     width: 94px;

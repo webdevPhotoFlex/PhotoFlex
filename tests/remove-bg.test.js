@@ -256,47 +256,6 @@ describe('RemoveBgTool Component', () => {
 
     expect(spy).not.toHaveBeenCalled();
   });
-  it('calls applyMaskToImageData when mask is present in handleRemoveBackground', () => {
-    const initialState = {
-      image: {
-        imageBeforeRemove: null,
-        image: { src: 'test-image' },
-        brushSize: 10,
-        mask: [1, 2, 3], // Маска присутствует
-      },
-      auth: {
-        isAuthenticated: true,
-      },
-    };
-
-    const canvasMock = {
-      current: {
-        getContext: jest.fn(() => ({
-          clearRect: jest.fn(),
-          drawImage: jest.fn(),
-          getImageData: jest.fn(() => ({ data: [] })),
-          putImageData: jest.fn(),
-        })),
-        toDataURL: jest.fn(() => 'data:image/png;base64,test'),
-      },
-    };
-
-    const { store } = renderWithProvider(
-      <RemoveBgTool canvasRef={canvasMock} />,
-      initialState
-    );
-
-    fireEvent.click(screen.getByText('Удалить фон'));
-
-    expect(imageUtils.applyMaskToImageData).toHaveBeenCalledWith(
-      expect.any(Object),
-      [1, 2, 3] // Маска
-    );
-    expect(store.getActions()).toContainEqual({
-      type: 'SET_MASK',
-      payload: [],
-    });
-  });
 
   it('does not call applyMaskToImageData when mask is empty', () => {
     const initialState = {

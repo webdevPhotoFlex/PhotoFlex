@@ -6,7 +6,8 @@
   height: 100vh;
   width: 100vw;
 }
-/*хэдер*/
+
+/* хэдер */
 .accHeader {
   display: flex;
   justify-content: space-between;
@@ -30,33 +31,40 @@
     transform 0.3s ease,
     filter 0.3s ease;
 }
+
 .logoContainer:hover {
   transform: scale(1.05);
   filter: brightness(1.2);
 }
+
 .headerIcons {
   display: flex;
   gap: 70px;
   margin-right: 50px;
 }
+
 .icon {
   cursor: pointer;
   transition:
     transform 0.3s ease,
     color 0.3s ease;
 }
+
 .editIcon {
   color: #6f3f7f;
   transform: scale(2.5);
 }
+
 .editIcon:hover {
   transform: scale(2.8);
   color: #884f9f;
 }
+
 .exitIcon {
   color: #e63946;
   transform: scale(2.5);
 }
+
 .exitIcon:hover {
   transform: scale(2.8);
   color: #ff6f61;
@@ -93,11 +101,13 @@
   font-size: 25px;
   gap: 15px;
 }
+
 .dataRow {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
+
 .nameInput,
 .inputsData {
   padding: 10px;
@@ -113,6 +123,7 @@
   font-size: 45px;
   width: 210px;
 }
+
 .userName {
   font-size: 45px;
   color: white;
@@ -160,10 +171,12 @@
   background-size: cover;
   background-position: center;
 }
+
 .nextIcon {
   transform: scale(2.5);
   color: #884f9f;
 }
+
 .nextIcon:hover {
   transform: scale(2.8);
   color: rgba(189, 145, 211, 0.84);
@@ -173,30 +186,36 @@
   transform: scale(2.5);
   color: #884f9f;
 }
+
 .backIcon:hover {
   transform: scale(2.8);
   color: rgba(189, 145, 211, 0.84);
 }
 
-/*адаптивы*/
+/* адаптивы */
 @media (min-width: 1025px) and (max-width: 1280px) {
   .logoContainer {
     width: 220px;
     margin-left: 40px;
   }
+
   .headerIcons {
     gap: 40px;
     margin-right: 50px;
   }
+
   .editIcon {
     transform: scale(1.8);
   }
+
   .editIcon:hover {
     transform: scale(2.1);
   }
+
   .exitIcon {
     transform: scale(1.8);
   }
+
   .exitIcon:hover {
     transform: scale(2.1);
   }
@@ -206,6 +225,7 @@
     width: 900px;
     height: 180px;
   }
+
   .dataContainer {
     padding: 10px;
     margin-left: 100px;
@@ -225,6 +245,7 @@
     font-size: 27px;
     width: 150px;
   }
+
   .userName {
     font-size: 27px;
   }
@@ -232,10 +253,12 @@
   .editing {
     border-radius: 10px;
   }
+
   .error {
     font-size: 14px;
     margin-top: 5px;
   }
+
   .photosContainer {
     margin-top: 40px;
     max-width: 950px;
@@ -249,9 +272,11 @@
     height: 300px;
     border-radius: 60px;
   }
+
   .nextIcon {
     transform: scale(1.5);
   }
+
   .nextIcon:hover {
     transform: scale(1.8);
   }
@@ -259,6 +284,7 @@
   .backIcon {
     transform: scale(1.5);
   }
+
   .backIcon:hover {
     transform: scale(1.8);
   }
@@ -269,19 +295,24 @@
     width: 270px;
     margin-left: 40px;
   }
+
   .headerIcons {
     gap: 70px;
     margin-right: 50px;
   }
+
   .editIcon {
     transform: scale(2.2);
   }
+
   .editIcon:hover {
     transform: scale(2.4);
   }
+
   .exitIcon {
     transform: scale(2.2);
   }
+
   .exitIcon:hover {
     transform: scale(2.4);
   }
@@ -291,6 +322,7 @@
     width: 1000px;
     height: 200px;
   }
+
   .dataContainer {
     padding: 10px;
     margin-left: 130px;
@@ -310,6 +342,7 @@
     font-size: 32px;
     width: 150px;
   }
+
   .userName {
     font-size: 32px;
   }
@@ -317,10 +350,12 @@
   .editing {
     border-radius: 10px;
   }
+
   .error {
     font-size: 14px;
     margin-top: 5px;
   }
+
   .photosContainer {
     margin-top: 50px;
     max-width: 1270px;
@@ -334,9 +369,11 @@
     height: 350px;
     border-radius: 60px;
   }
+
   .nextIcon {
     transform: scale(1.7);
   }
+
   .nextIcon:hover {
     transform: scale(2);
   }
@@ -344,6 +381,7 @@
   .backIcon {
     transform: scale(1.7);
   }
+
   .backIcon:hover {
     transform: scale(2);
   }
@@ -354,19 +392,24 @@
     width: 300px;
     margin-left: 40px;
   }
+
   .headerIcons {
     gap: 70px;
     margin-right: 50px;
   }
+
   .editIcon {
     transform: scale(2.5);
   }
+
   .editIcon:hover {
     transform: scale(2.8);
   }
+
   .exitIcon {
     transform: scale(2.5);
   }
+
   .exitIcon:hover {
     transform: scale(2.8);
   }
@@ -376,6 +419,7 @@
     width: 1000px;
     height: 200px;
   }
+
   .dataContainer {
     padding: 10px;
     margin-left: 130px;
@@ -390,20 +434,25 @@
     font-size: 25px;
     width: 250px;
   }
+
   .nameInput {
     font-size: 35px;
     width: 190px;
   }
+
   .userName {
     font-size: 35px;
   }
+
   .editing {
     border-radius: 10px;
   }
+
   .error {
     font-size: 14px;
     margin-top: 5px;
   }
+
   .photosContainer {
     margin-top: 50px;
     max-width: 1400px;
@@ -417,9 +466,11 @@
     height: 390px;
     border-radius: 60px;
   }
+
   .nextIcon {
     transform: scale(1.9);
   }
+
   .nextIcon:hover {
     transform: scale(2.2);
   }
@@ -427,6 +478,7 @@
   .backIcon {
     transform: scale(1.9);
   }
+
   .backIcon:hover {
     transform: scale(2.2);
   }
@@ -437,22 +489,28 @@
     width: 350px;
     margin-left: 40px;
   }
+
   .logoContainer:hover {
     transform: scale(1.1);
   }
+
   .headerIcons {
     gap: 90px;
     margin-right: 70px;
   }
+
   .editIcon {
     transform: scale(2.9);
   }
+
   .editIcon:hover {
     transform: scale(3.1);
   }
+
   .exitIcon {
     transform: scale(2.9);
   }
+
   .exitIcon:hover {
     transform: scale(3.1);
   }
@@ -462,6 +520,7 @@
     width: 1200px;
     height: 220px;
   }
+
   .dataContainer {
     padding: 10px;
     margin-left: 130px;
@@ -476,10 +535,12 @@
     font-size: 28px;
     width: 330px;
   }
+
   .nameInput {
     font-size: 40px;
     width: 210px;
   }
+
   .userName {
     font-size: 40px;
   }
@@ -497,9 +558,11 @@
     height: 490px;
     border-radius: 60px;
   }
+
   .nextIcon {
     transform: scale(2.1);
   }
+
   .nextIcon:hover {
     transform: scale(2.4);
   }
@@ -507,6 +570,7 @@
   .backIcon {
     transform: scale(2.1);
   }
+
   .backIcon:hover {
     transform: scale(2.4);
   }
