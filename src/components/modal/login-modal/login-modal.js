@@ -13,7 +13,6 @@ import {
 import FormControl from '@mui/joy/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import GoogleIcon from '@mui/icons-material/Google';
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux';
 import {
