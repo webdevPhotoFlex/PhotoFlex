@@ -1,83 +1,22 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
-.rangeInput {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 14px;
-  margin: 15px 0;
+.button {
+  padding: 15px 30px;
+  font-size: 16px;
+  color: #fff;
   background: linear-gradient(90deg, #884f9f, #d1c0e8);
-  border-radius: 10px;
-  outline: none;
-  transition: box-shadow 0.3s ease;
+  border: none;
+  border-radius: 40px;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.rangeInput:hover {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.rangeInput::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-}
-
-.rangeInput::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
-  background: #884f9f;
-  border: 3px solid #fff;
-  border-radius: 50%;
-  cursor: pointer;
+  width: 200px;
+  text-align: center;
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.rangeInput::-moz-range-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-}
-
-.previewContainer {
-  margin-top: 20px;
-}
-
-.previewImage {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
+    background 0.3s ease,
+    transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .fileInput {
   display: none;
-}
-
-.customFileLabel {
-  padding: 15px 30px;
-  background-color: #884f9f;
-  color: white;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
-  text-align: center;
-}
-
-.customFileLabel:hover {
-  background-color: rgba(136, 79, 159, 0.8);
-  transform: translateY(-3px);
-}
-
-.customFileLabel:active {
-  transform: translateY(1px);
 }
 
 .disabled {
@@ -224,26 +163,6 @@
   transform: translateY(1px);
 }
 
-.fileInput {
-  display: none;
-}
-
-.button {
-  padding: 15px 30px;
-  font-size: 16px;
-  color: #fff;
-  background: linear-gradient(90deg, #884f9f, #d1c0e8);
-  border: none;
-  border-radius: 40px;
-  cursor: pointer;
-  width: 200px;
-  text-align: center;
-  transition:
-    background 0.3s ease,
-    transform 0.2s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
 .button:hover {
   background: linear-gradient(90deg, #6f3f7f, #b59edb);
   transform: translateY(-3px);
@@ -277,16 +196,4 @@
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   border: 2px solid #884f9f;
-}
-
-@media (min-width: 1025px) and (max-width: 1280px) {
-}
-
-@media (min-width: 1281px) and (max-width: 1440px) {
-}
-
-@media (min-width: 1441px) and (max-width: 1920px) {
-}
-
-@media (min-width: 1921px) {
 }

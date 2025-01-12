@@ -81,4 +81,27 @@ describe('authReducer', () => {
     expect(result.isAuthenticated).toBe(false);
     expect(localStorage.getItem('authToken')).toBe(null);
   });
+  it('should handle LOGIN_TELEGRAM_SUCCESS', () => {
+    const action = {
+      type: 'LOGIN_TELEGRAM_SUCCESS',
+      payload: { token: 'telegramToken123' },
+    };
+    const result = authReducer(initialState, action);
+    expect(result.token).toBe('telegramToken123');
+    expect(result.isAuthenticated).toBe(true);
+    expect(localStorage.getItem('authToken')).toBe(
+      'telegramToken123'
+    );
+  });
+
+  it('should handle LOGIN_GOOGLE_SUCCESS', () => {
+    const action = {
+      type: 'LOGIN_GOOGLE_SUCCESS',
+      payload: { token: 'googleToken123' },
+    };
+    const result = authReducer(initialState, action);
+    expect(result.token).toBe('googleToken123');
+    expect(result.isAuthenticated).toBe(true);
+    expect(localStorage.getItem('authToken')).toBe('googleToken123');
+  });
 });
