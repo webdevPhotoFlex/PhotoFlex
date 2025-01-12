@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/PhotoFlex/static/css/main.e561ad58.css",
-    "main.js": "/PhotoFlex/static/js/main.f56e973d.js",
+    "main.css": "/PhotoFlex/static/css/main.62675a4c.css",
+    "main.js": "/PhotoFlex/static/js/main.b86e8ed9.js",
     "static/js/178.83c2ec33.chunk.js": "/PhotoFlex/static/js/178.83c2ec33.chunk.js",
     "static/media/22.png": "/PhotoFlex/static/media/22.33c01542304e979394ac.png",
     "static/media/28.png": "/PhotoFlex/static/media/28.b30e5e5cc28e757e4d56.png",
@@ -11,31 +11,24 @@
     "static/media/18.jpeg": "/PhotoFlex/static/media/18.8bfd98571bb4405f0689.jpeg",
     "static/media/12.jpeg": "/PhotoFlex/static/media/12.e2f0406731d78226e58b.jpeg",
     "static/media/10.jpeg": "/PhotoFlex/static/media/10.0611b0fbf9eef1bfd16c.jpeg",
-    "static/media/14.jpeg": "/PhotoFlex/static/media/14.9b836ae0ddd0ac107376.jpeg",
     "static/media/11.jpeg": "/PhotoFlex/static/media/11.403c41584478c46655d6.jpeg",
-    "static/media/19.jpeg": "/PhotoFlex/static/media/19.21aa554954370658875d.jpeg",
     "static/media/15.jpeg": "/PhotoFlex/static/media/15.d5a7fc6f89f7babdf77b.jpeg",
     "static/media/13.jpeg": "/PhotoFlex/static/media/13.2bd3809462cc12c8751c.jpeg",
     "static/media/1.jpeg": "/PhotoFlex/static/media/1.895fb2ce49456d20123d.jpeg",
     "static/media/16.jpeg": "/PhotoFlex/static/media/16.44947f8e01d535bfe56c.jpeg",
-    "static/media/9.jpeg": "/PhotoFlex/static/media/9.8c00570ff5774b1e1a72.jpeg",
     "static/media/17.jpeg": "/PhotoFlex/static/media/17.31bbb5849147e25a0a2f.jpeg",
     "static/media/20.jpeg": "/PhotoFlex/static/media/20.766a4c63c14575900f92.jpeg",
     "static/media/7.jpeg": "/PhotoFlex/static/media/7.c316b098ba1c1673579b.jpeg",
     "static/media/6.jpeg": "/PhotoFlex/static/media/6.ad57b9371d8521d37c17.jpeg",
-    "static/media/21.jpeg": "/PhotoFlex/static/media/21.6762944d268af68fb5fe.jpeg",
     "static/media/5.jpeg": "/PhotoFlex/static/media/5.b35e0e645b1b08dd3865.jpeg",
     "static/media/2.jpeg": "/PhotoFlex/static/media/2.f3c038ddeb118bfd49ab.jpeg",
-    "static/media/8.jpeg": "/PhotoFlex/static/media/8.c993ec3ba9fa29d6534c.jpeg",
-    "static/media/4.jpeg": "/PhotoFlex/static/media/4.2be03a41afe3cf8b9288.jpeg",
-    "static/media/3.jpeg": "/PhotoFlex/static/media/3.f048893af83d1fee0403.jpeg",
     "index.html": "/PhotoFlex/index.html",
-    "main.e561ad58.css.map": "/PhotoFlex/static/css/main.e561ad58.css.map",
-    "main.f56e973d.js.map": "/PhotoFlex/static/js/main.f56e973d.js.map",
+    "main.62675a4c.css.map": "/PhotoFlex/static/css/main.62675a4c.css.map",
+    "main.b86e8ed9.js.map": "/PhotoFlex/static/js/main.b86e8ed9.js.map",
     "178.83c2ec33.chunk.js.map": "/PhotoFlex/static/js/178.83c2ec33.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e561ad58.css",
-    "static/js/main.f56e973d.js"
+    "static/css/main.62675a4c.css",
+    "static/js/main.b86e8ed9.js"
   ]
 }
