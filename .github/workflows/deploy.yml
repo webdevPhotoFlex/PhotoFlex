@@ -33,7 +33,6 @@ jobs:
           echo "REACT_APP_GOOGLE_CLIENT_ID=${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}" >> .env
           echo "REACT_APP_YANDEX_CLIENT_ID=${{ secrets.REACT_APP_YANDEX_CLIENT_ID }}" >> .env
 
-
       - name: Build project
         run: npm run build
 
