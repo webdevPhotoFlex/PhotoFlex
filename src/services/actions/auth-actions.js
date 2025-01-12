@@ -96,3 +96,10 @@ export const loginTelegram = (token) => {
     payload: token,
   };
 };
+export const loginGoogle = (token) => {
+  localStorage.setItem('authToken', token);
+  return {
+    type: 'LOGIN_GOOGLE_SUCCESS',
+    payload: token,
+  };
+};
