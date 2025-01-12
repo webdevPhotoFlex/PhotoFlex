@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@mediapipe/selfie_segmentation": "^0.1.1675465747",
+    "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "cors": "^2.8.5",

@@ -2,19 +2,26 @@ import styles from './filters-tools.module.css';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilter } from '../../../services/actions/image-actions';
+import photo22 from '../../../images/22.png';
+import photo23 from '../../../images/23.png';
+import photo24 from '../../../images/24.png';
+import photo25 from '../../../images/25.png';
+import photo5 from '../../../images/5.jpeg';
+import photo6 from '../../../images/6.jpeg';
+import photo28 from '../../../images/28.png';
 
 const Filters = () => {
   const dispatch = useDispatch();
   const activeFilter = useSelector((state) => state.image.filter);
 
   const filters = [
-    { name: 'none' },
-    { name: 'grayscale' },
-    { name: 'sepia' },
-    { name: 'invert' },
-    { name: 'outerspace' },
-    { name: 'refulgence' },
-    { name: 'pink' },
+    { name: 'none', photo: photo22 },
+    { name: 'grayscale', photo: photo23 },
+    { name: 'sepia', photo: photo24 },
+    { name: 'invert', photo: photo25 },
+    { name: 'outerspace', photo: photo5 },
+    { name: 'refulgence', photo: photo6 },
+    { name: 'pink', photo: photo28 },
   ];
   const handleFilterSelect = (name) => {
     dispatch(setFilter(name));
@@ -24,7 +31,7 @@ const Filters = () => {
       className={styles.sharedContainer}
       data-testid="filters-component"
     >
-      {filters.map(({ name }, index) => (
+      {filters.map(({ name, photo }, index) => (
         <div
           data-testid={`filter-${index}`}
           key={index}
@@ -33,7 +40,14 @@ const Filters = () => {
           }`}
           onClick={() => handleFilterSelect(name)}
         >
-          <div className={styles.filterBlock} />
+          <div
+            className={styles.filterBlock}
+            style={{
+              backgroundImage: `url(${photo})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
           <p className={styles.label}>{name}</p>
         </div>
       ))}
