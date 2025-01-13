@@ -5,9 +5,10 @@
   justify-content: space-between;
   background-color: #272727;
   width: 94px;
-  height: 980px;
+  height: 91vh;
   border: solid black 1px;
   margin-right: 2px;
+  flex: 1;
 }
 
 .icon.tune {
@@ -79,10 +80,49 @@
   transform: scale(0.9);
 }
 
-@media (max-width: 1900px) {
+@media (min-width: 1025px) and (max-width: 1280px) {
   .mainContainer {
+    width: 94px;
     height: 90vh;
-    width: 10vw;
+  }
+
+  .icon.tune {
+    font-size: 45px;
+  }
+
+  .icon.crop {
+    font-size: 45px;
+  }
+
+  .icon.rotate {
+    font-size: 45px;
+  }
+
+  .icon.settings {
+    font-size: 45px;
+  }
+
+  .icon.photoFilter {
+    font-size: 45px;
+  }
+
+  .icon.texture {
+    font-size: 45px;
+  }
+
+  .icon.wallpaper {
+    font-size: 45px;
+  }
+
+  .icon.title {
+    font-size: 45px;
+  }
+}
+
+@media (min-width: 1281px) and (max-width: 1440px) {
+  .mainContainer {
+    width: 94px;
+    height: 89vh;
   }
 
   .icon.tune {
@@ -118,9 +158,49 @@
   }
 }
 
-@media (min-width: 2000px) {
+@media (min-width: 1441px) and (max-width: 1920px) {
   .mainContainer {
+    width: 94px;
     height: 90vh;
-    width: 5vw;
+  }
+
+  .icon.tune {
+    font-size: 55px;
+  }
+
+  .icon.crop {
+    font-size: 55px;
+  }
+
+  .icon.rotate {
+    font-size: 55px;
+  }
+
+  .icon.settings {
+    font-size: 55px;
+  }
+
+  .icon.photoFilter {
+    font-size: 55px;
+  }
+
+  .icon.texture {
+    font-size: 55px;
+  }
+
+  .icon.wallpaper {
+    font-size: 55px;
+  }
+
+  .icon.title {
+    font-size: 55px;
+  }
+}
+
+@media (min-width: 1921px) {
+  .mainContainer {
+    width: 94px;
+    height: 92vh;
+    margin-right: 2px;
   }
 }

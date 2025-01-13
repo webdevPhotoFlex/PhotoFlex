@@ -13,9 +13,10 @@ import {
 import FormControl from '@mui/joy/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import GoogleIcon from '@mui/icons-material/Google';
+import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  loginGoogle,
   loginUser,
   setLogin,
   setPassword,
@@ -27,7 +28,7 @@ import {
   validatePassword,
 } from '../../../utils/auth-utils';
 import TelegramWidget from '../../telegram-widget/telegram-widget';
-
+import yandexImage from '../../../images/yandex.svg';
 const LoginModal = ({ onSignUpClick, onSubmited }) => {
   const dispatch = useDispatch();
   const { login, password } = useSelector((state) => state.auth);
@@ -67,6 +68,28 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
     }
   };
 
+  const handleGoogleSuccess = (response) => {
+    const token = response.credential;
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    dispatch(loginGoogle(decodedToken));
+    onSubmited();
+  };
+
+  const handleGoogleError = () => {
+    setAlert('Failed to log in with Google');
+    setShowAlert(true);
+  };
+
+  const handleYandexLogin = () => {
+    const clientId = process.env.REACT_APP_YANDEX_CLIENT_ID;
+    const redirectUri = 'https://webdevphotoflex.github.io/PhotoFlex';
+
+    const yandexOAuthUrl = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}`;
+
+    window.location.href = yandexOAuthUrl;
+  };
   return (
     <div style={styles.mainContainer} data-testid="login-modal">
       <DialogTitle data-testid="sign-in-title" sx={styles.modalTitle}>
@@ -147,16 +170,16 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
             sx={styles.footerStack}
             marginBottom="5px"
           >
-            <Button
-              variant="outlined"
-              sx={styles.socialBtn}
-              data-testid="social-btn-google"
-            >
-              <GoogleIcon />
-            </Button>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+            />
           </Stack>
+          <Button onClick={handleYandexLogin} sx={styles.btn}>
+            <img src={yandexImage} style={{ width: '25px' }} />
+            Login with Yandex
+          </Button>
           <TelegramWidget onSubmited={onSubmited} />
-
           <Stack sx={styles.footerStack} direction="row" spacing={1}>
             <span style={styles.footerText}>
               don&apos;t have an account?

@@ -19,9 +19,6 @@ describe('Authentication Flow E2E Tests', () => {
       cy.get('[data-testid="signup-link"]')
         .should('be.visible')
         .and('contain', 'sign up');
-      cy.get('[data-testid="social-btn-google"]').should(
-        'be.visible'
-      );
     });
     cy.get(
       '[data-testid="login-modal"] [data-testid="signup-link"]'
@@ -40,12 +37,6 @@ describe('Authentication Flow E2E Tests', () => {
       cy.get('[data-testid="signin-link"]')
         .should('be.visible')
         .and('contain', 'sign in');
-      cy.get('[data-testid="social-btn-google"]').should(
-        'be.visible'
-      );
-      cy.get('[data-testid="social-btn-telegram"]').should(
-        'be.visible'
-      );
     });
     cy.get('[data-testid="login-input"]').type('test1@gmail.com');
     cy.get('[data-testid="username-input"]').type('New_User');

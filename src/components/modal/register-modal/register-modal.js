@@ -12,8 +12,6 @@ import {
 import FormControl from '@mui/joy/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import GoogleIcon from '@mui/icons-material/Google';
-import TelegramIcon from '@mui/icons-material/Telegram';
 import {
   handleMouseDownPassword,
   handleMouseUpPassword,
@@ -219,28 +217,6 @@ const RegisterModal = ({ onSignInClick, onSubmited }) => {
           >
             submit
           </Button>
-          <span style={styles.loginvia}>login via:</span>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={styles.footerStack}
-            marginBottom="5px"
-          >
-            <Button
-              data-testid="social-btn-google"
-              variant="outlined"
-              sx={styles.socialBtn}
-            >
-              <GoogleIcon />
-            </Button>
-            <Button
-              data-testid="social-btn-telegram"
-              variant="outlined"
-              sx={styles.socialBtn}
-            >
-              <TelegramIcon />
-            </Button>
-          </Stack>
           <Stack sx={styles.footerStack} direction="row" spacing={1}>
             <span style={styles.footerText}>
               already have an account?

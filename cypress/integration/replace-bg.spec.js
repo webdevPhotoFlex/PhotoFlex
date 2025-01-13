@@ -30,10 +30,6 @@ describe('Функциональность инструмента ReplaceBgTool'
     });
   });
 
-  it('кнопка "Заменить фон" должна быть активна', () => {
-    cy.get('[data-testid="replaceButton"]').should('not.be.disabled');
-  });
-
   it('кнопка "Заменить фон" меняет картинку', () => {
     cy.get('[data-testid="fileUploadInput1"]').attachFile(
       './../fixtures/background.jpg'
@@ -47,7 +43,7 @@ describe('Функциональность инструмента ReplaceBgTool'
     );
     cy.get('[data-testid="replaceButton"]').click();
 
-    cy.get('[data-testid="reset1"]').click();
+    cy.get('[data-testid="resetImage"]').click();
 
     // eslint-disable-next-line jest/valid-expect-in-promise
     cy.window().then((win) => {

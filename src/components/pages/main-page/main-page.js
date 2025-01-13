@@ -14,6 +14,7 @@ import {
   setResizeDimensions,
 } from '../../../services/actions/image-actions';
 import { resizeImageToCanvas } from '../../../utils/image-utils';
+import { loginYandex } from '../../../services/actions/auth-actions';
 
 const MainPage = () => {
   const {
@@ -37,6 +38,23 @@ const MainPage = () => {
   const dispatch = useDispatch();
   const canvasRef = useRef(null);
 
+  const isToolsDisabled = mask.length > 0;
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.includes('access_token')) {
+      const query = new URLSearchParams(hash.replace('#', ''));
+      const accessToken = query.get('access_token');
+
+      if (accessToken) {
+        console.log('Яндекс токен', accessToken);
+        dispatch(loginYandex(accessToken));
+      }
+
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+  }, [dispatch]);
+
   useEffect(() => {
     if (imageSrc) {
       const img = new Image();
@@ -44,7 +62,16 @@ const MainPage = () => {
       img.onload = () => {
         dispatch(setImage(img));
         dispatch(setOriginalImage(img));
-        const resizedDimensions = resizeImageToCanvas(img, 700, 500);
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const resizedDimensions = resizeImageToCanvas(
+          img,
+          Math.min(screenWidth * 0.9, 1920),
+          Math.min(screenHeight * 0.9, 1080),
+          800,
+          600
+        );
+
         dispatch(setResizeDimensions(resizedDimensions));
       };
     }
@@ -94,7 +121,10 @@ const MainPage = () => {
     <div className={styles.mainContainer}>
       <Header canvasRef={canvasRef} />
       <div className={styles.toolContainer}>
-        <ToolBar data-testid="toolbar" />
+        <ToolBar
+          isToolsDisabled={isToolsDisabled}
+          data-testid="toolbar"
+        />
         <Tools
           canvasRef={canvasRef}
           activeTool={activeTool}
@@ -104,7 +134,7 @@ const MainPage = () => {
           {imageSrc ? (
             <div
               style={{
-                width: `${resizeDimensions?.width || 700}px`,
+                width: `${resizeDimensions?.width || 1200}px`,
                 height: `${resizeDimensions?.height || 800}px`,
                 overflow: 'hidden',
               }}
