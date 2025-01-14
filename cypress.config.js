@@ -7,7 +7,7 @@ module.exports = defineConfig({
     },
   },
   e2e: {
-    baseUrl: 'https://webdevPhotoFlex.github.io/PhotoFlex',
+    baseUrl: 'http://localhost:3000/PhotoFlex',
     specPattern: 'cypress/integration/*.spec.js',
   },
 });

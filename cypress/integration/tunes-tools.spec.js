@@ -31,6 +31,7 @@ describe('Функциональность инструмента Tunes', () => 
           cy.get(sliderSelector)
             .invoke('attr', 'aria-valuenow')
             .then((newValue) => {
+              // eslint-disable-next-line jest/valid-expect
               expect(parseInt(newValue, 10)).to.not.eq(initialValue);
             });
         });
@@ -58,11 +59,13 @@ describe('Функциональность инструмента Tunes', () => 
         cy.get('[data-testid="brightness-slider"]')
           .invoke('attr', 'aria-valuenow')
           .then((newValue) => {
+            // eslint-disable-next-line jest/valid-expect
             expect(parseInt(newValue, 10)).to.not.eq(
               parseInt(initialValue, 10)
             );
           });
       });
+    // eslint-disable-next-line jest/valid-expect-in-promise
     cy.get('[data-testid="canvasMain"]').then(($canvas) => {
       const ctx = $canvas[0].getContext('2d');
       const initialPixelData = ctx.getImageData(0, 0, 1, 1).data;
@@ -72,8 +75,11 @@ describe('Функциональность инструмента Tunes', () => 
         ctx.filter = `brightness(1.5)`;
         ctx.drawImage(img, 0, 0, $canvas[0].width, $canvas[0].height);
         const updatedPixelData = ctx.getImageData(0, 0, 1, 1).data;
+        // eslint-disable-next-line jest/valid-expect
         expect(updatedPixelData[0]).to.not.eq(initialPixelData[0]);
+        // eslint-disable-next-line jest/valid-expect
         expect(updatedPixelData[1]).to.not.eq(initialPixelData[1]);
+        // eslint-disable-next-line jest/valid-expect
         expect(updatedPixelData[2]).to.not.eq(initialPixelData[2]);
       };
     });
