@@ -1,12 +1,14 @@
 {
   "files": {
-    "main.css": "/PhotoFlex/static/css/main.2a0197fe.css",
-    "main.js": "/PhotoFlex/static/js/main.2d260a5f.js",
+    "main.css": "/PhotoFlex/static/css/main.7a1c14b5.css",
+    "main.js": "/PhotoFlex/static/js/main.5041a3da.js",
     "static/js/178.83c2ec33.chunk.js": "/PhotoFlex/static/js/178.83c2ec33.chunk.js",
     "static/media/22.png": "/PhotoFlex/static/media/22.33c01542304e979394ac.png",
-    "static/media/28.png": "/PhotoFlex/static/media/28.b30e5e5cc28e757e4d56.png",
-    "static/media/24.png": "/PhotoFlex/static/media/24.4abec15de7259de3eb4d.png",
     "static/media/25.png": "/PhotoFlex/static/media/25.c6ac69b9901b2808e1e9.png",
+    "static/media/26.png": "/PhotoFlex/static/media/26.e44911a9216a6fdea096.png",
+    "static/media/28.png": "/PhotoFlex/static/media/28.2d2ab1e6f5395eb38661.png",
+    "static/media/27.png": "/PhotoFlex/static/media/27.fbf1c9e2312b2b1d59fb.png",
+    "static/media/24.png": "/PhotoFlex/static/media/24.ee5847c9d30f9568eba2.png",
     "static/media/23.png": "/PhotoFlex/static/media/23.cceb978de674fb212bac.png",
     "static/media/18.jpeg": "/PhotoFlex/static/media/18.8bfd98571bb4405f0689.jpeg",
     "static/media/12.jpeg": "/PhotoFlex/static/media/12.e2f0406731d78226e58b.jpeg",
@@ -24,12 +26,12 @@
     "static/media/2.jpeg": "/PhotoFlex/static/media/2.f3c038ddeb118bfd49ab.jpeg",
     "static/media/yandex.svg": "/PhotoFlex/static/media/yandex.016d490657a3fdd787ac0d044cbd65aa.svg",
     "index.html": "/PhotoFlex/index.html",
-    "main.2a0197fe.css.map": "/PhotoFlex/static/css/main.2a0197fe.css.map",
-    "main.2d260a5f.js.map": "/PhotoFlex/static/js/main.2d260a5f.js.map",
+    "main.7a1c14b5.css.map": "/PhotoFlex/static/css/main.7a1c14b5.css.map",
+    "main.5041a3da.js.map": "/PhotoFlex/static/js/main.5041a3da.js.map",
     "178.83c2ec33.chunk.js.map": "/PhotoFlex/static/js/178.83c2ec33.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2a0197fe.css",
-    "static/js/main.2d260a5f.js"
+    "static/css/main.7a1c14b5.css",
+    "static/js/main.5041a3da.js"
   ]
 }
