@@ -31,6 +31,10 @@ jobs:
         run: |
           echo "REACT_APP_BUGSNAG_API_KEY=${{ secrets.REACT_APP_BUGSNAG_API_KEY }}" >> .env
           echo "REACT_APP_GOOGLE_CLIENT_ID=${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}" >> .env
+<<<<<<< HEAD
+=======
+          echo "REACT_APP_YANDEX_CLIENT_ID=${{ secrets.REACT_APP_YANDEX_CLIENT_ID }}" >> .env
+>>>>>>> 163b0e748f84478614c10bcab0d30a04f32a4723
 
       - name: Build project
         run: npm run build

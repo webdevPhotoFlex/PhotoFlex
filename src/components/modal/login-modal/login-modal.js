@@ -28,7 +28,7 @@ import {
   validatePassword,
 } from '../../../utils/auth-utils';
 import TelegramWidget from '../../telegram-widget/telegram-widget';
-
+import yandexImage from '../../../images/yandex.svg';
 const LoginModal = ({ onSignUpClick, onSubmited }) => {
   const dispatch = useDispatch();
   const { login, password } = useSelector((state) => state.auth);
@@ -80,6 +80,16 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
     setShowAlert(true);
   };
 
+  const handleYandexLogin = () => {
+    const clientId = process.env.REACT_APP_YANDEX_CLIENT_ID;
+    const redirectUri = 'https://webdevphotoflex.github.io/PhotoFlex';
+
+    const yandexOAuthUrl = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}`;
+
+    window.location.href = yandexOAuthUrl;
+  };
   return (
     <div style={styles.mainContainer} data-testid="login-modal">
       <DialogTitle data-testid="sign-in-title" sx={styles.modalTitle}>
@@ -165,8 +175,11 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
               onError={handleGoogleError}
             />
           </Stack>
+          <Button onClick={handleYandexLogin} sx={styles.btn}>
+            <img src={yandexImage} style={{ width: '25px' }} />
+            Login with Yandex
+          </Button>
           <TelegramWidget onSubmited={onSubmited} />
-
           <Stack sx={styles.footerStack} direction="row" spacing={1}>
             <span style={styles.footerText}>
               don&apos;t have an account?

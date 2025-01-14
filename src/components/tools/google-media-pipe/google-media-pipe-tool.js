@@ -102,7 +102,7 @@ const GoogleRemoveBgTool = ({ canvasRef }) => {
   return (
     <div
       className={styles.container}
-      data-testid="remove-bg-component"
+      data-testid="media-pipe-component"
     >
       <div className={styles.buttonsContainer}>
         <button

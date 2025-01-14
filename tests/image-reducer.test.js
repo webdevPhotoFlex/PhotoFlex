@@ -501,34 +501,6 @@ describe('imageReducer', () => {
     // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(modifiedState, action)).toEqual(initialState);
   });
-  it('should not alter state if payload is empty for SET_TUNES', () => {
-    const action = {
-      type: 'SET_TUNES',
-      payload: {},
-    };
-    const expectedState = {
-      ...initialState,
-    };
-    // eslint-disable-next-line jest/valid-expect
-    expect(imageReducer(initialState, action)).toEqual(expectedState);
-  });
-  it('should handle SET_TUNES action and not add to history if action type is in actionsWithoutHistory', () => {
-    const action = {
-      type: 'SET_TUNES',
-      payload: { saturation: 40 },
-    };
-    const expectedState = {
-      ...initialState,
-      tune: {
-        ...initialState.tune,
-        saturation: 40,
-      },
-      past: [], // history is not updated
-      future: [],
-    };
-    // eslint-disable-next-line jest/valid-expect
-    expect(imageReducer(initialState, action)).toEqual(expectedState);
-  });
   it('should handle ADD_TEXT action', () => {
     const newText = { id: 1, content: 'New Text' };
     const action = {

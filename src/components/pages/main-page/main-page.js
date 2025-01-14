@@ -14,6 +14,7 @@ import {
   setResizeDimensions,
 } from '../../../services/actions/image-actions';
 import { resizeImageToCanvas } from '../../../utils/image-utils';
+import { loginYandex } from '../../../services/actions/auth-actions';
 
 const MainPage = () => {
   const {
@@ -38,6 +39,21 @@ const MainPage = () => {
   const canvasRef = useRef(null);
 
   const isToolsDisabled = mask.length > 0;
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.includes('access_token')) {
+      const query = new URLSearchParams(hash.replace('#', ''));
+      const accessToken = query.get('access_token');
+
+      if (accessToken) {
+        console.log('Яндекс токен', accessToken);
+        dispatch(loginYandex(accessToken));
+      }
+
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     if (imageSrc) {

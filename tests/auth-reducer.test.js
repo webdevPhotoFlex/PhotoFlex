@@ -104,4 +104,14 @@ describe('authReducer', () => {
     expect(result.isAuthenticated).toBe(true);
     expect(localStorage.getItem('authToken')).toBe('googleToken123');
   });
+  it('should handle LOGIN_YANDEX_SUCCESS', () => {
+    const action = {
+      type: 'LOGIN_YANDEX_SUCCESS',
+      payload: { token: 'yandexToken123' },
+    };
+    const result = authReducer(initialState, action);
+    expect(result.token).toBe('yandexToken123');
+    expect(result.isAuthenticated).toBe(true);
+    expect(localStorage.getItem('authToken')).toBe('yandexToken123');
+  });
 });

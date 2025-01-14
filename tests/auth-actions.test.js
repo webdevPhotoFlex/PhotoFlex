@@ -9,6 +9,10 @@ import {
   setUsername,
   registerUser,
   loginUser,
+  loginTelegram,
+  loginGoogle,
+  exitUser,
+  loginYandex,
 } from '../src/services/actions/auth-actions';
 
 jest.mock('axios');
@@ -161,6 +165,43 @@ describe('Auth Actions', () => {
 
       const actions = store.getActions();
       expect(actions).toEqual(expectedActions);
+    });
+    it('dispatches EXIT_USER action and clears localStorage', () => {
+      localStorage.setItem('authToken', 'testToken');
+      const action = exitUser();
+
+      expect(action).toEqual({ type: 'EXIT_USER' });
+      expect(localStorage.getItem('authToken')).toBeNull();
+    });
+
+    it('dispatches LOGIN_TELEGRAM_SUCCESS and sets authToken in localStorage', () => {
+      const action = loginTelegram('telegramToken');
+
+      expect(action).toEqual({
+        type: 'LOGIN_TELEGRAM_SUCCESS',
+        payload: 'telegramToken',
+      });
+      expect(localStorage.getItem('authToken')).toBe('telegramToken');
+    });
+
+    it('dispatches LOGIN_GOOGLE_SUCCESS and sets authToken in localStorage', () => {
+      const action = loginGoogle('googleToken');
+
+      expect(action).toEqual({
+        type: 'LOGIN_GOOGLE_SUCCESS',
+        payload: 'googleToken',
+      });
+      expect(localStorage.getItem('authToken')).toBe('googleToken');
+    });
+
+    it('dispatches LOGIN_YANDEX_SUCCESS and sets authToken in localStorage', () => {
+      const action = loginYandex('yandexToken');
+
+      expect(action).toEqual({
+        type: 'LOGIN_YANDEX_SUCCESS',
+        payload: 'yandexToken',
+      });
+      expect(localStorage.getItem('authToken')).toBe('yandexToken');
     });
   });
 });
