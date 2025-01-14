@@ -18,7 +18,7 @@ describe('Tunes Component', () => {
           brightness: 50,
           contrast: 50,
           saturation: 50,
-          sharpness: 100,
+          blur: 0,
         },
       },
     });
@@ -37,7 +37,7 @@ describe('Tunes Component', () => {
     expect(sliders[0]).toHaveAttribute('aria-label', 'brightness');
     expect(sliders[1]).toHaveAttribute('aria-label', 'contrast');
     expect(sliders[2]).toHaveAttribute('aria-label', 'saturation');
-    expect(sliders[3]).toHaveAttribute('aria-label', 'sharpness');
+    expect(sliders[3]).toHaveAttribute('aria-label', 'blur');
   });
 
   it('dispatches correct action when slider changes', () => {
@@ -49,13 +49,13 @@ describe('Tunes Component', () => {
 
     const brightnessSlider = screen.getByLabelText('brightness');
     fireEvent.change(brightnessSlider, { target: { value: 70 } });
-
+    // eslint-disable-next-line jest/valid-expect
     expect(store.dispatch).toHaveBeenCalledWith(
       setTunes({
         brightness: 70,
         contrast: 50,
         saturation: 50,
-        sharpness: 100,
+        blur: 0,
       })
     );
   });
@@ -67,17 +67,19 @@ describe('Tunes Component', () => {
       </Provider>
     );
 
-    const sharpnessSlider = screen.getByLabelText('sharpness');
-    expect(sharpnessSlider).toHaveValue('100'); // Change to a string value
+    const blurSlider = screen.getByLabelText('blur');
+    // eslint-disable-next-line jest/valid-expect
+    expect(blurSlider).toHaveValue('0'); // Change to a string value
 
-    fireEvent.change(sharpnessSlider, { target: { value: 80 } });
+    fireEvent.change(blurSlider, { target: { value: 80 } });
 
+    // eslint-disable-next-line jest/valid-expect
     expect(store.dispatch).toHaveBeenCalledWith(
       setTunes({
         brightness: 50,
         contrast: 50,
         saturation: 50,
-        sharpness: 80,
+        blur: 80,
       })
     );
   });

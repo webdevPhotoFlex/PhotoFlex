@@ -27,12 +27,11 @@ const useImageDrawer = ({
       pink: 'hue-rotate(300deg)',
     };
     const selectedFilter = filters[filter] || '';
-    const { brightness, contrast, saturation, sharpness } =
-      tuneSettings;
+    const { brightness, contrast, saturation, blur } = tuneSettings;
     const brightnessFactor = brightness / 50;
     const contrastFactor = contrast / 50;
     const saturationFactor = saturation / 50;
-    const blurFactor = (100 - sharpness) / 50;
+    const blurFactor = blur / 50;
     ctx.filter = `
     ${selectedFilter}
     brightness(${brightnessFactor})

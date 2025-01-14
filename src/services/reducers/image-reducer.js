@@ -33,7 +33,7 @@ const initialState = {
     brightness: 50,
     contrast: 50,
     saturation: 50,
-    sharpness: 50,
+    blur: 0,
   },
   texts: [],
 };
@@ -294,15 +294,6 @@ export const imageReducer = (state = initialState, action) => {
         ...initialState,
       };
     }
-    // case 'SET_TUNES': {
-    //   return {
-    //     ...state,
-    //     tune: {
-    //       ...state.tune,
-    //       ...action.payload,
-    //     },
-    //   };
-    // }
     case 'SET_TUNES': {
       return {
         ...state,
@@ -310,12 +301,8 @@ export const imageReducer = (state = initialState, action) => {
           ...state.tune,
           ...action.payload,
         },
-        ...(shouldAddToHistory
-          ? {
-              past: [...state.past, getPresentState(state)],
-              future: [],
-            }
-          : {}),
+        past: [...state.past, getPresentState(state)],
+        future: [],
       };
     }
     case 'ADD_TEXT': {

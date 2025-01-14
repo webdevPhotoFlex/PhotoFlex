@@ -11,13 +11,13 @@ const Tunes = () => {
     { name: 'brightness', min: 0, max: 100 },
     { name: 'contrast', min: 0, max: 100 },
     { name: 'saturation', min: 0, max: 100 },
-    { name: 'sharpness', min: 0, max: 100 },
+    { name: 'blur', min: 0, max: 100 },
   ];
   const [settings, setSettings] = useState({
     brightness: 50,
     contrast: 50,
     saturation: 50,
-    sharpness: 50,
+    blur: 0,
   });
 
   // const handleSlider = (optionName) => (event, newValue) => {

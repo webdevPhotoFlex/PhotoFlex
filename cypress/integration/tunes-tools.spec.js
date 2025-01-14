@@ -10,12 +10,7 @@ describe('Функциональность инструмента Tunes', () => 
   });
 
   it('должны отображаться элементы управления настройками', () => {
-    const tunes = [
-      'brightness',
-      'contrast',
-      'saturation',
-      'sharpness',
-    ];
+    const tunes = ['brightness', 'contrast', 'saturation', 'blur'];
     tunes.forEach((tune) => {
       cy.get(`[aria-label="${tune}"]`).should('exist');
     });
@@ -58,14 +53,14 @@ describe('Функциональность инструмента Tunes', () => 
   });
 
   it('ползунок настройки резкости должен изменять резкость изображения', () => {
-    cy.get('[aria-label="sharpness"]').should('have.value', '50');
-    cy.get('[aria-label="sharpness"]')
+    cy.get('[aria-label="blur"]').should('have.value', '50');
+    cy.get('[aria-label="blur"]')
       .invoke('val', 30)
       .trigger('input', { force: true });
     cy.wait(500);
     cy.get('[data-testid="canvasMain"]').should('exist');
     cy.get('[data-testid="canvasMain"]')
-      .invoke('attr', 'data-sharpness')
+      .invoke('attr', 'data-blur')
       .should('eq', '30');
   });
 });

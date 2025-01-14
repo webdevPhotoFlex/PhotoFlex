@@ -32,7 +32,7 @@ describe('imageReducer', () => {
       brightness: 50,
       contrast: 50,
       saturation: 50,
-      sharpness: 50,
+      blur: 0,
     },
     texts: [],
   };
@@ -272,6 +272,7 @@ describe('imageReducer', () => {
       past: [],
       future: [],
     };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
   it('should handle SET_RESIZE_DIMENSIONS when hasInitializedResize is false', () => {
@@ -289,7 +290,7 @@ describe('imageReducer', () => {
       resizeDimensions: { width: 2500, height: 2500 },
       hasInitializedResize: true,
     };
-
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(state, action)).toEqual(expectedState);
   });
 
@@ -310,7 +311,7 @@ describe('imageReducer', () => {
       past: [getPresentState(state)],
       future: [],
     };
-
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(state, action)).toEqual(expectedState);
   });
   it('should handle UNDO when past is empty', () => {
@@ -320,7 +321,7 @@ describe('imageReducer', () => {
       ...initialState,
       past: [],
     };
-
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(state, action)).toEqual(state);
   });
 
@@ -339,7 +340,7 @@ describe('imageReducer', () => {
       past: [],
       future: [getPresentState(state)],
     };
-
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(state, action)).toEqual(expectedState);
   });
   it('should handle REDO when future is empty', () => {
@@ -349,7 +350,7 @@ describe('imageReducer', () => {
       ...initialState,
       future: [],
     };
-
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(state, action)).toEqual(state);
   });
 
@@ -368,7 +369,7 @@ describe('imageReducer', () => {
       past: [getPresentState(state)],
       future: [],
     };
-
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(state, action)).toEqual(expectedState);
   });
   it('should not add to history for actions in actionsWithoutHistory', () => {
@@ -402,11 +403,13 @@ describe('imageReducer', () => {
       future: [],
       hasInitializedResize: true,
     };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(state, action)).toEqual(expectedState);
   });
 
   it('should return current state for an unknown action type', () => {
     const action = { type: 'UNKNOWN_ACTION', payload: 123 };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(initialState, action)).toEqual(initialState);
   });
 
@@ -429,7 +432,7 @@ describe('imageReducer', () => {
       past: [getPresentState(previousState)],
       future: [],
     };
-
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(previousState, action)).toEqual(
       expectedState
     );
@@ -440,6 +443,7 @@ describe('imageReducer', () => {
       ...initialState,
       isDragOver: true,
     };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
 
@@ -450,6 +454,7 @@ describe('imageReducer', () => {
       ...initialState,
       image: testImage,
     };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
   it('should handle SET_IMAGE_BEFORE_REMOVE action', () => {
@@ -464,6 +469,7 @@ describe('imageReducer', () => {
       past: [getPresentState(initialState)],
       future: [],
     };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
 
@@ -479,6 +485,7 @@ describe('imageReducer', () => {
       past: [getPresentState(initialState)],
       future: [],
     };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
 
@@ -491,6 +498,7 @@ describe('imageReducer', () => {
       future: [{ ...initialState, activeTool: 2 }],
     };
     const action = { type: 'RESET_STATE' };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(modifiedState, action)).toEqual(initialState);
   });
   it('should not alter state if payload is empty for SET_TUNES', () => {
@@ -501,6 +509,7 @@ describe('imageReducer', () => {
     const expectedState = {
       ...initialState,
     };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
   it('should handle SET_TUNES action and not add to history if action type is in actionsWithoutHistory', () => {
@@ -517,6 +526,7 @@ describe('imageReducer', () => {
       past: [], // history is not updated
       future: [],
     };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
   it('should handle ADD_TEXT action', () => {
@@ -531,6 +541,7 @@ describe('imageReducer', () => {
       past: [getPresentState(initialState)],
       future: [],
     };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
 
@@ -554,6 +565,7 @@ describe('imageReducer', () => {
       past: [getPresentState(initialStateWithText)],
       future: [],
     };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(initialStateWithText, action)).toEqual(
       expectedState
     );
@@ -575,6 +587,7 @@ describe('imageReducer', () => {
       past: [getPresentState(initialStateWithText)],
       future: [],
     };
+    // eslint-disable-next-line jest/valid-expect
     expect(imageReducer(initialStateWithText, action)).toEqual(
       expectedState
     );
