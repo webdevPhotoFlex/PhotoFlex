@@ -84,6 +84,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         token: null,
+        error: action.payload,
         isAuthenticated: false,
       };
 

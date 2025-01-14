@@ -51,4 +51,30 @@ describe('applyMaskToImageData', () => {
     applyMaskToImageData(imageData, mask);
     expect(imageData.data[3]).toBe(0);
   });
+  it('should resize image to max width while maintaining aspect ratio', () => {
+    const img = { width: 2000, height: 1000 };
+    const result = resizeImageToCanvas(img, 1600, 1200);
+    expect(result.width).toBe(1600);
+    expect(result.height).toBe(800);
+  });
+
+  it('should resize image to max height while maintaining aspect ratio', () => {
+    const img = { width: 1000, height: 2000 };
+    const result = resizeImageToCanvas(img, 1600, 1200);
+    expect(result.width).toBe(300);
+    expect(result.height).toBe(600);
+  });
+  it('should resize image to minimum dimensions if smaller than min size', () => {
+    const img = { width: 100, height: 50 };
+    const result = resizeImageToCanvas(img, 1600, 1200, 800, 600);
+    expect(result.width).toBe(800);
+    expect(result.height).toBe(400);
+  });
+
+  it('should return original dimensions if image fits within constraints', () => {
+    const img = { width: 800, height: 600 };
+    const result = resizeImageToCanvas(img, 1600, 1200, 800, 600);
+    expect(result.width).toBe(800);
+    expect(result.height).toBe(600);
+  });
 });

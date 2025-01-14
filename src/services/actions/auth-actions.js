@@ -31,7 +31,7 @@ export const registerUser = (login, username, password) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        'https://photoflex.site:49383/register',
+        'http://localhost:4000/register',
         {
           login,
           username,
@@ -51,19 +51,23 @@ export const registerUser = (login, username, password) => {
         payload: response.data,
       });
     } catch (error) {
-      console.error('Ошибка при регистрации:', error);
+      const errorMessage =
+        error.response?.data?.message ||
+        'Регистрация не удалась. Попробуйте снова.';
+      console.error('Ошибка при регистрации:', errorMessage);
       dispatch({
         type: 'REGISTER_FAILURE',
-        payload: error.response?.data || 'Ошибка соединения',
+        payload: errorMessage,
       });
     }
   };
 };
+
 export const loginUser = (login, password) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        'https://photoflex.site:49383/login',
+        'http://localhost:4000/login',
         {
           login,
           password,
@@ -81,14 +85,17 @@ export const loginUser = (login, password) => {
         payload: response.data,
       });
     } catch (error) {
-      console.error('Ошибка при регистрации:', error);
+      const errorMessage =
+        error.response?.data?.message || 'Пользователь не существует';
+      console.error('Ошибка при логине:', errorMessage);
       dispatch({
         type: 'LOGIN_FAILURE',
-        payload: error.response?.data || 'Ошибка соединения',
+        payload: errorMessage,
       });
     }
   };
 };
+
 export const loginTelegram = (token) => {
   localStorage.setItem('authToken', token);
   return {
