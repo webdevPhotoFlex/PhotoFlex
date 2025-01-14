@@ -43,6 +43,7 @@ const Tunes = () => {
             {tune.name.charAt(0).toUpperCase() + tune.name.slice(1)}
           </p>
           <Slider
+            data-testid={`${tune.name}-slider`}
             aria-label={tune.name}
             value={settings[tune.name]}
             min={tune.min}
