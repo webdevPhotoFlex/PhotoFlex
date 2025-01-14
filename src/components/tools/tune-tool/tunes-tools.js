@@ -11,13 +11,13 @@ const Tunes = () => {
     { name: 'brightness', min: 0, max: 100 },
     { name: 'contrast', min: 0, max: 100 },
     { name: 'saturation', min: 0, max: 100 },
-    { name: 'sharpness', min: 0, max: 100 },
+    { name: 'blur', min: 0, max: 100 },
   ];
   const [settings, setSettings] = useState({
     brightness: 50,
     contrast: 50,
     saturation: 50,
-    sharpness: 100,
+    blur: 0,
   });
 
   // const handleSlider = (optionName) => (event, newValue) => {
@@ -43,6 +43,7 @@ const Tunes = () => {
             {tune.name.charAt(0).toUpperCase() + tune.name.slice(1)}
           </p>
           <Slider
+            data-testid={`${tune.name}-slider`}
             aria-label={tune.name}
             value={settings[tune.name]}
             min={tune.min}
