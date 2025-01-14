@@ -3,6 +3,8 @@ import 'cypress-file-upload';
 describe('Функциональность инструмента Tunes', () => {
   beforeEach(() => {
     cy.visit('/');
+    cy.get('[data-testid="icon-0"]').click();
+    cy.get('[data-testid="tunes-component"]').should('exist');
   });
 
   it('render Tunes component', () => {
