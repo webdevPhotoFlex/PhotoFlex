@@ -57,13 +57,15 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
 
     try {
       await dispatch(loginUser(login, password));
+
       onSubmited();
       setAlert('Login successful!');
       setShowAlert(true);
+      onSubmited();
       dispatch(setLogin(''));
       dispatch(setPassword(''));
     } catch (error) {
-      setAlert(error.message || 'An error occurred during login');
+      setAlert(error.message);
       setShowAlert(true);
     }
   };
@@ -90,6 +92,7 @@ const LoginModal = ({ onSignUpClick, onSubmited }) => {
 
     window.location.href = yandexOAuthUrl;
   };
+
   return (
     <div style={styles.mainContainer} data-testid="login-modal">
       <DialogTitle data-testid="sign-in-title" sx={styles.modalTitle}>

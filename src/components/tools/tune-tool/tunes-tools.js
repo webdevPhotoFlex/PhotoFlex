@@ -19,6 +19,7 @@ const Tunes = () => {
     saturation: 50,
     blur: 0,
   });
+  // const [animationActive, setAnimationActive] = useState(false);
 
   // const handleSlider = (optionName) => (event, newValue) => {
   //   setSettings((prevSettings) => ({
@@ -32,8 +33,14 @@ const Tunes = () => {
     dispatch(setTunes(updatedSettings));
   };
 
+  // const startAnimation = () => {
+  //   setAnimationActive(true);
+  //   setTimeout(() => setAnimationActive(false), 2000);
+  // };
+
   return (
     <div
+      // className={`${styles.sharedContainer} ${animationActive ? styles.animateContainer : ''}`}
       className={styles.sharedContainer}
       data-testid="tunes-component"
     >
@@ -50,10 +57,16 @@ const Tunes = () => {
             max={tune.max}
             onChange={handleSlider(tune.name)}
             valueLabelDisplay="auto"
-            style={{ color: 'white' }}
+            valueLabelFormat={(value) => `${value}%`}
+            style={{
+              color: '#884f9f',
+            }}
           />
         </div>
       ))}
+      {/*<button className={styles.animationButton} onClick={startAnimation}>*/}
+      {/*  Start Animation*/}
+      {/*</button>*/}
     </div>
   );
 };

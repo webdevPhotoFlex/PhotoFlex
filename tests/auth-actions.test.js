@@ -91,7 +91,9 @@ describe('Auth Actions', () => {
     });
 
     it('dispatches REGISTER_FAILURE when registerUser fails with response error', async () => {
-      const mockError = { response: { data: 'Registration error' } };
+      const mockError = {
+        response: { data: { message: 'Registration error' } },
+      };
       axios.post.mockRejectedValueOnce(mockError);
 
       const expectedActions = [
@@ -111,7 +113,10 @@ describe('Auth Actions', () => {
       axios.post.mockRejectedValueOnce(mockError);
 
       const expectedActions = [
-        { type: 'REGISTER_FAILURE', payload: 'Ошибка соединения' },
+        {
+          type: 'REGISTER_FAILURE',
+          payload: 'Регистрация не удалась. Попробуйте снова.',
+        },
       ];
 
       await store.dispatch(
@@ -140,7 +145,9 @@ describe('Auth Actions', () => {
     });
 
     it('dispatches LOGIN_FAILURE when loginUser fails with response error', async () => {
-      const mockError = { response: { data: 'Login error' } };
+      const mockError = {
+        response: { data: { message: 'Login error' } },
+      };
       axios.post.mockRejectedValueOnce(mockError);
 
       const expectedActions = [
@@ -158,7 +165,10 @@ describe('Auth Actions', () => {
       axios.post.mockRejectedValueOnce(mockError);
 
       const expectedActions = [
-        { type: 'LOGIN_FAILURE', payload: 'Ошибка соединения' },
+        {
+          type: 'LOGIN_FAILURE',
+          payload: 'Пользователь не существует',
+        },
       ];
 
       await store.dispatch(loginUser('testLogin', 'testPassword'));
@@ -166,6 +176,7 @@ describe('Auth Actions', () => {
       const actions = store.getActions();
       expect(actions).toEqual(expectedActions);
     });
+
     it('dispatches EXIT_USER action and clears localStorage', () => {
       localStorage.setItem('authToken', 'testToken');
       const action = exitUser();

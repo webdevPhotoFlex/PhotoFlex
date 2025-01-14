@@ -79,7 +79,7 @@ const RegisterModal = ({ onSignInClick, onSubmited }) => {
       login: loginRegister,
     });
     if (!isLoginValid) {
-      setAlert('please enter valid email or phone number');
+      setAlert('Please enter a valid email or phone number');
       setShowAlert(true);
       return;
     }
@@ -88,8 +88,9 @@ const RegisterModal = ({ onSignInClick, onSubmited }) => {
       'validatePassword',
       { password: passwordRegister }
     );
+
     if (!isPasswordValid) {
-      setAlert('password must be at least 8 characters long');
+      setAlert('Password must be at least 8 characters long');
       setShowAlert(true);
       return;
     }
@@ -98,9 +99,10 @@ const RegisterModal = ({ onSignInClick, onSubmited }) => {
       'validateUsername',
       { username }
     );
+
     if (!isUsernameValid) {
       setAlert(
-        'username must be 5-20 characters long and can only contain letters, numbers, and underscores'
+        'Username must be 5-20 characters long and can only contain letters, numbers, and underscores'
       );
       setShowAlert(true);
       return;
@@ -110,15 +112,16 @@ const RegisterModal = ({ onSignInClick, onSubmited }) => {
       await dispatch(
         registerUser(loginRegister, username, passwordRegister)
       );
-      onSubmited();
-      setAlert('Register successful');
+      setAlert('Registration successful!');
       setShowAlert(true);
+      onSubmited();
       dispatch(setLoginRegister(''));
       dispatch(setPasswordRegister(''));
       dispatch(setUsername(''));
-      setShowAlert(false);
     } catch (error) {
-      setAlert('Registration failed. Please try again.');
+      setAlert(
+        error.message || 'Registration failed. Please try again.'
+      );
       setShowAlert(true);
     }
   };
@@ -203,7 +206,7 @@ const RegisterModal = ({ onSignInClick, onSubmited }) => {
           </FormControl>
           {showAlert && (
             <Alert
-              severity="warning"
+              severity="error"
               onClose={() => setShowAlert(false)}
             >
               {alert}
