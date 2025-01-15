@@ -460,4 +460,120 @@ describe('Header Component', () => {
     const authModal = screen.getByTestId('auth-modal');
     expect(authModal).toBeInTheDocument();
   });
+  describe('Header Component - Theme Toggle', () => {
+    let store;
+    let canvasRef;
+
+    beforeEach(() => {
+      store = mockStore({
+        auth: { isAuthenticated: false },
+        image: { darkMode: false },
+      });
+      canvasRef = {
+        current: {
+          toDataURL: jest
+            .fn()
+            .mockReturnValue('data:image/png;base64,mockImageData'),
+          width: 800,
+          height: 600,
+        },
+      };
+    });
+    it('dispatches toggleTheme when the theme toggle is clicked', () => {
+      render(
+        <Provider store={store}>
+          <Router>
+            <Header canvasRef={canvasRef} />
+          </Router>
+        </Provider>
+      );
+      const themeToggle = screen.getByTestId('theme-toggle');
+      fireEvent.click(themeToggle);
+      expect(store.getActions()).toContainEqual({
+        type: 'TOGGLE_THEME',
+      });
+    });
+
+    // it('toggles theme from light to dark on click', () => {
+    //   store = mockStore({
+    //     auth: { isAuthenticated: false },
+    //     image: { darkMode: false },
+    //   });
+    //
+    //   render(
+    //     <Provider store={store}>
+    //       <Router>
+    //         <Header canvasRef={canvasRef} />
+    //       </Router>
+    //     </Provider>
+    //   );
+    //   let header = screen.getByTestId('header');
+    //   expect(header).toHaveClass('lightTheme');
+    //   const themeToggle = screen.getByTestId('theme-toggle');
+    //   fireEvent.click(themeToggle);
+    //
+    //   header = screen.getByTestId('header');
+    //   expect(header).toHaveClass('darkTheme');
+    // });
+
+    // it('toggles theme from dark to light on click', () => {
+    //   store = mockStore({
+    //     auth: { isAuthenticated: false },
+    //     image: { darkMode: true },
+    //   });
+    //
+    //   render(
+    //     <Provider store={store}>
+    //       <Router>
+    //         <Header canvasRef={canvasRef} />
+    //       </Router>
+    //     </Provider>
+    //   );
+    //
+    //   let header = screen.getByTestId('header');
+    //   expect(header).toHaveClass('darkTheme');
+    //
+    //   const themeToggle = screen.getByTestId('theme-toggle');
+    //   fireEvent.click(themeToggle);
+    //
+    //   header = screen.getByTestId('header');
+    //   expect(header).toHaveClass('lightTheme');
+    // });
+
+    it('displays light mode icon when darkMode is true', () => {
+      store = mockStore({
+        auth: { isAuthenticated: false },
+        image: { darkMode: true },
+      });
+
+      render(
+        <Provider store={store}>
+          <Router>
+            <Header canvasRef={canvasRef} />
+          </Router>
+        </Provider>
+      );
+
+      const lightModeIcon = screen.getByTestId('light-mode-icon');
+      expect(lightModeIcon).toBeInTheDocument();
+    });
+
+    it('displays dark mode icon when darkMode is false', () => {
+      store = mockStore({
+        auth: { isAuthenticated: false },
+        image: { darkMode: false },
+      });
+
+      render(
+        <Provider store={store}>
+          <Router>
+            <Header canvasRef={canvasRef} />
+          </Router>
+        </Provider>
+      );
+
+      const darkModeIcon = screen.getByTestId('dark-mode-icon');
+      expect(darkModeIcon).toBeInTheDocument();
+    });
+  });
 });
