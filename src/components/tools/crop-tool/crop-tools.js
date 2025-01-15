@@ -5,6 +5,9 @@ import styles from './crop-tools-styles';
 
 const Crop = () => {
   const dispatch = useDispatch();
+  const darkMode = useSelector(
+    (state) => state.image?.darkMode || false
+  );
 
   const currentCropArea = useSelector(
     (state) => state.image.cropArea
@@ -57,22 +60,22 @@ const Crop = () => {
   return (
     <div style={styles.sharedContainer} data-testid="crop-component">
       <div style={styles.dimensionInputContainer}>
-        <p style={styles.label}>X: </p>
+        <p style={styles.label(darkMode ? 'dark' : 'light')}>X: </p>
         <input
           type="number"
           aria-label="X Coordinate"
           name="x"
-          style={styles.dimensionInput}
+          style={styles.dimensionInput(darkMode ? 'dark' : 'light')}
           value={localInput.x}
           onChange={handleInputChange}
           min="0"
         />
-        <p style={styles.label}>Y: </p>
+        <p style={styles.label(darkMode ? 'dark' : 'light')}>Y: </p>
         <input
           type="number"
           aria-label="Y Coordinate"
           name="y"
-          style={styles.dimensionInput}
+          style={styles.dimensionInput(darkMode ? 'dark' : 'light')}
           value={localInput.y}
           onChange={handleInputChange}
           min="0"
