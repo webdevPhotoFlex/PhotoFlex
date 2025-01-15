@@ -29,6 +29,7 @@ describe('Resize Component', () => {
 
     const initialState = {
       image: {
+        darkMode: false,
         resizeDimensions: { width: 800, height: 900 },
       },
     };

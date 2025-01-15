@@ -11,28 +11,31 @@ const styles = {
     alignItems: 'center',
     marginBottom: '10px',
   },
-  dimensionInput: {
+  dimensionInput: (theme) => ({
     width: '60px',
     margin: '0 5px',
     padding: '5px',
     fontSize: '16px',
-  },
-  label: {
+    backgroundColor: theme === 'dark' ? '#333' : '#fff',
+    color: theme === 'dark' ? '#fff' : '#333',
+    border: `1px solid ${theme === 'dark' ? '#fff' : '#333'}`,
+  }),
+  label: (theme) => ({
     fontSize: '24px',
-    color: '#fff',
+    color: theme === 'dark' ? '#fff' : '#333',
     margin: '0 5px',
-  },
+  }),
   cropItemStyle: {
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
     margin: '5px 0',
   },
-  cropIconStyle: {
+  cropIconStyle: (theme) => ({
     fontSize: '96px',
-    color: '#fff',
+    color: theme === 'dark' ? '#fff' : '#333',
     marginRight: '12px',
-  },
+  }),
   button: {
     padding: '20px 25px',
     fontSize: '14px',
