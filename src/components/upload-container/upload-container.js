@@ -10,6 +10,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 const UploadContainer = () => {
   const dispatch = useDispatch();
   const isDragOver = useSelector((state) => state.image.isDragOver);
+  const darkMode = useSelector((state) => state.image.darkMode);
 
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
@@ -46,14 +47,20 @@ const UploadContainer = () => {
 
   return (
     <div
-      className={`${styles.mainContainer} ${isDragOver ? styles.dragOver : ''}`}
+      className={`${styles.mainContainer} 
+                  ${darkMode ? '' : styles.lightTheme} 
+                  ${isDragOver ? styles.dragOver : ''}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       role="button"
       data-testid="upload-container"
     >
-      <p className={styles.uploadText}>choose or drag file</p>
+      <p
+        className={`${styles.uploadText} ${darkMode ? '' : styles.lightText}`}
+      >
+        choose or drag file
+      </p>
       <input
         type="file"
         accept="image/*"
