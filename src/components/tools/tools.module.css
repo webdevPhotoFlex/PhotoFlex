@@ -5,6 +5,19 @@
   width: 380px;
   height: 91vh;
   border: solid black 1px;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.darkTheme {
+  background-color: #272727;
+  color: #f6ecec;
+}
+
+.lightTheme {
+  background-color: #f6ecec;
+  color: #272727;
 }
 
 @media (min-width: 1025px) and (max-width: 1280px) {
