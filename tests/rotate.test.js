@@ -81,3 +81,55 @@ describe('Rotate Component', () => {
     ]);
   });
 });
+describe('Rotate Component - Dark Mode', () => {
+  let store;
+
+  const renderWithDarkMode = (darkMode) => {
+    const initialState = {
+      image: {
+        rotationAngle: 0,
+        darkMode: darkMode,
+      },
+    };
+    const renderResult = renderWithProvider(<Rotate />, initialState);
+    store = renderResult.store;
+  };
+
+  it('renders with light mode styles when darkMode is false', () => {
+    renderWithDarkMode(false);
+
+    const rotateLeftIcon = screen.getByTestId('rotate-left-icon');
+    const rotateRightIcon = screen.getByTestId('rotate-right-icon');
+    const rotationSlider = screen.getByTestId('rotation-slider');
+    const resetButton = screen.getByTestId('reset-button');
+
+    expect(rotateLeftIcon.firstChild).toHaveStyle('color: black');
+    expect(rotateRightIcon.firstChild).toHaveStyle('color: black');
+    expect(rotationSlider).toHaveStyle('color: rgb(0, 0, 0)');
+    expect(resetButton).toHaveStyle({
+      backgroundColor: '#884f9f',
+      color: 'black',
+    });
+  });
+
+  it('renders with dark mode styles when darkMode is true', () => {
+    renderWithDarkMode(true);
+
+    const rotateLeftIcon = screen.getByTestId('rotate-left-icon');
+    const rotateRightIcon = screen.getByTestId('rotate-right-icon');
+    const rotationSlider = screen.getByTestId('rotation-slider');
+    const resetButton = screen.getByTestId('reset-button');
+
+    expect(rotateLeftIcon.firstChild).toHaveStyle(
+      'color: rgb(200, 200, 200)'
+    );
+    expect(rotateRightIcon.firstChild).toHaveStyle(
+      'color: rgb(200, 200, 200)'
+    );
+    expect(rotationSlider).toHaveStyle('color: rgb(200, 200, 200)');
+    expect(resetButton).toHaveStyle({
+      backgroundColor: '#444',
+      color: 'white',
+    });
+  });
+});
