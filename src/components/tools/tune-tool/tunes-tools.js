@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Slider } from '@mui/material';
 import styles from './tunes-tools.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setTunes } from '../../../services/actions/image-actions';
 
 const Tunes = () => {
   const dispatch = useDispatch();
+  const darkMode = useSelector(
+    (state) => state.image?.darkMode || false
+  );
 
   const tunes = [
     { name: 'brightness', min: 0, max: 100 },
@@ -13,35 +16,23 @@ const Tunes = () => {
     { name: 'saturation', min: 0, max: 100 },
     { name: 'blur', min: 0, max: 100 },
   ];
+
   const [settings, setSettings] = useState({
     brightness: 50,
     contrast: 50,
     saturation: 50,
     blur: 0,
   });
-  // const [animationActive, setAnimationActive] = useState(false);
 
-  // const handleSlider = (optionName) => (event, newValue) => {
-  //   setSettings((prevSettings) => ({
-  //     ...prevSettings,
-  //     [optionName]: newValue,
-  //   }));
-  // };
   const handleSlider = (optionName) => (event, newValue) => {
     const updatedSettings = { ...settings, [optionName]: newValue };
     setSettings(updatedSettings);
     dispatch(setTunes(updatedSettings));
   };
 
-  // const startAnimation = () => {
-  //   setAnimationActive(true);
-  //   setTimeout(() => setAnimationActive(false), 2000);
-  // };
-
   return (
     <div
-      // className={`${styles.sharedContainer} ${animationActive ? styles.animateContainer : ''}`}
-      className={styles.sharedContainer}
+      className={`${styles.sharedContainer} ${darkMode ? styles.darkTheme : styles.lightTheme}`}
       data-testid="tunes-component"
     >
       {tunes.map((tune) => (
@@ -64,9 +55,6 @@ const Tunes = () => {
           />
         </div>
       ))}
-      {/*<button className={styles.animationButton} onClick={startAnimation}>*/}
-      {/*  Start Animation*/}
-      {/*</button>*/}
     </div>
   );
 };
