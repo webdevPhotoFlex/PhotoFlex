@@ -9,57 +9,28 @@
   border: solid black 1px;
   margin-right: 2px;
   flex: 1;
-}
-
-.icon.tune {
-  font-size: 70px;
   transition:
-    transform 0.3s,
-    color 0.3s;
+    background-color 0.6s,
+    color 0.6s;
 }
 
-.icon.crop {
-  font-size: 70px;
-  transition:
-    transform 0.3s,
-    color 0.3s;
+.darkTheme {
+  background-color: #272727;
+  color: #c8a9a9ff;
 }
 
-.icon.rotate {
-  font-size: 70px;
-  transition:
-    transform 0.3s,
-    color 0.3s;
+.lightTheme {
+  background-color: #f6ecec;
+  color: #c8a9a9ff;
 }
 
-.icon.settings {
-  font-size: 70px;
-  transition:
-    transform 0.3s,
-    color 0.3s;
-}
-
-.icon.photoFilter {
-  font-size: 70px;
-  transition:
-    transform 0.3s,
-    color 0.3s;
-}
-
-.icon.texture {
-  font-size: 70px;
-  transition:
-    transform 0.3s,
-    color 0.3s;
-}
-
-.icon.wallpaper {
-  font-size: 70px;
-  transition:
-    transform 0.3s,
-    color 0.3s;
-}
-
+.icon.tune,
+.icon.crop,
+.icon.rotate,
+.icon.settings,
+.icon.photoFilter,
+.icon.texture,
+.icon.wallpaper,
 .icon.title {
   font-size: 70px;
   transition:
@@ -67,17 +38,58 @@
     color 0.3s;
 }
 
+.icon.tune {
+  color: var(--icon-color);
+}
+
+.icon.crop {
+  color: var(--icon-color);
+}
+
+.icon.rotate {
+  color: var(--icon-color);
+}
+
+.icon.settings {
+  color: var(--icon-color);
+}
+
+.icon.photoFilter {
+  color: var(--icon-color);
+}
+
+.icon.texture {
+  color: var(--icon-color);
+}
+
+.icon.wallpaper {
+  color: var(--icon-color);
+}
+
+.icon.title {
+  color: var(--icon-color);
+}
+
 .clicked {
   color: #884f9f;
 }
 
 .notClicked {
-  color: white;
+  color: var(--icon-color);
 }
 
 .icon:hover {
   color: rgba(197, 124, 228, 0.75);
   transform: scale(0.9);
+}
+
+/* Color Themes */
+.darkTheme .icon {
+  --icon-color: #c8a9a9;
+}
+
+.lightTheme .icon {
+  --icon-color: #272727;
 }
 
 @media (min-width: 1025px) and (max-width: 1280px) {

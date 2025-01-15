@@ -17,6 +17,9 @@ const renderWithProvider = (component, initialState) => {
 jest.mock('../src/components/tool-bar/tool-bar.module.css', () => ({
   clicked: 'clicked',
   notClicked: 'notClicked',
+  icon: 'icon',
+  darkTheme: 'darkTheme',
+  lightTheme: 'lightTheme',
 }));
 
 describe('ToolBar component', () => {
@@ -71,5 +74,60 @@ describe('ToolBar component', () => {
         expect(icon).toHaveClass('notClicked');
       }
     }
+  });
+
+  it('should change icon color based on theme', () => {
+    const initialStateDark = {
+      image: {
+        activeTool: 0,
+        darkMode: true,
+      },
+    };
+
+    const initialStateLight = {
+      image: {
+        activeTool: 0,
+        darkMode: false,
+      },
+    };
+
+    const { rerender } = renderWithProvider(
+      <ToolBar />,
+      initialStateDark
+    );
+    const darkIcon = screen.getByTestId('icon-0');
+    expect(darkIcon).toHaveStyle('color: var(--icon-color)');
+    rerender(
+      <Provider store={mockStore(initialStateLight)}>
+        <ToolBar />
+      </Provider>
+    );
+    const lightIcon = screen.getByTestId('icon-0');
+    expect(lightIcon).toHaveStyle('color: var(--icon-color)');
+  });
+
+  it('should smoothly change icon color when theme switches', () => {
+    const initialState = {
+      image: {
+        activeTool: 0,
+        darkMode: false,
+      },
+    };
+    const { rerender } = renderWithProvider(
+      <ToolBar />,
+      initialState
+    );
+    const icon = screen.getByTestId('icon-0');
+    expect(icon).toHaveStyle('color: var(--icon-color)');
+    rerender(
+      <Provider
+        store={mockStore({
+          image: { activeTool: 0, darkMode: true },
+        })}
+      >
+        <ToolBar />
+      </Provider>
+    );
+    expect(icon).toHaveStyle('color: var(--icon-color)');
   });
 });
