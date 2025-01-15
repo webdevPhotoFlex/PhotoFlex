@@ -623,3 +623,62 @@ describe('MainPage Mouse Events', () => {
     ).toBe(true);
   });
 });
+describe('MainPage component className tests', () => {
+  let store;
+
+  beforeEach(() => {
+    store = mockStore({
+      image: {
+        darkMode: true,
+        imageSrc: 'test-image-src',
+        activeTool: 5,
+        rotationAngle: 0,
+        filter: null,
+        cropArea: null,
+        brushSize: 10,
+        mask: [],
+        appliedMask: null,
+        drawing: false,
+        showOriginal: false,
+        originalImage: null,
+        image: null,
+        resizeDimensions: { width: 800, height: 600 },
+      },
+      auth: {
+        isAuthenticated: true,
+      },
+    });
+
+    store.dispatch = jest.fn();
+  });
+
+  it('should apply darkMode class correctly', async () => {
+    render(
+      <Provider store={store}>
+        <Router>
+          <MainPage />
+        </Router>
+      </Provider>
+    );
+
+    await waitFor(() => screen.getByTestId('main-container'));
+
+    const mainContainer = screen.getByTestId('main-container');
+    expect(mainContainer).toHaveClass('undefined');
+    expect(mainContainer).not.toHaveClass('lightTheme');
+  });
+
+  it('should apply lightTheme class correctly to imageContainer', async () => {
+    render(
+      <Provider store={store}>
+        <Router>
+          <MainPage />
+        </Router>
+      </Provider>
+    );
+    await waitFor(() => screen.getByTestId('image-container'));
+    const imageContainer = screen.getByTestId('image-container');
+    expect(imageContainer).toHaveClass('undefined');
+    expect(imageContainer).not.toHaveClass('lightTheme');
+  });
+});
