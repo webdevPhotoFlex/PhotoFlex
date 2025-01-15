@@ -95,3 +95,7 @@ export const removeText = (id) => ({
   type: 'REMOVE_TEXT',
   payload: id,
 });
+
+export const toggleTheme = () => ({
+  type: 'TOGGLE_THEME',
+});
