@@ -35,6 +35,7 @@ describe('imageReducer', () => {
       blur: 0,
     },
     texts: [],
+    darkMode: true,
   };
 
   it('should return the initial state when no action is passed', () => {

@@ -6,6 +6,7 @@
   width: 100vw;
   overflow: hidden;
   box-sizing: border-box;
+  transition: background-color 0.6s;
 }
 
 .toolContainer {
@@ -22,6 +23,11 @@
   width: 100%;
   position: relative;
   background-color: #191919;
+  transition: background-color 0.6s;
+}
+
+.imageContainer.lightTheme {
+  background-color: #f6ecec;
 }
 
 canvas {

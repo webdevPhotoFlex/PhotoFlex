@@ -16,6 +16,7 @@ import { setActiveTool } from '../../services/actions/image-actions';
 const ToolBar = ({ isToolsDisabled }) => {
   const dispatch = useDispatch();
   const activeTool = useSelector((state) => state.image.activeTool);
+  const darkMode = useSelector((state) => state.image.darkMode);
 
   const icons = [
     { component: TuneIcon, className: styles.tune },
@@ -30,7 +31,10 @@ const ToolBar = ({ isToolsDisabled }) => {
   ];
 
   return (
-    <div className={styles.mainContainer} data-testid="toolbar">
+    <div
+      className={`${styles.mainContainer} ${darkMode ? styles.darkTheme : styles.lightTheme}`}
+      data-testid="toolbar"
+    >
       {icons.map(({ component: IconComponent, className }, index) => (
         <IconComponent
           data-testid={`icon-${index}`}

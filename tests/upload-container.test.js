@@ -225,3 +225,64 @@ describe('UploadContainer', () => {
     expect(container.className).not.toMatch(/dragOver/);
   });
 });
+describe('UploadContainer - темы', () => {
+  // it('должен применять светлый стиль, когда darkMode равен false', () => {
+  //   const store = mockStore({
+  //     image: {
+  //       isDragOver: false,
+  //       imageSrc: null,
+  //       darkMode: false,
+  //     },
+  //   });
+  //
+  //   renderWithStore(store);
+  //   const container = screen.getByTestId('upload-container');
+  //
+  //   expect(container.className).toContain('lightTheme');
+  // });
+
+  it('не должен применять светлый стиль, когда darkMode равен true', () => {
+    const store = mockStore({
+      image: {
+        isDragOver: false,
+        imageSrc: null,
+        darkMode: true,
+      },
+    });
+
+    renderWithStore(store);
+    const container = screen.getByTestId('upload-container');
+
+    expect(container.className).not.toContain('lightTheme');
+  });
+
+  // it('должен применять светлый стиль для текста, когда darkMode равен false', () => {
+  //   const store = mockStore({
+  //     image: {
+  //       isDragOver: false,
+  //       imageSrc: null,
+  //       darkMode: false,
+  //     },
+  //   });
+  //
+  //   renderWithStore(store);
+  //   const text = screen.getByText(/choose or drag file/i);
+  //
+  //   expect(text.className).toContain('lightText');
+  // });
+
+  it('не должен применять светлый стиль для текста, когда darkMode равен true', () => {
+    const store = mockStore({
+      image: {
+        isDragOver: false,
+        imageSrc: null,
+        darkMode: true,
+      },
+    });
+
+    renderWithStore(store);
+    const text = screen.getByText(/choose or drag file/i);
+
+    expect(text.className).not.toContain('lightText');
+  });
+});

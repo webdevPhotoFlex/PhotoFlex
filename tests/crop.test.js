@@ -7,7 +7,7 @@ import { setCropArea } from '../src/services/actions/image-actions';
 import '@testing-library/jest-dom';
 
 jest.mock('../src/services/actions/image-actions.js', () => ({
-  setCropArea: jest.fn(),
+  setCropArea: jest.fn().mockReturnValue({ type: 'SET_CROP_AREA' }),
 }));
 
 const mockStore = configureStore([]);
@@ -18,6 +18,7 @@ describe('Crop Component', () => {
     store = mockStore({
       image: {
         cropArea: { x: 10, y: 20 },
+        darkMode: false,
       },
     });
     store.dispatch = jest.fn();
@@ -35,6 +36,53 @@ describe('Crop Component', () => {
 
     expect(inputX.value).toBe('10');
     expect(inputY.value).toBe('20');
+  });
+
+  it('applies light theme styles when darkMode is false', () => {
+    render(
+      <Provider store={store}>
+        <Crop />
+      </Provider>
+    );
+
+    const inputX = screen.getByLabelText('X Coordinate');
+    const inputY = screen.getByLabelText('Y Coordinate');
+    const labelX = screen.getByText('X:');
+    const labelY = screen.getByText('Y:');
+
+    expect(inputX).toHaveStyle('background-color: #fff');
+    expect(inputX).toHaveStyle('color: #333');
+    expect(inputY).toHaveStyle('background-color: #fff');
+    expect(inputY).toHaveStyle('color: #333');
+    expect(labelX).toHaveStyle('color: #333');
+    expect(labelY).toHaveStyle('color: #333');
+  });
+
+  it('applies dark theme styles when darkMode is true', () => {
+    store = mockStore({
+      image: {
+        cropArea: { x: 10, y: 20 },
+        darkMode: true,
+      },
+    });
+
+    render(
+      <Provider store={store}>
+        <Crop />
+      </Provider>
+    );
+
+    const inputX = screen.getByLabelText('X Coordinate');
+    const inputY = screen.getByLabelText('Y Coordinate');
+    const labelX = screen.getByText('X:');
+    const labelY = screen.getByText('Y:');
+
+    expect(inputX).toHaveStyle('background-color: #333');
+    expect(inputX).toHaveStyle('color: #fff');
+    expect(inputY).toHaveStyle('background-color: #333');
+    expect(inputY).toHaveStyle('color: #fff');
+    expect(labelX).toHaveStyle('color: #fff');
+    expect(labelY).toHaveStyle('color: #fff');
   });
 
   it('updates local state when input changes', () => {

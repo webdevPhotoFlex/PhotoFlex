@@ -9,6 +9,9 @@ import { setRotationAngle } from '../../../services/actions/image-actions';
 const Rotate = () => {
   const dispatch = useDispatch();
   const rotation = useSelector((state) => state.image.rotationAngle);
+  const darkMode = useSelector(
+    (state) => state.image?.darkMode || false
+  );
 
   const rotateLeft = () => {
     const newRotation = (rotation - 90 + 360) % 360;
@@ -36,11 +39,13 @@ const Rotate = () => {
       <div onClick={rotateLeft} data-testid="rotate-left-icon">
         <RotateLeftIcon
           className={`${styles.rotateIcon} ${styles.left90}`}
+          style={{ color: darkMode ? 'rgb(200, 200, 200)' : 'black' }}
         />
       </div>
       <div onClick={rotateRight} data-testid="rotate-right-icon">
         <RotateRightIcon
           className={`${styles.rotateIcon} ${styles.right90}`}
+          style={{ color: darkMode ? 'rgb(200, 200, 200)' : 'black' }}
         />
       </div>
       <div className={styles.rotateItem}>
@@ -51,7 +56,9 @@ const Rotate = () => {
           value={rotation}
           onChange={handleSliderChange}
           valueLabelDisplay="auto"
-          style={{ color: 'white' }}
+          style={{
+            color: darkMode ? 'rgb(200, 200, 200)' : 'rgb(0, 0, 0)',
+          }}
           data-testid="rotation-slider"
         />
       </div>
@@ -59,6 +66,10 @@ const Rotate = () => {
         className={styles.button}
         onClick={handleReset}
         data-testid="reset-button"
+        style={{
+          backgroundColor: darkMode ? '#444' : '#884f9f',
+          color: darkMode ? 'white' : 'black',
+        }}
       >
         Сброс
       </button>

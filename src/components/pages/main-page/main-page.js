@@ -33,6 +33,7 @@ const MainPage = () => {
     resizeDimensions,
     tune,
     texts,
+    darkMode,
   } = useSelector((state) => state.image);
 
   const dispatch = useDispatch();
@@ -118,7 +119,10 @@ const MainPage = () => {
   };
 
   return (
-    <div className={styles.mainContainer}>
+    <div
+      data-testid="main-container"
+      className={`${styles.mainContainer} ${darkMode ? '' : styles.lightTheme}`}
+    >
       <Header canvasRef={canvasRef} />
       <div className={styles.toolContainer}>
         <ToolBar
@@ -130,7 +134,10 @@ const MainPage = () => {
           activeTool={activeTool}
           data-testid="tools-component"
         />
-        <div className={styles.imageContainer}>
+        <div
+          data-testid="image-container"
+          className={`${styles.imageContainer} ${darkMode ? '' : styles.lightTheme}`}
+        >
           {imageSrc ? (
             <div
               style={{

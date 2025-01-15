@@ -12,16 +12,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../hooks/use-modal';
 import AuthModal from '../modal/auth-modal';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 import {
   redo,
   setShowOriginal,
   undo,
   resetState,
+  toggleTheme,
 } from '../../services/actions/image-actions';
 
 const Header = ({ canvasRef }) => {
   const dispatch = useDispatch();
+  const darkMode = useSelector(
+    (state) => state.image?.darkMode || false
+  );
+  const handleThemeToggle = () => {
+    dispatch(toggleTheme());
+  };
   const navigate = useNavigate();
   const {
     isModalOpen,
@@ -84,7 +93,10 @@ const Header = ({ canvasRef }) => {
   };
 
   return (
-    <div className={styles.mainContainer} data-testid="header">
+    <div
+      className={`${styles.mainContainer} ${darkMode ? styles.darkTheme : styles.lightTheme}`}
+      data-testid="header"
+    >
       <NavLink to={'/'}>
         <img
           src={logoImg}
@@ -115,11 +127,28 @@ const Header = ({ canvasRef }) => {
         onClick={handleReset}
         data-testid="reset-icon"
       />
+      <div
+        onClick={handleThemeToggle}
+        className={styles.themeToggle}
+        data-testid="theme-toggle"
+      >
+        {darkMode ? (
+          <LightModeIcon
+            className={`${styles.icon} ${styles.lightTheme}`}
+            data-testid="light-mode-icon"
+          />
+        ) : (
+          <DarkModeIcon
+            className={`${styles.icon} ${styles.darkTheme}`}
+            data-testid="dark-mode-icon"
+          />
+        )}
+      </div>
       <div className={styles.saveContainer}>
         <select
           value={selectedFormat}
           onChange={(e) => setSelectedFormat(e.target.value)}
-          className={styles.formatSelect}
+          className={`${styles.formatSelect} ${darkMode ? styles.darkTheme : styles.lightTheme}`}
         >
           <option value="png">PNG</option>
           <option value="jpeg">JPEG</option>

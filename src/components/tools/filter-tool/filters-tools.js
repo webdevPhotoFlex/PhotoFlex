@@ -13,6 +13,9 @@ import photo28 from '../../../images/28.png';
 const Filters = () => {
   const dispatch = useDispatch();
   const activeFilter = useSelector((state) => state.image.filter);
+  const darkMode = useSelector(
+    (state) => state.image?.darkMode || false
+  );
 
   const filters = [
     { name: 'none', photo: photo22 },
@@ -48,7 +51,14 @@ const Filters = () => {
               backgroundPosition: 'center',
             }}
           />
-          <p className={styles.label}>{name}</p>
+          <p
+            className={styles.label}
+            style={{
+              color: darkMode ? 'white' : '#333',
+            }}
+          >
+            {name}
+          </p>
         </div>
       ))}
     </div>

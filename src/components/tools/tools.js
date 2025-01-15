@@ -13,9 +13,11 @@ import GoogleRemoveBgTool from './google-media-pipe/google-media-pipe-tool';
 
 const Tools = ({ canvasRef }) => {
   const activeTool = useSelector((state) => state.image.activeTool);
+  const darkMode = useSelector((state) => state.image.darkMode);
+
   return (
     <div
-      className={styles.mainContainer}
+      className={`${styles.mainContainer} ${darkMode ? styles.darkTheme : styles.lightTheme}`}
       data-testid="tools-component"
     >
       {activeTool === 0 && <Tunes data-testid="tunes-component" />}

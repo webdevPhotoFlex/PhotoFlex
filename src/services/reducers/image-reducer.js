@@ -36,6 +36,7 @@ const initialState = {
     blur: 0,
   },
   texts: [],
+  darkMode: true,
 };
 
 const getPresentState = (state) => {
@@ -50,6 +51,13 @@ export const imageReducer = (state = initialState, action) => {
   );
 
   switch (action.type) {
+    case 'TOGGLE_THEME': {
+      return {
+        ...state,
+        darkMode: !state.darkMode,
+      };
+    }
+
     case 'UNDO': {
       if (state.past.length === 0) {
         return state;

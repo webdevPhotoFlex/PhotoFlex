@@ -15,6 +15,10 @@ import {
 import styles from './resize-tools-styles';
 const Resize = () => {
   const dispatch = useDispatch();
+  const darkMode = useSelector(
+    (state) => state.image?.darkMode || false
+  );
+
   const resizeDimensions = useSelector(
     (state) => state.image.resizeDimensions || { width: 0, height: 0 }
   );
@@ -82,26 +86,32 @@ const Resize = () => {
       data-testid="resize-component"
     >
       <div style={styles.dimensionInputContainer}>
-        <label style={styles.label} htmlFor="resize-width">
+        <label
+          style={styles.label(darkMode ? 'dark' : 'light')}
+          htmlFor="resize-width"
+        >
           Width:
         </label>
         <input
           type="number"
           id="resize-width"
           name="width"
-          style={styles.dimensionInput}
+          style={styles.dimensionInput(darkMode ? 'dark' : 'light')}
           data-testid="resize-width"
           value={dimensions.width}
           onChange={handleInputChange}
         />
-        <label style={styles.label} htmlFor="resize-height">
+        <label
+          style={styles.label(darkMode ? 'dark' : 'light')}
+          htmlFor="resize-height"
+        >
           Height:
         </label>
         <input
           type="number"
           id="resize-height"
           name="height"
-          style={styles.dimensionInput}
+          style={styles.dimensionInput(darkMode ? 'dark' : 'light')}
           data-testid="resize-height"
           value={dimensions.height}
           onChange={handleInputChange}
@@ -118,8 +128,14 @@ const Resize = () => {
             }
             data-testid={`resize-${preset.name}`}
           >
-            <ResizeComponent style={styles.cropIconStyle} />
-            <p style={styles.label}>{preset.name}</p>
+            <ResizeComponent
+              style={styles.cropIconStyle(
+                darkMode ? 'dark' : 'light'
+              )}
+            />
+            <p style={styles.label(darkMode ? 'dark' : 'light')}>
+              {preset.name}
+            </p>
           </div>
         );
       })}
