@@ -313,6 +313,30 @@ export const imageReducer = (state = initialState, action) => {
         future: [],
       };
     }
+    case 'UPLOAD_FONT': {
+      return {
+        ...state,
+        font: action.payload,
+        ...(shouldAddToHistory
+          ? {
+              past: [...state.past, getPresentState(state)],
+              future: [],
+            }
+          : {}),
+      };
+    }
+    case 'REMOVE_FONT': {
+      return {
+        ...state,
+        font: 'Arial',
+        ...(shouldAddToHistory
+          ? {
+              past: [...state.past, getPresentState(state)],
+              future: [],
+            }
+          : {}),
+      };
+    }
     case 'ADD_TEXT': {
       return {
         ...state,

@@ -565,4 +565,30 @@ describe('imageReducer', () => {
       expectedState
     );
   });
+  it('should handle UPLOAD_FONT action', () => {
+    const action = {
+      type: 'UPLOAD_FONT',
+      payload: 'custom-font',
+    };
+    const expectedState = {
+      ...initialState,
+      font: 'custom-font',
+      past: [getPresentState(initialState)],
+      future: [],
+    };
+    expect(imageReducer(initialState, action)).toEqual(expectedState);
+  });
+
+  it('should handle REMOVE_FONT action', () => {
+    const action = {
+      type: 'REMOVE_FONT',
+    };
+    const expectedState = {
+      ...initialState,
+      font: 'Arial',
+      past: [getPresentState(initialState)],
+      future: [],
+    };
+    expect(imageReducer(initialState, action)).toEqual(expectedState);
+  });
 });
