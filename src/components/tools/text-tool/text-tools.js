@@ -189,7 +189,15 @@ const Text = ({ canvasRef }) => {
           component="label"
           variant="contained"
           startIcon={<CloudUploadIcon />}
-          className={styles.label}
+          className={styles.textItem}
+          sx={{
+            border: '1px solid rgba(185, 0, 255, 0.6)',
+            backgroundColor: '#1e1e1e',
+            '&:hover': {
+              backgroundColor: 'rgba(185, 0, 255, 0.1)',
+              borderColor: 'rgba(185, 0, 255, 0.8)',
+            },
+          }}
         >
           Загрузить шрифт
           <VisuallyHiddenInput
@@ -200,7 +208,7 @@ const Text = ({ canvasRef }) => {
           />
         </Button>
         {uploadFont && (
-          <div className={styles.fontItem}>
+          <div className={styles.textPreview}>
             <p data-testid="font-name">{fontFamily}</p>
             <DeleteIcon
               onClick={handleRemoveFont}
