@@ -9,6 +9,21 @@ import {
   removeText,
   updateText,
 } from '../../../services/actions/image-actions';
+import { Button } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/material/styles';
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 const Text = ({ canvasRef }) => {
   const dispatch = useDispatch();
@@ -16,6 +31,7 @@ const Text = ({ canvasRef }) => {
   const [textColor, setTextColor] = useState('black');
   const [fontSize, setFontSize] = useState(16);
   const [fontFamily, setFontFamily] = useState('Arial');
+  const [uploadFont, setUploadFont] = useState(null);
   const [selectedTextId, setSelectedTextId] = useState(null);
   const [dragging, setDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -44,11 +60,16 @@ const Text = ({ canvasRef }) => {
           .then((loadedFont) => {
             document.fonts.add(loadedFont);
             setFontFamily(fontName);
+            setUploadFont(loadedFont);
           })
           .catch((error) => console.error(error));
       };
       reader.readAsDataURL(file);
     }
+  };
+  const handleRemoveFont = () => {
+    setFontFamily('Arial');
+    setUploadFont(null);
   };
 
   const handleAddText = () => {
@@ -164,13 +185,30 @@ const Text = ({ canvasRef }) => {
         <p className={styles.label}>Добавить текст</p>
       </div>
       <div className={styles.textItem}>
-        <input
-          type="file"
-          accept=".ttf,.otf,.woff,.woff2"
-          onChange={handleFontUpload}
-          data-testid="font-upload-input"
-        ></input>
-        <p className={styles.label}>Загрузить шрифт</p>
+        <Button
+          component="label"
+          variant="contained"
+          startIcon={<CloudUploadIcon />}
+          className={styles.label}
+        >
+          Загрузить шрифт
+          <VisuallyHiddenInput
+            type="file"
+            accept=".ttf,.otf,.woff,.woff2"
+            onChange={handleFontUpload}
+            data-testid="font-upload-input"
+          />
+        </Button>
+        {uploadFont && (
+          <div className={styles.fontItem}>
+            <p data-testid="font-name">{fontFamily}</p>
+            <DeleteIcon
+              onClick={handleRemoveFont}
+              style={{ cursor: 'pointer', marginLeft: '10px' }}
+              data-testid="remove-font-icon"
+            />
+          </div>
+        )}
       </div>
 
       <div className={styles.textItem}>
