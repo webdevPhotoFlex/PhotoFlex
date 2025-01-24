@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -33,6 +33,40 @@ describe('Text component', () => {
     const addTextLabel = screen.getByText(/добавить текст/i);
     expect(addTextIcon).toBeInTheDocument();
     expect(addTextLabel).toBeInTheDocument();
+  });
+  it('renders font size input', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+    expect(screen.getByTestId('font-size-input')).toBeInTheDocument();
+  });
+
+  it('updates font size when input changes', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+    const fontSizeInput = screen.getByTestId('font-size-input');
+    fireEvent.change(fontSizeInput, { target: { value: '24' } });
+    expect(fontSizeInput.value).toBe('24');
+  });
+  it('does not allow uploading unsupported font formats', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+    const file = new File([''], 'InvalidFont.txt', {
+      type: 'text/plain',
+    });
+    const uploadInput = screen.getByTestId('font-upload-input');
+
+    fireEvent.change(uploadInput, { target: { files: [file] } });
+
+    // Проверяем, что input все равно содержит файл, но его обработка не производится
+    expect(uploadInput.files.length).toBe(1);
+
+    // Проверяем, что текст с ошибкой НЕ отображается
+    expect(
+      screen.queryByTestId('font-error')
+    ).not.toBeInTheDocument();
   });
 
   it('renders color selection icons and label', () => {

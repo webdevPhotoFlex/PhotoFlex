@@ -99,3 +99,10 @@ export const removeText = (id) => ({
 export const toggleTheme = () => ({
   type: 'TOGGLE_THEME',
 });
+export const uploadFont = (font) => ({
+  type: 'UPLOAD_FONT',
+  payload: font,
+});
+export const removeFont = () => ({
+  type: 'REMOVE_FONT',
+});
