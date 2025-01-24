@@ -15,6 +15,7 @@ const Text = ({ canvasRef }) => {
   const [textContent, setTextContent] = useState('');
   const [textColor, setTextColor] = useState('black');
   const [fontSize, setFontSize] = useState(16);
+  const [fontFamily, setFontFamily] = useState('Arial');
   const [selectedTextId, setSelectedTextId] = useState(null);
   const [dragging, setDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -31,6 +32,25 @@ const Text = ({ canvasRef }) => {
     { className: styles.purple, color: 'purple' },
   ];
 
+  const handleFontUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fontName = file.name.split('.')[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const font = new FontFace(fontName, `url(${reader.result})`);
+        font
+          .load()
+          .then((loadedFont) => {
+            document.fonts.add(loadedFont);
+            setFontFamily(fontName);
+          })
+          .catch((error) => console.error(error));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleAddText = () => {
     if (textContent.trim()) {
       const newText = {
@@ -40,7 +60,7 @@ const Text = ({ canvasRef }) => {
         y: 100,
         color: textColor,
         fontSize,
-        fontFamily: 'Arial',
+        fontFamily,
       };
       dispatch(addText(newText));
       setSelectedTextId(newText.id);
@@ -142,6 +162,15 @@ const Text = ({ canvasRef }) => {
           data-testid="text-input"
         />
         <p className={styles.label}>Добавить текст</p>
+      </div>
+      <div className={styles.textItem}>
+        <input
+          type="file"
+          accept=".ttf,.otf,.woff,.woff2"
+          onChange={handleFontUpload}
+          data-testid="font-upload-input"
+        ></input>
+        <p className={styles.label}>Загрузить шрифт</p>
       </div>
 
       <div className={styles.textItem}>
