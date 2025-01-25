@@ -12,7 +12,6 @@ import {
 import { Button, FormControl, MenuItem, Select } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
-import { use } from 'react';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -99,6 +98,18 @@ const Text = ({ canvasRef }) => {
     setUploadFont(null);
   };
 
+  useEffect(() => {
+    if (selectedTextId !== null) {
+      const selectedText = texts.find((t) => t.id === selectedTextId);
+      if (selectedText) {
+        setTextContent(selectedText.content);
+        setTextColor(selectedText.color);
+        setFontSize(selectedText.fontSize);
+        setFontFamily(selectedText.fontFamily);
+      }
+    }
+  }, [selectedTextId]);
+
   const handleAddText = () => {
     if (textContent.trim()) {
       const newText = {
@@ -135,6 +146,7 @@ const Text = ({ canvasRef }) => {
   };
 
   const handleSelectText = (id) => {
+    setSelectedTextId(id);
     const selectedText = texts.find((t) => t.id === id);
     if (selectedText) {
       setTextContent(selectedText.content);
@@ -144,17 +156,41 @@ const Text = ({ canvasRef }) => {
     }
   };
 
-  useEffect(() => {
-    if (selectedTextId !== null) {
-      const selectedText = texts.find((t) => t.id === selectedTextId);
-      if (selectedText) {
-        setTextContent(selectedText.content);
-        setTextColor(selectedText.color);
-        setFontSize(selectedText.fontSize);
-        setFontFamily(selectedText.fontFamily);
+  const handleDeselectText = (e) => {
+    if (!canvasRef.current) return;
+
+    const rect = canvasRef.current.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    let clickedOnText = false;
+    texts.forEach((text) => {
+      const textWidth = text.content.length * text.fontSize * 0.6;
+      const textHeight = text.fontSize;
+
+      if (
+        mouseX >= text.x &&
+        mouseX <= text.x + textWidth &&
+        mouseY >= text.y - textHeight &&
+        mouseY <= text.y
+      ) {
+        clickedOnText = true;
       }
+    });
+    if (!clickedOnText) {
+      setSelectedTextId(null);
     }
-  }, [selectedTextId]);
+  };
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    canvas.addEventListener('mousedown', handleDeselectText);
+
+    return () => {
+      document.removeEventListener('mousedown', handleDeselectText);
+    };
+  }, [canvasRef, texts]);
 
   const handleDeleteText = (id) => {
     dispatch(removeText(id));
@@ -355,8 +391,20 @@ const Text = ({ canvasRef }) => {
       </div>
 
       <div className={styles.textItem}>
-        <Button variant="contained" onClick={handleUpdateText}>
-          Обновить текст
+        <Button
+          variant="contained"
+          onClick={handleUpdateText}
+          className={styles.textItem}
+          sx={{
+            border: '1px solid rgba(185, 0, 255, 0.6)',
+            backgroundColor: '#1e1e1e',
+            '&:hover': {
+              backgroundColor: 'rgba(185, 0, 255, 0.1)',
+              borderColor: 'rgba(185, 0, 255, 0.8)',
+            },
+          }}
+        >
+          Обновить выбранный текст
         </Button>
       </div>
 
