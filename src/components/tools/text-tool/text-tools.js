@@ -360,6 +360,7 @@ const Text = ({ canvasRef }) => {
       </div>
 
       <div className={styles.textItem}>
+        <p className={styles.label}>Выбор цвета</p>
         <div className={styles.colorContainer}>
           {colors.map((color, index) => (
             <div
@@ -398,7 +399,6 @@ const Text = ({ canvasRef }) => {
             data-testid="custom-color-picker"
           />
         )}
-        <p className={styles.label}>Выбор цвета</p>
       </div>
       <div className={styles.textItem}></div>
 
