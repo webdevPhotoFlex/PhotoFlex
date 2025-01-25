@@ -9,9 +9,10 @@ import {
   removeText,
   updateText,
 } from '../../../services/actions/image-actions';
-import { Button } from '@mui/material';
+import { Button, FormControl, MenuItem, Select } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
+import { use } from 'react';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -46,6 +47,32 @@ const Text = ({ canvasRef }) => {
     { className: styles.green, color: 'green' },
     { className: styles.blue, color: 'blue' },
     { className: styles.purple, color: 'purple' },
+  ];
+  const fontOptions = [
+    'Arial',
+    'Verdana',
+    'Tahoma',
+    'Trebuchet MS',
+    'Times New Roman',
+    'Georgia',
+    'Garamond',
+    'Courier New',
+    'Brush Script MT',
+    'Comic Sans MS',
+    'Impact',
+    'Palatino Linotype',
+    'Book Antiqua',
+    'Arial Black',
+    'Lucida Sans Unicode',
+    'Century Gothic',
+    'Franklin Gothic Medium',
+    'Baskerville',
+    'Candara',
+    'Segoe UI',
+    'Optima',
+    'Futura',
+    'Geneva',
+    'Calibri',
   ];
 
   const handleFontUpload = (event) => {
@@ -88,6 +115,46 @@ const Text = ({ canvasRef }) => {
       setTextContent('');
     }
   };
+
+  const handleUpdateText = () => {
+    if (selectedTextId !== null) {
+      const currText = texts.find((t) => t.id === selectedTextId);
+      if (currText) {
+        dispatch(
+          updateText(selectedTextId, {
+            content: textContent || currText.content,
+            color: textColor || currText.color,
+            fontSize: fontSize || currText.fontSize,
+            fontFamily: fontFamily || currText.fontFamily,
+            x: currText.x,
+            y: currText.y,
+          })
+        );
+      }
+    }
+  };
+
+  const handleSelectText = (id) => {
+    const selectedText = texts.find((t) => t.id === id);
+    if (selectedText) {
+      setTextContent(selectedText.content);
+      setTextColor(selectedText.color);
+      setFontSize(selectedText.fontSize);
+      setFontFamily(selectedText.fontFamily);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedTextId !== null) {
+      const selectedText = texts.find((t) => t.id === selectedTextId);
+      if (selectedText) {
+        setTextContent(selectedText.content);
+        setTextColor(selectedText.color);
+        setFontSize(selectedText.fontSize);
+        setFontFamily(selectedText.fontFamily);
+      }
+    }
+  }, [selectedTextId]);
 
   const handleDeleteText = (id) => {
     dispatch(removeText(id));
@@ -184,6 +251,31 @@ const Text = ({ canvasRef }) => {
         />
         <p className={styles.label}>Добавить текст</p>
       </div>
+      <div>
+        <FormControl className={styles.textItem}>
+          <Select
+            labelId="font-select-label"
+            value={fontFamily}
+            onChange={(e) => setFontFamily(e.target.value)}
+            data-testid="font-family-select"
+            sx={{
+              border: '1px solid rgba(185, 0, 255, 0.6)',
+              backgroundColor: '#1e1e1e',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: 'rgba(185, 0, 255, 0.1)',
+                borderColor: 'rgba(185, 0, 255, 0.8)',
+              },
+            }}
+          >
+            {fontOptions.map((font, index) => (
+              <MenuItem key={index} value={font}>
+                {font}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
       <div className={styles.textItem}>
         <Button
           component="label"
@@ -262,6 +354,12 @@ const Text = ({ canvasRef }) => {
         </label>
       </div>
 
+      <div className={styles.textItem}>
+        <Button variant="contained" onClick={handleUpdateText}>
+          Обновить текст
+        </Button>
+      </div>
+
       <div data-testid="text-list">
         {texts.map((text) => (
           <div
@@ -269,11 +367,12 @@ const Text = ({ canvasRef }) => {
             className={`${styles.textPreview} ${
               selectedTextId === text.id ? styles.selectedText : ''
             }`}
-            onClick={() => setSelectedTextId(text.id)}
+            onClick={() => handleSelectText(text.id)}
             style={{
-              color: 'white',
+              color: text.color,
               fontSize: `20px`,
               cursor: 'pointer',
+              fontFamily: text.fontFamily,
             }}
             data-testid={`text-item-${text.id}`}
           >
