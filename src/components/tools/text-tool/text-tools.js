@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CircleIcon from '@mui/icons-material/Circle';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import styles from '../text-tool/text-tools.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,9 +10,18 @@ import {
   removeText,
   updateText,
 } from '../../../services/actions/image-actions';
-import { Button, FormControl, MenuItem, Select } from '@mui/material';
+import {
+  Button,
+  Fab,
+  FormControl,
+  Input,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
+import { SketchPicker } from 'react-color';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -29,12 +39,14 @@ const Text = ({ canvasRef }) => {
   const dispatch = useDispatch();
   const [textContent, setTextContent] = useState('');
   const [textColor, setTextColor] = useState('black');
+  const [customColor, setCustomColor] = useState('');
   const [fontSize, setFontSize] = useState(16);
   const [fontFamily, setFontFamily] = useState('Arial');
   const [uploadFont, setUploadFont] = useState(null);
   const [selectedTextId, setSelectedTextId] = useState(null);
   const [dragging, setDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const texts = useSelector((state) => state.image.texts);
 
   const colors = [
@@ -373,8 +385,22 @@ const Text = ({ canvasRef }) => {
             </div>
           ))}
         </div>
+        <Fab onClick={() => setColorPickerOpen(!colorPickerOpen)}>
+          <AddIcon />
+        </Fab>
+        {colorPickerOpen && (
+          <SketchPicker
+            color={customColor}
+            onChange={(color) => {
+              setCustomColor(color.hex);
+              setTextColor(color.hex);
+            }}
+            data-testid="custom-color-picker"
+          />
+        )}
         <p className={styles.label}>Выбор цвета</p>
       </div>
+      <div className={styles.textItem}></div>
 
       <div className={styles.textItem}>
         <label className={styles.label}>
