@@ -469,4 +469,42 @@ describe('ReplaceBgTool Component', () => {
       expect(previewImage).toHaveAttribute('src', 'mock-url');
     });
   });
+  it('does not accept non-image files for upload', async () => {
+    const invalidFile = new File(['dummy content'], 'test.txt', {
+      type: 'text/plain',
+    });
+    const fileInput = screen.getByTestId('fileUploadInput1');
+
+    fireEvent.change(fileInput, { target: { files: [invalidFile] } });
+
+    await waitFor(() => {
+      const replaceButton = screen.getByTestId('replaceButton');
+      expect(replaceButton).toBeDisabled();
+      expect(
+        screen.queryByTestId('previewImage')
+      ).not.toBeInTheDocument();
+    });
+  });
+  it('does not enable replace button if no image is uploaded', async () => {
+    const replaceButton = screen.getByTestId('replaceButton');
+    expect(replaceButton).toBeDisabled();
+  });
+  it('applies a mask to the image data correctly for different mask configurations', () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 100;
+    canvas.height = 100;
+
+    const imageData = ctx.createImageData(100, 100);
+
+    // Пример маски
+    const mask = new Array(100 * 100).fill(1); // Полная маска
+    applyMaskToImageData(imageData, mask);
+
+    expect(
+      imageData.data.every(
+        (value, index) => index % 4 !== 3 || value === 0
+      )
+    ).toBeTruthy();
+  });
 });

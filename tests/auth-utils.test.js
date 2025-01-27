@@ -43,8 +43,23 @@ describe('validateUsername', () => {
       false
     );
   });
+  it('should return true for username with exactly 5 characters', () => {
+    expect(validateUsername('user1')).toBe(true);
+  });
+  it('should return true for username with exactly 20 characters', () => {
+    expect(validateUsername('username_is_20char')).toBe(true);
+  });
   it('should return false for username containing invalid characters', () => {
     expect(validateUsername('invalid-username')).toBe(false);
+    expect(validateUsername('invalid@username')).toBe(false);
+  });
+  it('should return false for username with spaces', () => {
+    expect(validateUsername('invalid username')).toBe(false);
+  });
+  it('should return true for username with underscores and numbers', () => {
+    expect(validateUsername('valid_username_123')).toBe(true);
+  });
+  it('should return false for username with special characters', () => {
     expect(validateUsername('invalid@username')).toBe(false);
   });
 });

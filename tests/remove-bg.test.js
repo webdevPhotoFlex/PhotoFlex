@@ -362,4 +362,38 @@ describe('RemoveBgTool Component', () => {
       type: 'SET_IMAGE_BEFORE_REMOVE',
     });
   });
+  it('does not call applyMaskToImageData when mask is empty', () => {
+    const initialState = {
+      image: {
+        imageBeforeRemove: null,
+        image: { src: 'test-image' },
+        brushSize: 10,
+        mask: [],
+      },
+      auth: {
+        isAuthenticated: true,
+      },
+    };
+
+    const canvasMock = {
+      current: {
+        getContext: jest.fn(() => ({
+          clearRect: jest.fn(),
+          drawImage: jest.fn(),
+          getImageData: jest.fn(() => ({ data: [] })),
+          putImageData: jest.fn(),
+        })),
+        toDataURL: jest.fn(() => 'data:image/png;base64,test'),
+      },
+    };
+
+    renderWithProvider(
+      <RemoveBgTool canvasRef={canvasMock} />,
+      initialState
+    );
+
+    fireEvent.click(screen.getByText('Удалить фон'));
+
+    expect(imageUtils.applyMaskToImageData).not.toHaveBeenCalled();
+  });
 });

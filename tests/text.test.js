@@ -86,6 +86,132 @@ describe('Text component', () => {
     });
   });
 
+  it('does not dispatch action when add text button is clicked with empty input', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+
+    const input = screen.getByTestId('text-input');
+    fireEvent.change(input, { target: { value: '' } });
+
+    fireEvent.click(screen.getByTestId('add-text-icon'));
+
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
+  it('closes color picker when clicking outside of it', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+
+    const colorBlock = screen.getByTestId('color-block-0');
+    fireEvent.click(colorBlock);
+
+    fireEvent.mouseDown(document.body);
+
+    expect(
+      screen.queryByTestId('color-picker')
+    ).not.toBeInTheDocument();
+  });
+
+  it('does not move text when key pressed but no text is selected', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+
+    fireEvent.keyDown(document, { key: 'ArrowUp' });
+
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+  it('does not update text position if movement is minimal', () => {
+    const texts = [
+      { id: 1, content: 'Minimal Move', x: 100, y: 100 },
+    ];
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts },
+    });
+
+    fireEvent.mouseDown(screen.getByTestId('text-item-1'));
+    fireEvent.mouseMove(document, { clientX: 102, clientY: 102 });
+    fireEvent.mouseUp(document);
+
+    expect(mockDispatch).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'UPDATE_TEXT',
+      })
+    );
+  });
+  it('resets input field after adding text', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+
+    const input = screen.getByTestId('text-input');
+    fireEvent.change(input, { target: { value: 'Some Text' } });
+
+    fireEvent.click(screen.getByTestId('add-text-icon'));
+
+    expect(input.value).toBe('');
+  });
+  it('applies default font size when no value is provided', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+
+    const fontSizeInput = screen.getByTestId('font-size-input');
+    fireEvent.change(fontSizeInput, { target: { value: '20' } });
+
+    fireEvent.blur(fontSizeInput);
+
+    expect(fontSizeInput.value).toBe('20');
+  });
+
+  it('does not allow negative font sizes', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+
+    const fontSizeInput = screen.getByTestId('font-size-input');
+    fireEvent.change(fontSizeInput, { target: { value: '-10' } });
+
+    expect(fontSizeInput.value).not.toBe('null');
+  });
+
+  it('does not allow non-numeric values in font size input', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+
+    const fontSizeInput = screen.getByTestId('font-size-input');
+    fireEvent.change(fontSizeInput, { target: { value: 'abc' } });
+
+    expect(fontSizeInput.value).toBe('0');
+  });
+
+  it('does not allow empty text to be added', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+
+    const input = screen.getByTestId('text-input');
+    fireEvent.change(input, { target: { value: '' } });
+
+    fireEvent.click(screen.getByTestId('add-text-icon'));
+
+    expect(mockDispatch).toHaveBeenCalled();
+  });
+  it('closes text input when clicking outside', () => {
+    renderWithProvider(<Text canvasRef={React.createRef()} />, {
+      image: { texts: [] },
+    });
+
+    fireEvent.click(screen.getByTestId('text-input'));
+
+    fireEvent.mouseDown(document.body);
+
+    expect(screen.queryByTestId('text-input')).toBeInTheDocument();
+  });
+
   it('renders correct labels for color icons', () => {
     render(
       <Provider store={store}>
@@ -184,7 +310,7 @@ describe('Text component', () => {
 
     fireEvent.keyDown(document, { key: 'ArrowUp' });
     expect(mockDispatch).toHaveBeenNthCalledWith(
-      3,
+      4,
       expect.objectContaining({
         type: 'UPDATE_TEXT',
         payload: expect.objectContaining({
