@@ -5,6 +5,7 @@ import Resize from '../src/components/tools/resize-tool/resize-tools';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { useDispatch } from 'react-redux';
+import { setImageBeforeRemove } from '../src/services/actions/image-actions';
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
@@ -184,5 +185,19 @@ describe('Resize Component', () => {
       type: 'SET_RESIZE_DIMENSIONS',
       payload: { width: 800, height: 1200 },
     });
+  });
+  it('отправление setImage перед удалением, если параметр Before Remove не установлен', () => {
+    const initialState = {
+      image: {
+        darkMode: false,
+        resizeDimensions: { width: 800, height: 900 },
+        image: { src: 'image-src' },
+        imageBeforeRemove: null,
+      },
+    };
+    renderWithProvider(<Resize />, initialState);
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setImageBeforeRemove({ src: 'image-src' })
+    );
   });
 });

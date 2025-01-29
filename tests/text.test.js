@@ -471,4 +471,18 @@ describe('Text component - handleMouseMove', () => {
     fireEvent.mouseDown(canvas, { clientX: 110, clientY: 200 });
     expect(store.dispatch).not.toHaveBeenCalled();
   });
+  it('вызывает dispatch с правильными параметрами, если текст найден', () => {
+    const testText = { id: 1, text: 'Исходный текст' };
+    renderWithProvider(<Text canvasRef={jest.fn()} />, {
+      image: { texts: [testText], selectedTextId: 1 },
+    });
+    fireEvent.click(screen.getByText(/обновить выбранный текст/i));
+    expect(mockDispatch).toHaveBeenCalled();
+    expect(mockDispatch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: expect.stringContaining('UPDATE_TEXT'),
+        payload: expect.objectContaining({ id: 1 }),
+      })
+    );
+  });
 });
