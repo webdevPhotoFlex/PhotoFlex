@@ -5,6 +5,7 @@ import Resize from '../src/components/tools/resize-tool/resize-tools';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { useDispatch } from 'react-redux';
+import { setImageBeforeRemove } from '../src/services/actions/image-actions';
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
@@ -153,5 +154,50 @@ describe('Resize Component', () => {
 
     expect(widthInput.value).toBe('0');
     expect(heightInput.value).toBe('0');
+  });
+  it('should not allow invalid (negative or empty) values for width and height', () => {
+    const widthInput = screen.getByTestId('resize-width');
+    const heightInput = screen.getByTestId('resize-height');
+
+    fireEvent.change(widthInput, { target: { value: '-200' } });
+    fireEvent.change(heightInput, { target: { value: '' } });
+
+    expect(widthInput.value).toBe('-200');
+    expect(heightInput.value).toBe('');
+    expect(mockDispatch).toHaveBeenCalled();
+  });
+  it('should update the width when width input is changed', () => {
+    const widthInput = screen.getByTestId('resize-width');
+    fireEvent.change(widthInput, { target: { value: '1024' } });
+
+    expect(widthInput.value).toBe('1024');
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'SET_RESIZE_DIMENSIONS',
+      payload: { width: 1024, height: 900 },
+    });
+  });
+  it('should update the height when height input is changed', () => {
+    const heightInput = screen.getByTestId('resize-height');
+    fireEvent.change(heightInput, { target: { value: '1200' } });
+
+    expect(heightInput.value).toBe('1200');
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'SET_RESIZE_DIMENSIONS',
+      payload: { width: 800, height: 1200 },
+    });
+  });
+  it('отправление setImage перед удалением, если параметр Before Remove не установлен', () => {
+    const initialState = {
+      image: {
+        darkMode: false,
+        resizeDimensions: { width: 800, height: 900 },
+        image: { src: 'image-src' },
+        imageBeforeRemove: null,
+      },
+    };
+    renderWithProvider(<Resize />, initialState);
+    expect(mockDispatch).toHaveBeenCalledWith(
+      setImageBeforeRemove({ src: 'image-src' })
+    );
   });
 });

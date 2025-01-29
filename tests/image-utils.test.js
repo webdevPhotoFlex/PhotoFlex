@@ -77,4 +77,24 @@ describe('applyMaskToImageData', () => {
     expect(result.width).toBe(800);
     expect(result.height).toBe(600);
   });
+  it('применение маски с масштабированием и изменнение соотвествующих пикселей', () => {
+    const imageData = {
+      data: new Uint8ClampedArray(16),
+      width: 2,
+      height: 2,
+    };
+    const mask = [{ x: 0, y: 0, brushSize: 4 }];
+    const result = applyMaskToImageData(imageData, mask, 2, 2, 0, 1);
+    expect(result.data[3]).toBe(0);
+  });
+  it('нанесение маски с вращением и масштабированием', () => {
+    const imageData = {
+      data: new Uint8ClampedArray(16),
+      width: 2,
+      height: 2,
+    };
+    const mask = [{ x: 1, y: 1, brushSize: 2 }];
+    const result = applyMaskToImageData(imageData, mask, 2, 2, 90, 1);
+    expect(result.data[7]).toBe(0);
+  });
 });

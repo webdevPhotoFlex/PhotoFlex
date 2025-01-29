@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CircleIcon from '@mui/icons-material/Circle';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import styles from '../text-tool/text-tools.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,9 +10,16 @@ import {
   removeText,
   updateText,
 } from '../../../services/actions/image-actions';
-import { Button } from '@mui/material';
+import {
+  Button,
+  Fab,
+  FormControl,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
+import { SketchPicker } from 'react-color';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -29,12 +37,14 @@ const Text = ({ canvasRef }) => {
   const dispatch = useDispatch();
   const [textContent, setTextContent] = useState('');
   const [textColor, setTextColor] = useState('black');
+  const [customColor, setCustomColor] = useState('');
   const [fontSize, setFontSize] = useState(16);
   const [fontFamily, setFontFamily] = useState('Arial');
   const [uploadFont, setUploadFont] = useState(null);
   const [selectedTextId, setSelectedTextId] = useState(null);
   const [dragging, setDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const texts = useSelector((state) => state.image.texts);
 
   const colors = [
@@ -46,6 +56,32 @@ const Text = ({ canvasRef }) => {
     { className: styles.green, color: 'green' },
     { className: styles.blue, color: 'blue' },
     { className: styles.purple, color: 'purple' },
+  ];
+  const fontOptions = [
+    'Arial',
+    'Verdana',
+    'Tahoma',
+    'Trebuchet MS',
+    'Times New Roman',
+    'Georgia',
+    'Garamond',
+    'Courier New',
+    'Brush Script MT',
+    'Comic Sans MS',
+    'Impact',
+    'Palatino Linotype',
+    'Book Antiqua',
+    'Arial Black',
+    'Lucida Sans Unicode',
+    'Century Gothic',
+    'Franklin Gothic Medium',
+    'Baskerville',
+    'Candara',
+    'Segoe UI',
+    'Optima',
+    'Futura',
+    'Geneva',
+    'Calibri',
   ];
 
   const handleFontUpload = (event) => {
@@ -72,6 +108,18 @@ const Text = ({ canvasRef }) => {
     setUploadFont(null);
   };
 
+  useEffect(() => {
+    if (selectedTextId !== null) {
+      const selectedText = texts.find((t) => t.id === selectedTextId);
+      if (selectedText) {
+        setTextContent(selectedText.content);
+        setTextColor(selectedText.color);
+        setFontSize(selectedText.fontSize);
+        setFontFamily(selectedText.fontFamily);
+      }
+    }
+  }, [selectedTextId]);
+
   const handleAddText = () => {
     if (textContent.trim()) {
       const newText = {
@@ -88,6 +136,71 @@ const Text = ({ canvasRef }) => {
       setTextContent('');
     }
   };
+
+  const handleUpdateText = () => {
+    if (selectedTextId !== null) {
+      const currText = texts.find((t) => t.id === selectedTextId);
+      if (currText) {
+        dispatch(
+          updateText(selectedTextId, {
+            content: textContent || currText.content,
+            color: textColor || currText.color,
+            fontSize: fontSize || currText.fontSize,
+            fontFamily: fontFamily || currText.fontFamily,
+            x: currText.x,
+            y: currText.y,
+          })
+        );
+      }
+    }
+  };
+
+  const handleSelectText = (id) => {
+    setSelectedTextId(id);
+    const selectedText = texts.find((t) => t.id === id);
+    if (selectedText) {
+      setTextContent(selectedText.content);
+      setTextColor(selectedText.color);
+      setFontSize(selectedText.fontSize);
+      setFontFamily(selectedText.fontFamily);
+    }
+  };
+
+  const handleDeselectText = (e) => {
+    if (!canvasRef.current) return;
+
+    const rect = canvasRef.current.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    let clickedOnText = false;
+    texts.forEach((text) => {
+      const textWidth = text.content.length * text.fontSize * 0.6;
+      const textHeight = text.fontSize;
+
+      if (
+        mouseX >= text.x &&
+        mouseX <= text.x + textWidth &&
+        mouseY >= text.y - textHeight &&
+        mouseY <= text.y
+      ) {
+        clickedOnText = true;
+      }
+    });
+    if (!clickedOnText) {
+      setSelectedTextId(null);
+    }
+  };
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    canvas.addEventListener('mousedown', handleDeselectText);
+
+    return () => {
+      document.removeEventListener('mousedown', handleDeselectText);
+    };
+  }, [canvasRef, texts]);
 
   const handleDeleteText = (id) => {
     dispatch(removeText(id));
@@ -184,6 +297,31 @@ const Text = ({ canvasRef }) => {
         />
         <p className={styles.label}>Добавить текст</p>
       </div>
+      <div>
+        <FormControl className={styles.textItem}>
+          <Select
+            labelId="font-select-label"
+            value={fontFamily}
+            onChange={(e) => setFontFamily(e.target.value)}
+            data-testid="font-family-select"
+            sx={{
+              border: '1px solid rgba(185, 0, 255, 0.6)',
+              backgroundColor: '#1e1e1e',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: 'rgba(185, 0, 255, 0.1)',
+                borderColor: 'rgba(185, 0, 255, 0.8)',
+              },
+            }}
+          >
+            {fontOptions.map((font, index) => (
+              <MenuItem key={index} value={font}>
+                {font}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
       <div className={styles.textItem}>
         <Button
           component="label"
@@ -220,6 +358,7 @@ const Text = ({ canvasRef }) => {
       </div>
 
       <div className={styles.textItem}>
+        <p className={styles.label}>Выбор цвета</p>
         <div className={styles.colorContainer}>
           {colors.map((color, index) => (
             <div
@@ -245,8 +384,21 @@ const Text = ({ canvasRef }) => {
             </div>
           ))}
         </div>
-        <p className={styles.label}>Выбор цвета</p>
+        <Fab onClick={() => setColorPickerOpen(!colorPickerOpen)}>
+          <AddIcon />
+        </Fab>
+        {colorPickerOpen && (
+          <SketchPicker
+            color={customColor}
+            onChange={(color) => {
+              setCustomColor(color.hex);
+              setTextColor(color.hex);
+            }}
+            data-testid="custom-color-picker"
+          />
+        )}
       </div>
+      <div className={styles.textItem}></div>
 
       <div className={styles.textItem}>
         <label className={styles.label}>
@@ -262,6 +414,24 @@ const Text = ({ canvasRef }) => {
         </label>
       </div>
 
+      <div className={styles.textItem}>
+        <Button
+          variant="contained"
+          onClick={handleUpdateText}
+          className={styles.textItem}
+          sx={{
+            border: '1px solid rgba(185, 0, 255, 0.6)',
+            backgroundColor: '#1e1e1e',
+            '&:hover': {
+              backgroundColor: 'rgba(185, 0, 255, 0.1)',
+              borderColor: 'rgba(185, 0, 255, 0.8)',
+            },
+          }}
+        >
+          Обновить выбранный текст
+        </Button>
+      </div>
+
       <div data-testid="text-list">
         {texts.map((text) => (
           <div
@@ -269,11 +439,12 @@ const Text = ({ canvasRef }) => {
             className={`${styles.textPreview} ${
               selectedTextId === text.id ? styles.selectedText : ''
             }`}
-            onClick={() => setSelectedTextId(text.id)}
+            onClick={() => handleSelectText(text.id)}
             style={{
-              color: 'white',
+              color: text.color,
               fontSize: `20px`,
               cursor: 'pointer',
+              fontFamily: text.fontFamily,
             }}
             data-testid={`text-item-${text.id}`}
           >

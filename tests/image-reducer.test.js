@@ -591,4 +591,119 @@ describe('imageReducer', () => {
     };
     expect(imageReducer(initialState, action)).toEqual(expectedState);
   });
+  it('should handle REMOVE_TEXT', () => {
+    const action = {
+      type: 'REMOVE_TEXT',
+      payload: 1,
+    };
+    const state = {
+      ...initialState,
+      texts: [{ id: 1, text: 'Hello' }],
+    };
+    const newState = imageReducer(state, action);
+    expect(newState.texts).toHaveLength(0);
+  });
+  it('should handle ADD_TEXT', () => {
+    const action = {
+      type: 'ADD_TEXT',
+      payload: { id: 1, text: 'Hello World' },
+    };
+    const state = { ...initialState, texts: [] };
+    const newState = imageReducer(state, action);
+    expect(newState.texts).toHaveLength(1);
+    expect(newState.texts[0].text).toBe('Hello World');
+  });
+  it('should handle SET_TUNES', () => {
+    const action = {
+      type: 'SET_TUNES',
+      payload: { brightness: 60, contrast: 70 },
+    };
+    const state = { ...initialState };
+    const newState = imageReducer(state, action);
+    expect(newState.tune.brightness).toBe(60);
+    expect(newState.tune.contrast).toBe(70);
+  });
+  it('should handle RESET_STATE', () => {
+    const action = { type: 'RESET_STATE' };
+    const state = {
+      ...initialState,
+      imageSrc: 'someImage.jpg',
+      darkMode: false,
+    };
+    const newState = imageReducer(state, action);
+    expect(newState).toEqual(initialState);
+  });
+
+  it('should handle SET_RESIZE_DIMENSIONS', () => {
+    const action = {
+      type: 'SET_RESIZE_DIMENSIONS',
+      payload: { width: 1000, height: 1000 },
+    };
+    const state = { ...initialState, hasInitializedResize: false };
+    const newState = imageReducer(state, action);
+    expect(newState.resizeDimensions).toEqual({
+      width: 1000,
+      height: 1000,
+    });
+    expect(newState.hasInitializedResize).toBe(true);
+  });
+  it('should handle REDO', () => {
+    const action = { type: 'REDO' };
+    const state = {
+      ...initialState,
+      future: [{ imageSrc: 'redoImage.jpg' }],
+      imageSrc: 'oldImage.jpg',
+    };
+    const newState = imageReducer(state, action);
+    expect(newState.imageSrc).toBe('redoImage.jpg');
+  });
+  it('should handle TOGGLE_THEME', () => {
+    const action = { type: 'TOGGLE_THEME' };
+    const state = { ...initialState, darkMode: true };
+    const newState = imageReducer(state, action);
+    expect(newState.darkMode).toBe(false);
+  });
+  it('should handle UNDO', () => {
+    const action = { type: 'UNDO' };
+    const state = {
+      ...initialState,
+      past: [{ imageSrc: 'test.jpg' }],
+      imageSrc: 'newImage.jpg',
+    };
+    const newState = imageReducer(state, action);
+    expect(newState.imageSrc).toBe('test.jpg');
+  });
+  it('should handle SET_CROP_AREA and add to history', () => {
+    const action = {
+      type: 'SET_CROP_AREA',
+      payload: { x: 10, y: 20 },
+    };
+    const state = { ...initialState, cropArea: { x: 0, y: 0 } };
+    const newState = imageReducer(state, action);
+    expect(newState.cropArea).toEqual({ x: 10, y: 20 });
+    expect(newState.past).toHaveLength(1);
+    expect(newState.future).toHaveLength(0);
+  });
+  it('should handle SET_ROTATION_ANGLE and add to history', () => {
+    const action = {
+      type: 'SET_ROTATION_ANGLE',
+      payload: 45,
+    };
+    const state = { ...initialState, rotationAngle: 0 };
+    const newState = imageReducer(state, action);
+    expect(newState.rotationAngle).toBe(45);
+    expect(newState.past).toHaveLength(1);
+    expect(newState.future).toHaveLength(0);
+  });
+  it('should handle SET_FILTER and add to history', () => {
+    const action = {
+      type: 'SET_FILTER',
+      payload: 'grayscale',
+    };
+    const state = { ...initialState, filter: 'none' };
+    const newState = imageReducer(state, action);
+    expect(newState.filter).toBe('grayscale');
+    expect(newState.past).toHaveLength(1);
+    expect(newState.future).toHaveLength(0);
+  });
 });
